@@ -13,7 +13,7 @@ class WebRing(MethodView):
     @root.response(200, models.WebLink(many=True))
     def get(self):
         """Fetch webring items."""
-        return db.get()
+        return db.get_all()
 
     @root.arguments(models.WebLinkCreate, location="json")
     @root.response(201, models.WebLinkId)

@@ -1,13 +1,13 @@
 from datetime import datetime, timezone
 import uuid
-from typing import OrderedDict
+from typing import Optional, OrderedDict
 
 from markupsafe import Markup
 
 from src.core.database.schema import WebLink, db
 
 
-__all__ = ["create", "delete", "exists", "get", "update"]
+__all__ = ["create", "delete", "exists", "get", "get_all", "update"]
 
 
 def create(data: OrderedDict) -> dict:
@@ -42,7 +42,12 @@ def exists(uuid: str) -> bool:
     return WebLink.query.filter_by(id=uuid).first() is not None
 
 
-def get() -> list[WebLink]:
+def get(uuid: str) -> Optional[WebLink]:
+    """Get a single weblink."""
+    return WebLink.query.filter_by(id=uuid).first()
+
+
+def get_all() -> list[WebLink]:
     """Get all weblinks."""
     return WebLink.query.all()
 
