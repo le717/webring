@@ -3,6 +3,7 @@ from importlib import import_module
 from pathlib import Path
 
 from flask import Flask, app
+from flask_cors import CORS
 from flask_smorest import Api
 import sys_vars
 
@@ -14,6 +15,7 @@ from src.core.database.schema import db
 def create_app():
     """Create an instance of the app."""
     app = Flask(__name__)
+    CORS(app)
 
     # Put the app secret key into the expected key
     app.config["SECRET_KEY"] = sys_vars.get("SECRET_KEY")
