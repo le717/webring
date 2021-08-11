@@ -1,4 +1,4 @@
-from typing import OrderedDict
+from typing import Any, OrderedDict
 from flask.views import MethodView
 
 from src.blueprints import root
@@ -20,12 +20,16 @@ class WebRing(MethodView):
         """Create a webring item."""
         return db.create(data)
 
-    @root.arguments(models.WebLinkId, location="json")
-    @root.response(204, models.Empty)
-    def delete(self, data: OrderedDict):
-        """Delete a webring item."""
-        db.delete(str(data["id"]))
 
+@root.route("/<uuid:id>")
+class WebRing(MethodView):
+    @root.arguments(models.WebLinkId, location="path", as_kwargs=True)
     @root.response(204, models.Empty)
-    def patch(self):
+    def delete(self, **kwargs: Any):
+        """Delete a webring item."""
+        db.delete(str(kwargs["id"]))
+
+    @root.arguments(models.WebLinkId, location="path", as_kwargs=True)
+    @root.response(204, models.Empty)
+    def patch(self, **kwargs: Any):
         return
