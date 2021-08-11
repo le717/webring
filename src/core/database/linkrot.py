@@ -74,7 +74,7 @@ def check_one(uuid: str) -> RotResult:
     # The site could be pinged, so we all good
     link = weblink.get(uuid)
     if __ping_url(link.url):
-        result = RotResult(id=link.id, url=link.url, result=RotStates.NO)
+        result = RotResult(id=link.id, url=link.url, result=RotStates.NO.value)
         __delete(uuid)
         weblink.update(
             {
@@ -86,7 +86,9 @@ def check_one(uuid: str) -> RotResult:
 
     # We could not ping the site, decide the next step
     else:
-        result = RotResult(id=link.id, url=link.url, result=__record_failure(link))
+        result = RotResult(
+            id=link.id, url=link.url, result=__record_failure(link).value
+        )
     return result
 
 
