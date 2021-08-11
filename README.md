@@ -8,6 +8,10 @@
 - SQLite path (`DB_PATH`)
 - API key for all non-GET operations (`API_KEY`)
 
+## Features
+
+TODO
+
 ## Development
 
 1. Install Python 3.9+, [Poetry](https://poetry.eustace.io/) 1.1.0+, and VS Code
