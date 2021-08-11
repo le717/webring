@@ -13,7 +13,7 @@
 
 - View all entries in the ring
 - Create, update, and delete entries
-- Basic linkrot checking
+- Linkrot checking, with Web Archive fallback url for dead links (when possible)
 
 ## Development
 
