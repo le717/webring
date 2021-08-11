@@ -3,7 +3,7 @@ from marshmallow import fields
 from src.core.models import OrderedSchema
 
 
-__all__ = ["WebLink", "WebLinkCreate", "WebLinkId"]
+__all__ = ["WebLink", "WebLinkCreate", "WebLinkId", "WebLinkUpdate"]
 
 
 class WebLink(OrderedSchema):
@@ -23,3 +23,10 @@ class WebLinkCreate(OrderedSchema):
 
 class WebLinkId(OrderedSchema):
     id = fields.UUID(required=True)
+
+
+class WebLinkUpdate(OrderedSchema):
+    title = fields.String()
+    description = fields.String()
+    url = fields.Url()
+    rotted = fields.String()

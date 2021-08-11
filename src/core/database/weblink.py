@@ -52,5 +52,13 @@ def get_all() -> list[WebLink]:
     return WebLink.query.all()
 
 
-def update():
-    ...
+def update(data: OrderedDict) -> bool:
+    """Update a weblink."""
+    if not exists(data["id"]):
+        return False
+
+    db.session.query(WebLink).filter_by(id=data["id"]).update(
+        data, synchronize_session="fetch"
+    )
+    db.session.commit()
+    return True

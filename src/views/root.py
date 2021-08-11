@@ -1,4 +1,5 @@
 from typing import Any, OrderedDict
+from flask import abort
 from flask.views import MethodView
 
 from src.blueprints import root
@@ -30,6 +31,11 @@ class WebRing(MethodView):
         db.delete(str(kwargs["id"]))
 
     @root.arguments(models.WebLinkId, location="path", as_kwargs=True)
+    @root.arguments(models.WebLinkUpdate, location="json", as_kwargs=True)
     @root.response(204, models.Empty)
+    @root.alt_response(400, models.HttpError)
     def patch(self, **kwargs: Any):
-        return
+        """Update a webring item."""
+        kwargs["id"] = str(kwargs["id"])
+        if not db.update(kwargs):
+            abort(400)
