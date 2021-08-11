@@ -63,10 +63,7 @@ def __delete(uuid: str):
 
 def check_all() -> list[RotResult]:
     """Check all links for rotting."""
-    results = []
-    for link in weblink.get_all():
-        results.append(RotResult(id=link.id, url=link.url, result=__ping_url(link.url)))
-    return results
+    return [check_one(link.id) for link in weblink.get_all()]
 
 
 def check_one(uuid: str) -> RotResult:
