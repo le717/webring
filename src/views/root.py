@@ -7,7 +7,6 @@ from src.core import models
 from src.core.database import weblink as db
 
 
-# TODO this is accidently requiring a key to access, which is wrong
 @root.route("/")
 class WebRing(MethodView):
     @root.response(200, models.WebLink(many=True))
