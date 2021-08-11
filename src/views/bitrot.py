@@ -10,6 +10,7 @@ from src.core.database import bitrot as db
 class BitrotCheck(MethodView):
     @bitrot.response(200, models.RotResult(many=True))
     def post(self):
+
         return db.check_all()
 
 
@@ -17,4 +18,5 @@ class BitrotCheck(MethodView):
 class BitrotSingleCheck(MethodView):
     @bitrot.response(200, models.RotResult)
     def post(self, uuid: str):
+
         return db.check_one(str(uuid))
