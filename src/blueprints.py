@@ -7,7 +7,7 @@ def _factory(partial_module_string: str, url_prefix: str) -> Blueprint:
     return Blueprint(partial_module_string, import_path, url_prefix=f"{url_prefix}")
 
 
-root = _factory("access", "/")
-bitrot = _factory("access", "/bitrot")
+root = _factory("root", "/")
+bitrot = _factory("bitrot", "/bitrot")
 
 all_blueprints = (root, bitrot)

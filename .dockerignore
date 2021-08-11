@@ -1,1 +1,9 @@
-secrets/
+.git/
+.github/
+.vscode/
+.mypy_cache/
+__pycache__/
+db/
+backup/
+testing/
+node_modules/

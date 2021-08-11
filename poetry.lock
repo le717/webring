@@ -98,6 +98,18 @@ webargs = ">=8.0.0,<9"
 werkzeug = ">=2.0,<3"
 
 [[package]]
+name = "flask-sqlalchemy"
+version = "2.5.1"
+description = "Adds SQLAlchemy support to your Flask application."
+category = "main"
+optional = false
+python-versions = ">= 2.7, != 3.0.*, != 3.1.*, != 3.2.*, != 3.3.*"
+
+[package.dependencies]
+Flask = ">=0.10"
+SQLAlchemy = ">=0.8.0"
+
+[[package]]
 name = "greenlet"
 version = "1.1.1"
 description = "Lightweight in-process concurrent programming"
@@ -302,7 +314,7 @@ watchdog = ["watchdog"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.9"
-content-hash = "05b01b3edf30a65fe34813ad05a894226dd009badc1471dd7d974339efcec4d7"
+content-hash = "9715d529c7147526aadb9a8784354fb1db4df1ec6412f2d6f84518dfcfdc6544"
 
 [metadata.files]
 apispec = [
@@ -332,6 +344,10 @@ flask = [
 flask-smorest = [
     {file = "flask-smorest-0.32.0.tar.gz", hash = "sha256:bf3d090d8490744ddb242a3dfef8b0d8f5d548548c9563815fe8a785ae91de93"},
     {file = "flask_smorest-0.32.0-py3-none-any.whl", hash = "sha256:f45f17501984a39189f28ba396edf6ad3f387988c3dcd9ac183136916e8bb469"},
+]
+flask-sqlalchemy = [
+    {file = "Flask-SQLAlchemy-2.5.1.tar.gz", hash = "sha256:2bda44b43e7cacb15d4e05ff3cc1f8bc97936cc464623424102bfc2c35e95912"},
+    {file = "Flask_SQLAlchemy-2.5.1-py2.py3-none-any.whl", hash = "sha256:f12c3d4cc5cc7fdcc148b9527ea05671718c3ea45d50c7e732cceb33f574b390"},
 ]
 greenlet = [
     {file = "greenlet-1.1.1-cp27-cp27m-macosx_10_14_x86_64.whl", hash = "sha256:476ba9435afaead4382fbab8f1882f75e3fb2285c35c9285abb3dd30237f9142"},

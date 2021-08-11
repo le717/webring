@@ -8,3 +8,4 @@ class OrderedSchema(Schema):
 
 from .Empty import Empty
 from .HttpError import HttpError
+from .WebLink import *
