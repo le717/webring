@@ -1,1 +1,15 @@
-todo
+version: '3.7'
+
+services:
+  webring:
+    image: webring:latest
+    container_name: webring
+    restart: unless-stopped
+    volumes:
+      - ./log:/app/log
+      - ./db:/app/db
+    ports:
+      - 127.0.0.1:5000:80
+    environment:
+      - FLASK_ENV=production
+      - SYS_VARS_PATH=/app/secrets

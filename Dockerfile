@@ -4,7 +4,6 @@ FROM python:3.9
 ENV PYTHONPATH=/app
 ENV SYS_VARS_PATH=/app/secrets
 ENV FLASK_APP=wsgi.py
-ENV FLASK_ENV=production
 
 # Copy the app files into the container
 RUN mkdir -p /app
