@@ -3,7 +3,7 @@
 .vscode/
 .mypy_cache/
 __pycache__/
-db/
+database.db
 backup/
 testing/
 node_modules/
