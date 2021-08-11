@@ -6,6 +6,7 @@
 
 - Flask secret key (`SECRET_KEY`)
 - SQLite path (`DB_PATH`)
+- API key for all non-GET operations (`API_KEY`)
 
 ## Development
 
