@@ -7,7 +7,7 @@ class OrderedSchema(Schema):
 
 
 from .AuthKey import *
-from .BitRot import *
 from .Empty import Empty
 from .HttpError import HttpError
+from .RotResult import *
 from .WebLink import *

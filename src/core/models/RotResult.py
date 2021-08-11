@@ -7,6 +7,6 @@ __all__ = ["RotResult"]
 
 
 class RotResult(OrderedSchema):
-    uuid = fields.UUID()
+    id = fields.UUID()
     url = fields.Url()
     result = fields.String()
