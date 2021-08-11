@@ -1,6 +1,5 @@
 from typing import OrderedDict
 from flask.views import MethodView
-from flask_smorest import abort
 
 from src.blueprints import root
 from src.core import models

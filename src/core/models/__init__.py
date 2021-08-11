@@ -6,6 +6,7 @@ class OrderedSchema(Schema):
         ordered = True
 
 
+from .BitRot import *
 from .Empty import Empty
 from .HttpError import HttpError
 from .WebLink import *
