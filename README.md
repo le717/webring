@@ -18,6 +18,7 @@
 ## Build
 
 1. `docker build -t webring:latest .`
+1. `docker-compose up -d`
 
 ## License
 
