@@ -51,7 +51,7 @@ def get_all(with_rotted: bool = False) -> list[WebLink]:
     """Get all weblinks."""
     filters = []
     if not with_rotted:
-        filters.append(WebLink.rotted == "no")
+        filters.append(WebLink.rotted != "yes")
     return WebLink.query.filter(*filters).all()
 
 
