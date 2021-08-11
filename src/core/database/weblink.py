@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 import uuid
 from typing import OrderedDict
 
+from markupsafe import Markup
 
 from src.core.database.schema import WebLink, db
 
@@ -14,9 +15,9 @@ def create(data: OrderedDict) -> dict:
     entry_id = str(uuid.uuid4())
     weblink = WebLink(
         id=entry_id,
-        title=data["title"],
-        description=data["description"],
-        url=data["url"],
+        title=Markup(data["title"]).striptags(),
+        description=Markup(data["description"]).striptags(),
+        url=Markup(data["url"]).striptags(),
         rotted="no",
         date_added=datetime.now(timezone.utc),
     )
