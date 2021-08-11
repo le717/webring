@@ -1,4 +1,4 @@
-from typing import Literal, TypedDict
+from typing import Literal, TypedDict, Union
 
 import requests
 
@@ -23,6 +23,14 @@ def __ping_url(url: str) -> bool:
         return r.status_code == requests.codes.ok
     except Exception:
         return False
+
+
+def __ping_wayback_machine(url: str) -> Union[Literal[False], str]:
+    """Check the Web Archive for an archived URL."""
+    r = requests.get(f"https://archive.org/wayback/available?url={url}").json()
+    if not r["archived_snapshots"]:
+        return False
+    return r["archived_snapshots"]["closest"]["url"]
 
 
 def __create(data: WebLink) -> Literal[True]:
@@ -67,6 +75,13 @@ def check_one(uuid: str) -> RotResult:
     if __ping_url(link.url):
         result = RotResult(id=link.id, url=link.url, result=RotStates.NO)
         __delete(uuid)
+        weblink.update(
+            {
+                "id": link.id,
+                "rotted": RotStates.NO.value,
+                "title": link.title.removesuffix(" (Dead Link)"),
+            }
+        )
 
     # We could not ping the site, decide the next step
     else:
@@ -77,21 +92,29 @@ def check_one(uuid: str) -> RotResult:
 def __record_failure(data: WebLink) -> RotStates:
     TIMES_FAILED_THRESHOLD = 5
 
-    existing = __get(data.id)
-
     # We don't have an existing failure record, so make one
+    existing = __get(data.id)
     if existing is None:
         __create(data)
         weblink.update({"id": data.id, "rotted": RotStates.MAYBE.value})
         return RotStates.MAYBE
 
     # We have an existing failure record, update the failure count
-    print(existing.times_failed)
     if existing.times_failed < TIMES_FAILED_THRESHOLD:
         __update(existing)
         return RotStates.MAYBE
 
-    # The failure has occurred too often, declare a dead link
-    weblink.update({"id": data.id, "rotted": RotStates.YES.value})
+    # The failure has occurred too often,
+    # check the Web Archive for an archived URL
+    revised_info = {"id": data.id, "rotted": RotStates.YES.value}
+    if wb_url := __ping_wayback_machine(data.url):
+        revised_info["url"] = wb_url
+
+    # An archive url doesn't exist, tag the title as a dead link
+    else:
+        revised_info["title"] = f"{data.title} (Dead Link)"
+
+    # Update the dead link
+    weblink.update(revised_info)
     __delete(data.id)
     return RotStates.YES
