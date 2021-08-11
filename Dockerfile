@@ -1,7 +1,8 @@
-FROM python:3.9-alpine
+FROM python:3.9
 
 # Set any env values we need
 ENV PYTHONPATH=/app
+ENV SYS_VARS_PATH=/app/secrets
 
 # Copy the app files into the container
 RUN mkdir -p /app
