@@ -15,6 +15,7 @@
         "FLASK_APP": "wsgi.py",
         "FLASK_ENV": "development",
         "SYS_VARS_PATH": "${workspaceFolder}/secrets",
+        "TIMES_FAILED_THRESHOLD": "2"
       },
       "args": [
         "run",

@@ -1,6 +1,7 @@
 from typing import Literal, TypedDict, Union
 
 import requests
+import sys_vars
 
 from src.core.database import weblink
 from src.core.database.schema import RottedLinks, WebLink, db
@@ -90,7 +91,7 @@ def check_one(uuid: str) -> RotResult:
 
 
 def __record_failure(data: WebLink) -> RotStates:
-    TIMES_FAILED_THRESHOLD = 5
+    TIMES_FAILED_THRESHOLD = sys_vars.get_int("TIMES_FAILED_THRESHOLD")
 
     # We don't have an existing failure record, so make one
     existing = __get(data.id)
