@@ -9,6 +9,6 @@ def _factory(partial_module_string: str, url_prefix: str) -> Blueprint:
 
 
 root = _factory("root", "/")
-bitrot = _factory("bitrot", "/bitrot")
+linkrot = _factory("linkrot", "/linkrot")
 
-all_blueprints = (root, bitrot)
+all_blueprints = (root, linkrot)
