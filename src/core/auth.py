@@ -12,9 +12,9 @@ def enforce_key():
         return None
 
     # Make sure a key is present
-    if "key" not in request.args:
+    if "auth_key" not in request.args:
         abort(422)
 
     # Make sure the key is correct
-    if request.args["key"] != API_KEY:
+    if request.args["auth_key"] != API_KEY:
         abort(403)
