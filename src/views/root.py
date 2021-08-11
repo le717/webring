@@ -26,3 +26,7 @@ class WebRing(MethodView):
     def delete(self, data: OrderedDict):
         """Delete a webring item."""
         db.delete(str(data["id"]))
+
+    @root.response(204, models.Empty)
+    def patch(self):
+        return
