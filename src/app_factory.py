@@ -2,7 +2,7 @@ from os import fspath
 from importlib import import_module
 from pathlib import Path
 
-from flask import Flask
+from flask import Flask, app
 from flask_smorest import Api
 import sys_vars
 
@@ -18,6 +18,10 @@ def create_app():
     # Put the app secret key into the expected key
     app.config["SECRET_KEY"] = sys_vars.get("SECRET_KEY")
     app.config.update(sys_vars.get_json("api.json"))
+
+    # Don't enable API docs in prod
+    if app.config["ENV"] == "production":
+        app.config["OPENAPI_URL_PREFIX"] = None
 
     # Create a database connection
     db_path = sys_vars.get_path("DB_PATH").resolve()
