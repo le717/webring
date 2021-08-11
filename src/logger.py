@@ -6,10 +6,10 @@ from pathlib import Path
 __all__ = ["file_handler"]
 
 
-def file_handler(log_path: Path) -> RotatingFileHandler:
+def file_handler() -> RotatingFileHandler:
     """Create a file-based error handler."""
     handler = RotatingFileHandler(
-        log_path / "error.log",
+        Path("log") / "error.log",
         maxBytes=500_000,
         backupCount=5,
         delay=True,

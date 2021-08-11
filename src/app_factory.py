@@ -32,7 +32,7 @@ def create_app():
             db.create_all()
 
     # Add a file logger to record errors
-    app.logger.addHandler(logger.file_handler(sys_vars.get_path("LOG_PATH")))
+    app.logger.addHandler(logger.file_handler())
 
     # Init API use handling
     api = Api(app)
