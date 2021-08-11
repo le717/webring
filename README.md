@@ -1,6 +1,6 @@
-# WebRing
+# Arcana Webring
 
-> Because.
+> Because everything on the Web eventually loops back onto itself.
 
 ## Required Secrets
 

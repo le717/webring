@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "webring"
+name = "Arcana Webring"
 version = "0.1.0"
-description = "Because."
+description = "Because everything on the Web eventually loops back onto itself."
 authors = ["Caleb Ely <le717@users.noreply.github.com>"]
 license = "MIT"
 
