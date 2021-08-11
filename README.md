@@ -6,11 +6,13 @@
 
 - Flask secret key (`SECRET_KEY`)
 - SQLite path (`DB_PATH`)
-- API key for all non-GET operations (`API_KEY`)
+- Auth key for all non-GET operations (`AUTH_KEY`)
 
 ## Features
 
-TODO
+- View all entries in the ring
+- Create, update, and delete entries
+- Basic linkrot checking
 
 ## Development
 
