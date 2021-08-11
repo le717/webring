@@ -1,6 +1,7 @@
 # coding: utf-8
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, DateTime, String
+from sqlalchemy import Column, DateTime, Integer, String
+
 
 db = SQLAlchemy()
 
@@ -17,3 +18,10 @@ class WebLink(db.Model):
     url = Column(String)
     rotted = Column(String)
     date_added = Column(DateTime)
+
+
+class RottedLinks(db.Model):
+    __tablename__ = "rotted_links"
+
+    id = Column(String, primary_key=True)
+    times_failed = Column(Integer)
