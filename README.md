@@ -6,7 +6,7 @@
 
 - Flask secret key (`SECRET_KEY`)
 - SQLite path (`DB_PATH`)
-- Auth key for all non-GET operations (`AUTH_KEY`)
+- JSON list of auth keys for all non-GET operations (`AUTH_KEYS`)
 - Integer number of times supposed rotted links should be checked (`TIMES_FAILED_THRESHOLD`)
 
 ## Features

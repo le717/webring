@@ -3,7 +3,7 @@ import sys_vars
 
 from src.core.models import OrderedSchema
 
-AUTH_KEY = sys_vars.get("AUTH_KEY")
+AUTH_KEYS = sys_vars.get_json("AUTH_KEYS")
 
 
 __all__ = ["AuthKey"]
@@ -12,6 +12,6 @@ __all__ = ["AuthKey"]
 class AuthKey(OrderedSchema):
     auth_key = fields.String(
         required=True,
-        validate=lambda x: x == AUTH_KEY,
+        validate=lambda x: x in AUTH_KEYS,
         error_messages={"validator_failed": "Unrecognized auth key"},
     )
