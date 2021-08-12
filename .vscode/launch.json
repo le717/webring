@@ -15,8 +15,10 @@
         "FLASK_APP": "wsgi.py",
         "FLASK_ENV": "development",
         "SYS_VARS_PATH": "${workspaceFolder}/secrets",
+        "DB_PATH": "${workspaceFolder}/db/database.db",
         "TIMES_FAILED_THRESHOLD": "2",
-        "ENABLE_DISCORD_LOGGING": "true"
+        "ENABLE_DISCORD_LOGGING": "true",
+        "DISCORD_WEBHOOK_URL": "https://example.com"
       },
       "args": [
         "run",
