@@ -12,8 +12,11 @@ from src.core.database import weblink as db
 class WebRing(MethodView):
     @root.response(200, models.WebLink(many=True))
     def get(self):
-        """Fetch webring items."""
-        return db.get_all()
+        """Fetch webring items.
+
+        This will return rotted links in the result set.
+        """
+        return db.get_all(with_rotted=True)
 
     @root.arguments(models.AuthKey, location="query", as_kwargs=True)
     @root.arguments(models.WebLinkCreate, location="json", as_kwargs=True)

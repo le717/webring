@@ -1,18 +1,19 @@
-# WebRing
+# Arcana Webring
 
-> Because.
+> Because everything on the Web eventually loops back onto itself.
 
 ## Required Secrets
 
 - Flask secret key (`SECRET_KEY`)
 - SQLite path (`DB_PATH`)
 - Auth key for all non-GET operations (`AUTH_KEY`)
+- Integer number of times supposed rotted links should be checked (`TIMES_FAILED_THRESHOLD`)
 
 ## Features
 
 - View all entries in the ring
 - Create, update, and delete entries
-- Basic linkrot checking
+- Linkrot checking, with Web Archive fallback url for dead links (when possible)
 
 ## Development
 

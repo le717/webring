@@ -47,9 +47,12 @@ def get(uuid: str) -> Optional[WebLink]:
     return WebLink.query.filter_by(id=uuid).first()
 
 
-def get_all() -> list[WebLink]:
+def get_all(with_rotted: bool = False) -> list[WebLink]:
     """Get all weblinks."""
-    return WebLink.query.all()
+    filters = []
+    if not with_rotted:
+        filters.append(WebLink.rotted != "yes")
+    return WebLink.query.filter(*filters).all()
 
 
 def update(data: OrderedDict) -> bool:
