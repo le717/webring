@@ -5,6 +5,7 @@ from typing import Optional, OrderedDict
 from markupsafe import Markup
 
 from src.core.database.schema import WebLink, db
+from src.core.database.linkrot import check_one
 
 
 __all__ = ["create", "delete", "exists", "get", "get_all", "update"]
@@ -24,6 +25,9 @@ def create(data: OrderedDict) -> dict:
     db.session.add(weblink)
     db.session.commit()
     db.session.refresh(weblink)
+
+    # Check the linkfot status
+    check_one(entry_id)
     return {"id": entry_id}
 
 
