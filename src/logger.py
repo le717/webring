@@ -4,6 +4,7 @@ from logging.handlers import RotatingFileHandler
 from pathlib import Path
 from typing import Union
 
+from flask import request
 import requests
 import sys_vars
 
@@ -21,16 +22,24 @@ class DiscordHandler(logging.Handler):
         self.url = sys_vars.get("DISCORD_WEBHOOK_URL")
 
     def format(self, record: logging.LogRecord) -> dict:
-        msg = f"""Date/Time: {datetime.fromtimestamp(record.created).isoformat()}
+        request
+        msg_date = datetime.fromtimestamp(record.created).strftime(
+            "%B %d, %Y  @ %I:%M:%S %p"
+        )
+        msg = f""":warning: Webring Alert :warning:
+Alert level: **{record.levelname.capitalize()}**
+URL: {request.base_url}
+Datetime: {msg_date}
 Message: {record.msg}"""
         return {"username": "Arcana Webring", "content": msg}
 
     def emit(self, record: logging.LogRecord):
-        return requests.post(
+        requests.post(
             self.url,
             headers={"Content-type": "application/json"},
             json=self.format(record),
-        ).content
+        )
+        return record
 
 
 def discord_handler() -> Union[DiscordHandler, logging.NullHandler]:

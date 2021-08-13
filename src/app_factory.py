@@ -30,7 +30,7 @@ def create_app():
     app.logger.addHandler(logger.file_handler())
 
     # Enable Discord webhook event logging
-    logger.DISCORD.setLevel(logging.INFO)
+    logger.DISCORD.setLevel(logging.DEBUG)
     logger.DISCORD.addHandler(logger.discord_handler())
 
     # Register the API endpoints
