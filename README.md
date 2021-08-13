@@ -2,18 +2,21 @@
 
 > Because everything on the Web eventually loops back onto itself.
 
+## Features
+
+- View all entries in the ring
+- Create, update, and delete entries
+- Linkrot checking, with Web Archive fallback url for dead links (when possible)
+- Optional event logging to [Discord](https://discord.com/) channel
+
 ## Required Secrets
 
 - Flask secret key (`SECRET_KEY`)
 - SQLite path (`DB_PATH`)
 - JSON list of auth keys for all non-GET operations (`AUTH_KEYS`)
 - Integer number of times supposed rotted links should be checked (`TIMES_FAILED_THRESHOLD`)
-
-## Features
-
-- View all entries in the ring
-- Create, update, and delete entries
-- Linkrot checking, with Web Archive fallback url for dead links (when possible)
+- Discord event logging boolean (`ENABLE_DISCORD_LOGGING`)
+  - Optional Discord webhook URL (`DISCORD_WEBHOOK_URL`)
 
 ## Development
 

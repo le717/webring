@@ -1,10 +1,10 @@
-from typing import Any, OrderedDict
+from typing import Any
+
 from flask import abort
 from flask.views import MethodView
 
 from src.blueprints import root
 from src.core import models
-
 from src.core.database import weblink as db
 
 
