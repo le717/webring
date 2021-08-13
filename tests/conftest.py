@@ -14,6 +14,7 @@ def app():
     os.environ["DB_PATH"] = "tests/db/database.db"
     os.environ["AUTH_KEYS"] = f'["{VALID_AUTH}"]'
     os.environ["SECRET_KEY"] = "testing-secret-key"
+    os.environ["TIMES_FAILED_THRESHOLD"] = "2"
     os.makedirs("tests/db")
 
     app = create_app()
