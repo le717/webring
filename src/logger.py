@@ -31,7 +31,7 @@ Alert level: **{record.levelname.capitalize()}**
 URL: {request.base_url}
 Datetime: {msg_date}
 Message: {record.msg}"""
-        return {"username": "Arcana Webring", "content": msg}
+        return {"content": msg}
 
     def emit(self, record: logging.LogRecord):
         requests.post(
