@@ -11,6 +11,7 @@ import sys_vars
 
 __all__ = ["DISCORD", "DiscordHandler", "file_handler"]
 
+
 DISCORD = logging.getLogger("discord")
 
 
@@ -22,7 +23,6 @@ class DiscordHandler(logging.Handler):
         self.url = sys_vars.get("DISCORD_WEBHOOK_URL")
 
     def format(self, record: logging.LogRecord) -> dict:
-        request
         msg_date = datetime.fromtimestamp(record.created).strftime(
             "%B %d, %Y  @ %I:%M:%S %p"
         )
