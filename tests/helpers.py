@@ -39,7 +39,7 @@ def item_dead_url() -> dict:
     return {
         "title": "A broken website",
         "description": "This is a broken website.",
-        "url": "https://nooooooooOo0.tld.that.does.not.exist.at.all",
+        "url": "https://noooooooo.tld.that.does.not.exist.at.all",
     }
 
 
