@@ -3,7 +3,18 @@ from urllib.parse import urlencode
 from typing import Any, Union
 
 
-__all__ = ["authed_request", "to_json", "invalid_item", "valid_item"]
+__all__ = [
+    "INVALID_AUTH",
+    "VALID_AUTH",
+    "authed_request",
+    "to_json",
+    "invalid_item",
+    "valid_item",
+]
+
+
+INVALID_AUTH = "unknown-auth-key"
+VALID_AUTH = "known-auth-key"
 
 
 def __auth_key(key: str) -> str:

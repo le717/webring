@@ -10,9 +10,9 @@ def test_no_auth_key(client):
 
 def test_unknown_auth_key(client):
     """The request should fail from an unknown auth key."""
-    # auth = helpers.auth_key("UNKNOWN_AUTH_KEY")
     response = client.post(
-        helpers.authed_request("/", auth="UNKNOWN_AUTH_KEY"), data=helpers.valid_item()
+        helpers.authed_request("/", auth=helpers.INVALID_AUTH),
+        data=helpers.valid_item(),
     )
     assert response.status_code == 422
     assert "auth_key" in helpers.to_json(response.data)["errors"]["query"]
