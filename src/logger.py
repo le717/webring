@@ -33,7 +33,7 @@ Datetime: {msg_date}
 Message: {record.msg}"""
         return {"content": msg}
 
-    def emit(self, record: logging.LogRecord):
+    def emit(self, record: logging.LogRecord) -> logging.LogRecord:
         requests.post(
             self.url,
             headers={"Content-type": "application/json"},
