@@ -110,7 +110,7 @@ def __record_failure(data: WebLink) -> RotStates:
         return RotStates.MAYBE
 
     # We have an existing failure record, update the failure count
-    if existing.times_failed < TIMES_FAILED_THRESHOLD:
+    if (existing.times_failed + 1) < TIMES_FAILED_THRESHOLD:
         __update(existing)
         DISCORD.error(
             f"Link {data.url} (`{data.id}`) linkrot check failure #{existing.times_failed}."
