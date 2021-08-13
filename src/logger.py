@@ -24,7 +24,7 @@ class DiscordHandler(logging.Handler):
 
     def format(self, record: logging.LogRecord) -> dict:
         msg_date = datetime.fromtimestamp(record.created).strftime(
-            "%B %d, %Y  @ %I:%M:%S %p"
+            "%B %d, %Y @ %I:%M:%S %p"
         )
         msg = f""":warning: Webring Alert :warning:
 Alert level: **{record.levelname.capitalize()}**
