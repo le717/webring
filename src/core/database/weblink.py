@@ -5,7 +5,7 @@ from typing import Optional, OrderedDict
 from markupsafe import Markup
 
 from src.core.database.schema import WebLink, db
-from src.core.database.linkrot import check_one
+from src.core.database.linkrot import check_one, delete as delete_rot
 
 
 __all__ = ["create", "delete", "exists", "get", "get_all", "update"]
@@ -38,6 +38,7 @@ def delete(uuid: str) -> bool:
 
     db.session.delete(WebLink.query.filter_by(id=uuid).first())
     db.session.commit()
+    delete_rot(uuid)
     return True
 
 
