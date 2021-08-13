@@ -3,6 +3,7 @@ from typing import Literal, TypedDict, Union
 import requests
 import sys_vars
 
+from src.logger import DISCORD
 from src.core.database import weblink
 from src.core.database.schema import RottedLinks, WebLink, db
 from src.core.models.RotStates import RotStates
@@ -54,11 +55,12 @@ def __update(data: RottedLinks) -> Literal[True]:
     return True
 
 
-def __delete(uuid: str):
+def __delete(uuid: str) -> bool:
     if exists := __get(uuid):
         db.session.delete(exists)
         db.session.commit()
-    return True
+        return True
+    return False
 
 
 def check_all() -> list[RotResult]:
@@ -72,14 +74,19 @@ def check_one(uuid: str) -> RotResult:
     link = weblink.get(uuid)
     if __ping_url(link.url):
         result = RotResult(id=link.id, url=link.url, result=RotStates.NO.value)
-        __delete(uuid)
-        weblink.update(
-            {
-                "id": link.id,
-                "rotted": RotStates.NO.value,
-                "title": link.title.removesuffix(" (Dead Link)"),
-            }
-        )
+
+        # A rotten link has been revived
+        if __delete(uuid):
+            DISCORD.info(
+                f"Link {link.url} ({link.id}) has been revived to a rotten status of {RotStates.NO.value}."
+            )
+            weblink.update(
+                {
+                    "id": link.id,
+                    "rotted": RotStates.NO.value,
+                    "title": link.title.removesuffix(" (Dead Link)"),
+                }
+            )
 
     # We could not ping the site, decide the next step
     else:
@@ -97,22 +104,37 @@ def __record_failure(data: WebLink) -> RotStates:
     if existing is None:
         __create(data)
         weblink.update({"id": data.id, "rotted": RotStates.MAYBE.value})
+        DISCORD.error(
+            f"Link {data.url} ({data.id}) has been given a rotten status of {RotStates.MAYBE.value}."
+        )
         return RotStates.MAYBE
 
     # We have an existing failure record, update the failure count
     if existing.times_failed < TIMES_FAILED_THRESHOLD:
         __update(existing)
+        DISCORD.error(
+            f"Link {data.url} ({data.id}) linkrot check failure #{existing.times_failed}."
+        )
         return RotStates.MAYBE
 
     # The failure has occurred too often,
     # check the Web Archive for an archived URL
     revised_info = {"id": data.id, "rotted": RotStates.YES.value}
+    DISCORD.critical(
+        f"Link {data.url} ({data.id}) has been given a rotten status of {RotStates.YES.value}."
+    )
     if wb_url := __ping_wayback_machine(data.url):
         revised_info["url"] = wb_url
+        DISCORD.critical(
+            f"Link {data.url} ({data.id}) has been updated to point to the Web Archive."
+        )
 
     # An archive url doesn't exist, tag the title as a dead link
     else:
         revised_info["title"] = f"{data.title} (Dead Link)"
+        DISCORD.critical(
+            f"Link {data.url} ({data.id}) has been updated to indicate a dead link."
+        )
 
     # Update the dead link
     weblink.update(revised_info)
