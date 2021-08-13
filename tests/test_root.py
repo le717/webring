@@ -19,7 +19,7 @@ def test_create_good_item(client):
     assert isinstance(uuid.UUID(helpers.from_json(response.data)["id"]), uuid.UUID)
 
 
-def test_create_dead_url_item(client):
+def test_create_item_dead_url(client):
     """Successfully create an item with a dead URL."""
     response = client.post(
         helpers.authed_request("/", auth=helpers.VALID_AUTH),
@@ -58,5 +58,22 @@ def test_update_item_title(client):
             auth=helpers.VALID_AUTH,
         ),
         json={"title": "My amazing website"},
+    )
+    assert response.status_code == 204
+
+
+def test_update_item_dead_url(client):
+    """Successfully update an item's dead URL."""
+    creation = client.post(
+        helpers.authed_request("/", auth=helpers.VALID_AUTH),
+        json=helpers.item_dead_url(),
+    )
+    response = client.patch(
+        helpers.authed_request(
+            "/",
+            helpers.from_json(creation.data)["id"],
+            auth=helpers.VALID_AUTH,
+        ),
+        json={"url": "https://example.com"},
     )
     assert response.status_code == 204
