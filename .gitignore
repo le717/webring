@@ -106,6 +106,7 @@ venv.bak/
 .vscode/
 backup/
 testing/
+tests/db/
 secrets/
 *.db
 *.json
