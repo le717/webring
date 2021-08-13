@@ -25,6 +25,7 @@
 1. Run `poetry install`
 1. Launch the API using the provided VS Code launch configuration
 1. Auto-generated API docs are available at `/docs`
+1. Run tests with `poetry run pytest`
 
 ## Build
 
