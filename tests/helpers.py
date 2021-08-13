@@ -24,7 +24,7 @@ def __auth_key(key: str) -> str:
 
 def authed_request(*args: str, **kwargs: Any) -> str:
     endpoint = "/".join(args)
-    return f"{endpoint}?{__auth_key(kwargs['auth'])}"
+    return f"{endpoint}?{__auth_key(kwargs['auth'])}".replace("//", "/")
 
 
 def from_json(data: str) -> Union[dict, list]:
