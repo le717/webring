@@ -135,6 +135,7 @@ def __record_failure(data: WebLink) -> RotStates:
         DISCORD.critical(
             f"Link {data.url} (`{data.id}`) has been updated to indicate a dead link."
         )
+        delete(data.id)
 
     # Update the dead link
     weblink.update(revised_info)
