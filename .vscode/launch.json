@@ -10,7 +10,7 @@
       "request": "launch",
       "module": "flask",
       "console": "internalConsole",
-      "jinja": true,
+      "jinja": false,
       "env": {
         "FLASK_APP": "wsgi.py",
         "FLASK_ENV": "development",
@@ -18,6 +18,27 @@
         "DB_PATH": "${workspaceFolder}/db/database.db",
         "TIMES_FAILED_THRESHOLD": "2",
         "ENABLE_DISCORD_LOGGING": "false"
+      },
+      "args": [
+        "run",
+        "--no-debugger",
+        "--no-reload"
+      ]
+    },
+    {
+      "name": "API (test)",
+      "type": "python",
+      "request": "launch",
+      "module": "flask",
+      "console": "internalConsole",
+      "jinja": false,
+      "env": {
+        "FLASK_APP": "wsgi.py",
+        "FLASK_ENV": "testing",
+        "SYS_VARS_PATH": "${workspaceFolder}/secrets",
+        "DB_PATH": "${workspaceFolder}/db/database.db",
+        "TIMES_FAILED_THRESHOLD": "5",
+        "ENABLE_DISCORD_LOGGING": "true"
       },
       "args": [
         "run",
