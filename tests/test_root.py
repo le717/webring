@@ -37,7 +37,26 @@ def test_delete_item(client):
     )
     response = client.delete(
         helpers.authed_request(
-            "/", helpers.from_json(creation.data)["id"], auth=helpers.VALID_AUTH
+            "/",
+            helpers.from_json(creation.data)["id"],
+            auth=helpers.VALID_AUTH,
         ),
+    )
+    assert response.status_code == 204
+
+
+def test_update_item_title(client):
+    """Successfully update an item's title."""
+    creation = client.post(
+        helpers.authed_request("/", auth=helpers.VALID_AUTH),
+        json=helpers.item_all_good(),
+    )
+    response = client.patch(
+        helpers.authed_request(
+            "/",
+            helpers.from_json(creation.data)["id"],
+            auth=helpers.VALID_AUTH,
+        ),
+        json={"title": "My amazing website"},
     )
     assert response.status_code == 204
