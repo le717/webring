@@ -7,9 +7,10 @@ __all__ = [
     "INVALID_AUTH",
     "VALID_AUTH",
     "authed_request",
+    "from_json",
     "to_json",
-    "invalid_item",
-    "valid_item",
+    "item_all_good",
+    "item_dead_url",
 ]
 
 
@@ -26,11 +27,15 @@ def authed_request(*args: str, **kwargs: Any) -> str:
     return f"{endpoint}?{__auth_key(kwargs['auth'])}"
 
 
-def to_json(data) -> Union[dict, list]:
+def from_json(data: str) -> Union[dict, list]:
     return json.loads(data)
 
 
-def invalid_item() -> dict:
+def to_json(data: Union[dict, list]) -> str:
+    return json.dumps(data)
+
+
+def item_dead_url() -> dict:
     return {
         "title": "A broken website",
         "description": "This is a broken website.",
@@ -38,7 +43,7 @@ def invalid_item() -> dict:
     }
 
 
-def valid_item() -> dict:
+def item_all_good() -> dict:
     return {
         "title": "A working website",
         "description": "This is my website.",

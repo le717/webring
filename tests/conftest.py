@@ -1,17 +1,19 @@
 import os
 import pytest
 
-os.environ["SYS_VARS_PATH"] = f"{os.getcwd()}/secrets"
+os.environ["SYS_VARS_PATH"] = f"{os.getcwd()}/tests/secrets"
 
 from src.app_factory import create_app
 from src.core.database.schema import db
+from tests.helpers import VALID_AUTH
 
 
 @pytest.fixture
 def app():
-    os.environ["SECRET_KEY"] = "testing-secret-key"
-    os.environ["DB_PATH"] = "tests/db/database.db"
     os.environ["ENV"] = "testing"
+    os.environ["DB_PATH"] = "tests/db/database.db"
+    os.environ["AUTH_KEYS"] = f'["{VALID_AUTH}"]'
+    os.environ["SECRET_KEY"] = "testing-secret-key"
     os.makedirs("tests/db")
 
     app = create_app()

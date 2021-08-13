@@ -4,7 +4,7 @@
 .mypy_cache/
 __pycache__/
 database.db
-tests/db/
+tests/
 backup/
 testing/
 node_modules/
