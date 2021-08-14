@@ -5,7 +5,6 @@ from typing import Optional, OrderedDict
 from markupsafe import Markup
 
 from src.core.database.schema import WebLink, db
-from src.core.database.linkrot import check_one, delete as delete_rot
 
 
 __all__ = ["create", "delete", "exists", "get", "get_all", "update"]
@@ -25,9 +24,6 @@ def create(data: OrderedDict) -> dict:
     db.session.add(weblink)
     db.session.commit()
     db.session.refresh(weblink)
-
-    # Check the linkrot status
-    check_one(entry_id)
     return {"id": entry_id}
 
 
@@ -38,7 +34,6 @@ def delete(uuid: str) -> bool:
 
     db.session.delete(WebLink.query.filter_by(id=uuid).first())
     db.session.commit()
-    delete_rot(uuid)
     return True
 
 
@@ -69,8 +64,4 @@ def update(data: OrderedDict) -> bool:
         data, synchronize_session="fetch"
     )
     db.session.commit()
-
-    # Check the linkrot status if the url was changed
-    if "url" in data:
-        check_one(data["id"])
     return True

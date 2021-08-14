@@ -35,7 +35,7 @@ def test_single_link_rot_yes(client):
     )
 
     item_id = helpers.from_json(creation.data)["id"]
-    for _ in range(2):
+    for _ in range(3):
         response = client.post(
             helpers.authed_request("/", "linkrot", item_id, auth=helpers.VALID_AUTH)
         )
