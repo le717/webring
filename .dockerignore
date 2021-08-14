@@ -8,3 +8,4 @@ tests/
 backup/
 testing/
 node_modules/
+*.md
