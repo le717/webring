@@ -12,8 +12,8 @@ import sys_vars
 __all__ = ["DISCORD", "DiscordHandler", "file_handler"]
 
 
-DISCORD = logging.getLogger("discord")
-DISCORD.setLevel(logging.DEBUG)
+LINKROT = logging.getLogger("linkrot-status")
+LINKROT.setLevel(logging.DEBUG)
 
 
 class DiscordHandler(logging.Handler):
