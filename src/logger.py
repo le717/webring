@@ -50,10 +50,10 @@ def discord_handler() -> Union[DiscordHandler, logging.NullHandler]:
         return logging.NullHandler()
 
 
-def file_handler() -> RotatingFileHandler:
+def file_handler(log_name: str) -> RotatingFileHandler:
     """Create a file-based error handler."""
     handler = RotatingFileHandler(
-        Path("log") / "error.log",
+        Path("log") / log_name,
         maxBytes=500_000,
         backupCount=5,
         delay=True,

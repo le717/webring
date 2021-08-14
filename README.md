@@ -21,7 +21,7 @@
 ## Development
 
 1. Install Python 3.9+, [Poetry](https://poetry.eustace.io/) 1.1.0+, and VS Code
-1. Create required secret keys (default: enviornment or `/run/secrets`)
+1. Create required secret keys (default: `/run/secrets` or enviornment)
 1. Run `poetry install`
 1. Launch the API using the provided VS Code launch configuration
 1. Auto-generated API docs are available at `/docs`

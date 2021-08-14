@@ -27,7 +27,7 @@ def create_app():
         app.config["OPENAPI_URL_PREFIX"] = None
 
     # Add a file logger to record errors
-    app.logger.addHandler(logger.file_handler())
+    app.logger.addHandler(logger.file_handler("error-app.log"))
 
     # Enable Discord webhook event logging
     logger.DISCORD.setLevel(logging.DEBUG)
