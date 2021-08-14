@@ -13,6 +13,7 @@ __all__ = ["DISCORD", "DiscordHandler", "file_handler"]
 
 
 DISCORD = logging.getLogger("discord")
+DISCORD.setLevel(logging.DEBUG)
 
 
 class DiscordHandler(logging.Handler):
@@ -40,14 +41,6 @@ Message: {record.msg}"""
             json=self.format(record),
         )
         return record
-
-
-def discord_handler() -> Union[DiscordHandler, logging.NullHandler]:
-    """Create a Discord handler if enabled."""
-    if sys_vars.get_bool("ENABLE_DISCORD_LOGGING", default=False):
-        return DiscordHandler()
-    else:
-        return logging.NullHandler()
 
 
 def file_handler(log_name: str) -> RotatingFileHandler:
