@@ -16,15 +16,18 @@ LINKROT = logging.getLogger("linkrot-status")
 LINKROT.setLevel(logging.DEBUG)
 
 
-def __linkfot_formatter(record: logging.LogRecord) -> str:
+def _linkrot_formatter(record: logging.LogRecord) -> str:
     msg_date = datetime.fromtimestamp(record.created).strftime(
         "%B %d, %Y @ %I:%M:%S %p"
     )
     msg = f""":warning: Webring Alert :warning:
 Alert level: **{record.levelname.capitalize()}**
-URL: {request.base_url}
-Datetime: {msg_date}
-Message: {record.msg}"""
+Date: {msg_date}
+Webring URL: {request.root_url}
+
+Link ID: `{record.msg['id']}`
+Link URL: {record.msg['url']}
+Message: {record.msg['message']}"""
     return msg
 
 
@@ -36,7 +39,7 @@ class DiscordHandler(logging.Handler):
         self.url = sys_vars.get("DISCORD_WEBHOOK_URL")
 
     def format(self, record: logging.LogRecord) -> dict:
-        return {"content": __linkfot_formatter(record)}
+        return {"content": _linkrot_formatter(record)}
 
     def emit(self, record: logging.LogRecord) -> logging.LogRecord:
         requests.post(
@@ -59,7 +62,7 @@ def file_handler(log_name: str, *, linkrot: bool = False) -> RotatingFileHandler
     # Apply the appropriate formatter
     if linkrot:
         handler.setLevel(logging.DEBUG)
-        handler.format = __linkfot_formatter
+        handler.format = _linkrot_formatter
     else:
         handler.setLevel(logging.ERROR)
         handler.setFormatter(

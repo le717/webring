@@ -78,7 +78,11 @@ def check_one(uuid: str) -> RotResult:
         # A rotten link has been revived
         if delete(uuid):
             LINKROT.info(
-                f"Link {link.url} (`{link.id}`) has been revived to a rotten status of **{RotStates.NO.value}**."
+                {
+                    "id": link.id,
+                    "url": link.url,
+                    "message": f"Link has been revived to a rotten status of **{RotStates.NO.value}**.",
+                }
             )
             weblink.update(
                 {
@@ -105,7 +109,11 @@ def __record_failure(data: WebLink) -> RotStates:
         __create(data)
         weblink.update({"id": data.id, "rotted": RotStates.MAYBE.value})
         LINKROT.error(
-            f"Link {data.url} (`{data.id}`) has been given a rotten status of **{RotStates.MAYBE.value}**."
+            {
+                "id": data.id,
+                "url": data.url,
+                "message": f"Link has been given a rotten status of **{RotStates.MAYBE.value}**.",
+            }
         )
         return RotStates.MAYBE
 
@@ -113,7 +121,11 @@ def __record_failure(data: WebLink) -> RotStates:
     if (existing.times_failed + 1) < TIMES_FAILED_THRESHOLD:
         __update(existing)
         LINKROT.error(
-            f"Link {data.url} (`{data.id}`) linkrot check failure #{existing.times_failed}."
+            {
+                "id": data.id,
+                "url": data.url,
+                "message": f"Linkrot check failure #{existing.times_failed}.",
+            }
         )
         return RotStates.MAYBE
 
@@ -121,19 +133,31 @@ def __record_failure(data: WebLink) -> RotStates:
     # check the Web Archive for an archived URL
     revised_info = {"id": data.id, "rotted": RotStates.YES.value}
     LINKROT.critical(
-        f"Link {data.url} (`{data.id}`) has been given a rotten status of **{RotStates.YES.value}**."
+        {
+            "id": data.id,
+            "url": data.url,
+            "message": f"Link has been given a rotten status of **{RotStates.YES.value}**.",
+        }
     )
     if wb_url := __ping_wayback_machine(data.url):
         revised_info["url"] = wb_url
         LINKROT.critical(
-            f"Link {data.url} (`{data.id}`) has been updated to point to the Web Archive."
+            {
+                "id": data.id,
+                "url": data.url,
+                "message": "Link URL has been updated to point to the Web Archive.",
+            }
         )
 
     # An archive url doesn't exist, tag the title as a dead link
     else:
         revised_info["title"] = f"{data.title} (Dead Link)"
         LINKROT.critical(
-            f"Link {data.url} (`{data.id}`) has been updated to indicate a dead link."
+            {
+                "id": data.id,
+                "url": data.url,
+                "message": "Link title has been updated to indicate a dead link.",
+            }
         )
         delete(data.id)
 
