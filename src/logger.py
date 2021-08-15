@@ -55,12 +55,13 @@ def file_handler(log_name: str, *, linkrot: bool = False) -> RotatingFileHandler
         backupCount=5,
         delay=True,
     )
-    handler.setLevel(logging.ERROR)
 
     # Apply the appropriate formatter
     if linkrot:
+        handler.setLevel(logging.DEBUG)
         handler.format = __linkfot_formatter
     else:
+        handler.setLevel(logging.ERROR)
         handler.setFormatter(
             logging.Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s")
         )
