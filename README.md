@@ -8,6 +8,7 @@
 - Create, update, and delete entries
 - Linkrot checking, with Web Archive fallback url for dead links (when possible)
 - Optional linkrot event logging to [Discord](https://discord.com/) channel
+  - Text error log fallback if disabled
 
 ## Required Secrets
 

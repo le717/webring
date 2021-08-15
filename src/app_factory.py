@@ -29,11 +29,13 @@ def create_app():
     # Add a file logger to record errors
     app.logger.addHandler(logger.file_handler("error-app.log"))
 
-    # Enable Discord webhook event logging, falling back to a null log
+    # Enable Discord webhook event logging, falling back to a text log
     if sys_vars.get_bool("ENABLE_DISCORD_LOGGING", default=False):
         logger.LINKROT.addHandler(logger.DiscordHandler())
     else:
-        logger.LINKROT.addHandler(logger.file_handler("error-linkrot.log"))
+        logger.LINKROT.addHandler(
+            logger.file_handler("error-linkrot.log", linkrot=True)
+        )
 
     # Register the API endpoints
     api = Api(app)
