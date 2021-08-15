@@ -2,7 +2,9 @@
 
 _Unreleased_
 
--  Remove auto linkrot check on link add/update
+- Remove auto linkrot check on link add/update
+- Fallback to text log for linkrot events if Discord logging is disabled
+- Linkrot event messages are more informative
 
 # 1.0.1
 
