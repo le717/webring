@@ -1,3 +1,4 @@
+import re
 from typing import Literal, TypedDict, Union
 
 import requests
@@ -88,7 +89,9 @@ def check_one(uuid: str) -> RotResult:
                 {
                     "id": link.id,
                     "rotted": RotStates.NO.value,
-                    "title": link.title.removesuffix(" (Dead Link)"),
+                    "title": re.sub(
+                        r"\s\((?:web archive|dead) link\)$", "", link.title, flags=re.I
+                    ),
                 }
             )
 
