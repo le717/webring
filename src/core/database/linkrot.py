@@ -163,7 +163,6 @@ def __record_failure(data: WebLink) -> RotStates:
                 "message": "Link title has been updated to indicate a dead link.",
             }
         )
-        delete(data.id)
 
     # Update the dead link
     weblink.update(revised_info)
