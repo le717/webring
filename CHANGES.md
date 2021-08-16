@@ -1,10 +1,14 @@
 # 1.0.2
 
-_Unreleased_
+_Released August 16, 2021_
 
 - Remove auto linkrot check on link add/update
 - Fallback to text log for linkrot events if Discord logging is disabled
 - Linkrot event messages are more informative
+- Update dead link title to indicate Web Archive link when available
+- Update link title to remove Web Archive link if revived
+- Fix inconsistent linkrot status record cleanup
+- Switch to Alpine Linux Python container
 
 # 1.0.1
 
