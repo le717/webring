@@ -140,6 +140,7 @@ def __record_failure(data: WebLink) -> RotStates:
         }
     )
     if wb_url := __ping_wayback_machine(data.url):
+        revised_info["title"] = f"{data.title} (Web Archive Link)"
         revised_info["url"] = wb_url
         LINKROT.critical(
             {
