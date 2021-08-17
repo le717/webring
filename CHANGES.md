@@ -1,3 +1,9 @@
+# 1.0.4
+
+_Unreleased_
+
+- Remove currently viewed site from webring (#10)
+
 # 1.0.3
 
 _Released August 17, 2021_
@@ -11,10 +17,10 @@ _Released August 17, 2021_
 _Released August 16, 2021_
 
 - Remove auto linkrot check on link add/update
-- Fallback to text log for linkrot events if Discord logging is disabled
+- Fallback to text log for linkrot events if Discord logging is disabled (#8)
 - Linkrot event messages are more informative
 - Update dead link title to indicate Web Archive link when available
-- Update link title to remove Web Archive link if revived
+- Update link title to remove Web Archive link if revived (#9)
 - Fix inconsistent linkrot status record cleanup
 - Switch to Alpine Linux Python container
 
