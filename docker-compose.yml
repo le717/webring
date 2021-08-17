@@ -12,5 +12,4 @@ services:
       - 127.0.0.1:5000:80
     environment:
       - FLASK_ENV=production
-      - SYS_VARS_PATH=/app/secrets
       - TIMES_FAILED_THRESHOLD=5

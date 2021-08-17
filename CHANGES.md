@@ -1,3 +1,9 @@
+# 1.0.3
+
+_Unreleased_
+
+- Escape link info on update
+
 # 1.0.2
 
 _Released August 16, 2021_
