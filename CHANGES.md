@@ -3,6 +3,7 @@
 _Unreleased_
 
 - Escape link info on update
+- Rename gunicorn logs to not clobber other logs with the same name
 
 # 1.0.2
 
