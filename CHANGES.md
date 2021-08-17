@@ -1,9 +1,10 @@
 # 1.0.3
 
-_Unreleased_
+_Released August 17, 2021_
 
 - Escape link info on update
 - Rename gunicorn logs to not clobber other logs with the same name
+- Do not update a link ID on link update
 
 # 1.0.2
 

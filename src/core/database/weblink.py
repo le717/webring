@@ -61,7 +61,7 @@ def update(data: OrderedDict) -> bool:
         return False
 
     db.session.query(WebLink).filter_by(id=data["id"]).update(
-        {k: Markup(v).striptags() for k, v in data.items()},
+        {k: Markup(v).striptags() for k, v in data.items() if k != "id"},
         synchronize_session="fetch",
     )
     db.session.commit()
