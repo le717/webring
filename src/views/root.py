@@ -1,6 +1,6 @@
 from typing import Any
 
-from flask import abort
+from flask import abort, request
 from flask.views import MethodView
 
 from src.blueprints import root
@@ -16,7 +16,7 @@ class WebRing(MethodView):
 
         This will return rotted links in the result set.
         """
-        return db.get_all(with_rotted=True)
+        return db.get_all(with_rotted=True, http_origin=request.headers.get("ORIGIN"))
 
     @root.arguments(models.AuthKey, location="query", as_kwargs=True)
     @root.arguments(models.WebLinkCreate, location="json", as_kwargs=True)

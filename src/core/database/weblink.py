@@ -1,6 +1,6 @@
 from datetime import datetime, timezone
 import uuid
-from typing import Optional, OrderedDict
+from typing import Any, Optional, OrderedDict
 
 from markupsafe import Markup
 
@@ -47,9 +47,15 @@ def get(uuid: str) -> Optional[WebLink]:
     return WebLink.query.filter_by(id=uuid).first()
 
 
-def get_all(with_rotted: bool = False) -> list[WebLink]:
+def get_all(with_rotted: bool = False, **kwargs: Any) -> list[WebLink]:
     """Get all weblinks."""
     filters = []
+
+    # Filter out the site in the weblink we are on
+    if "http_origin" in kwargs and kwargs["http_origin"] is not None:
+        filters.append(WebLink.url != kwargs["http_origin"])
+
+    # Remove all rotted links
     if not with_rotted:
         filters.append(WebLink.rotted != "yes")
     return WebLink.query.filter(*filters).all()
