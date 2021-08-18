@@ -52,8 +52,8 @@ def get_all(with_rotted: bool = False, **kwargs: Any) -> list[WebLink]:
     filters = []
 
     # Filter out the site in the weblink we are on
-    if "http_origin" in kwargs and kwargs["http_origin"] is not None:
-        filters.append(WebLink.url != kwargs["http_origin"])
+    if origin := kwargs.get("http_origin"):
+        filters.append(WebLink.url != origin)
 
     # Remove all rotted links
     if not with_rotted:
