@@ -30,7 +30,7 @@ def create_app():
     app.logger.addHandler(logger.file_handler("error-app.log"))
 
     # Enable Discord webhook event logging, falling back to a text log
-    if sys_vars.get_bool("ENABLE_DISCORD_LOGGING", default=False):
+    if sys_vars.get_bool("ENABLE_DISCORD_LOGGING"):
         logger.LINKROT.addHandler(logger.DiscordHandler())
     else:
         logger.LINKROT.addHandler(

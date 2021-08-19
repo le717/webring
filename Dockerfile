@@ -4,7 +4,8 @@ FROM python:3.9-alpine
 ENV PYTHONPATH=/app \
     SYS_VARS_PATH=/app/secrets \
     FLASK_APP=wsgi.py \
-    TIMES_FAILED_THRESHOLD=10
+    TIMES_FAILED_THRESHOLD=10 \
+    ENABLE_DISCORD_LOGGING=false
 
 # Copy the app files into the container
 RUN mkdir -p /app
