@@ -4,6 +4,7 @@ from typing import Any, Optional, OrderedDict
 
 from markupsafe import Markup
 
+from src.logger import LINKROT
 from src.core.database.schema import WebLink, db
 
 
@@ -24,6 +25,13 @@ def create(data: OrderedDict) -> dict:
     db.session.add(weblink)
     db.session.commit()
     db.session.refresh(weblink)
+    LINKROT.info(
+        {
+            "id": entry_id,
+            "url": weblink.url,
+            "message": "Link has been added to the webring.",
+        }
+    )
     return {"id": entry_id}
 
 
@@ -32,14 +40,21 @@ def delete(uuid: str) -> bool:
     if not exists(uuid):
         return False
 
-    db.session.delete(WebLink.query.filter_by(id=uuid).first())
+    db.session.delete(get(uuid))
     db.session.commit()
+    LINKROT.info(
+        {
+            "id": uuid,
+            "url": "N/A",
+            "message": "Link has been deleted from the webring.",
+        }
+    )
     return True
 
 
 def exists(uuid: str) -> bool:
     """Determine if a weblink exists."""
-    return WebLink.query.filter_by(id=uuid).first() is not None
+    return get(uuid) is not None
 
 
 def get(uuid: str) -> Optional[WebLink]:
@@ -71,4 +86,11 @@ def update(data: OrderedDict) -> bool:
         synchronize_session="fetch",
     )
     db.session.commit()
+    LINKROT.info(
+        {
+            "id": data["id"],
+            "url": "N/A",
+            "message": f"Link has been updated with the following info: `{data}`",
+        }
+    )
     return True

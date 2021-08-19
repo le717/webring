@@ -4,6 +4,7 @@ _Unreleased_
 
 - Remove currently viewed site from webring (#10)
 - Provide default `TIMES_FAILED_THRESHOLD` value
+- Add logging events when a link is added, updated, and removed
 
 # 1.0.3
 
