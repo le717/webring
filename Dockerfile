@@ -3,7 +3,8 @@ FROM python:3.9-alpine
 # Set any env values we need
 ENV PYTHONPATH=/app \
     SYS_VARS_PATH=/app/secrets \
-    FLASK_APP=wsgi.py
+    FLASK_APP=wsgi.py \
+    TIMES_FAILED_THRESHOLD=10
 
 # Copy the app files into the container
 RUN mkdir -p /app
