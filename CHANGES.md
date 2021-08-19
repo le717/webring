@@ -1,6 +1,6 @@
 # 1.0.4
 
-_Unreleased_
+_Released August 19, 2021_
 
 - Remove currently viewed site from webring (#10)
 - Provide default `TIMES_FAILED_THRESHOLD` value

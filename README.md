@@ -1,4 +1,4 @@
-# Arcana Webring
+# Webring
 
 > Because everything on the Web eventually loops back onto itself.
 
@@ -35,6 +35,6 @@
 
 ## License
 
-2021 Caleb Ely
+2021 Caleb
 
 [MIT](LICENSE)
