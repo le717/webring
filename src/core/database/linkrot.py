@@ -23,7 +23,12 @@ def __ping_url(url: str) -> bool:
     """Check a link for rotting."""
     try:
         r = requests.head(url)
-        return r.status_code == requests.codes.ok
+        return r.status_code in (
+            requests.codes.ok,
+            requests.codes.created,
+            requests.codes.no_content,
+            requests.codes.not_modified
+        )
     except Exception:
         return False
 

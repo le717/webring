@@ -1,3 +1,9 @@
+# 1.0.5
+
+_Unreleased_
+
+- Expand positive responses for dead link checking
+
 # 1.0.4
 
 _Released August 19, 2021_
