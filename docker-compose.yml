@@ -13,3 +13,4 @@ services:
     environment:
       - FLASK_ENV=production
       - TIMES_FAILED_THRESHOLD=5
+      - DB_PATH=/app/db/database.db
