@@ -146,14 +146,7 @@ def __record_failure(data: WebLink) -> Check:
 
     # The failure has occurred too often,
     # check the Web Archive for an archived URL
-    revised_info = {"id": data.id, "is_dead": 1}
-    LINKROT.critical(
-        {
-            "id": data.id,
-            "url": data.url,
-            "message": f"Link has been updated to indicate a dead link.",
-        }
-    )
+    revised_info = {"id": data.id}
     if wb_url := __ping_wayback_machine(data.url):
         revised_info["url"] = wb_url
         revised_info["is_web_archive"] = 1
