@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Webring"
-version = "1.0.4"
+version = "1.1.0"
 description = "Because everything on the Web eventually loops back onto itself."
 authors = ["Caleb <le717@users.noreply.github.com>"]
 license = "MIT"
@@ -15,6 +15,7 @@ SQLAlchemy = "^1.4.22"
 Flask-SQLAlchemy = "^2.5.1"
 requests = "^2.26.0"
 Flask-Cors = "^3.0.10"
+Flask-DB = "^0.3.2"
 
 [tool.poetry.dev-dependencies]
 black = "^21.7b0"

@@ -1,3 +1,10 @@
+# 1.1.0
+
+_Unreleased_
+
+- Added `Flask-DB` to handle database migrations
+- Updated project dependencies
+
 # 1.0.5
 
 _Released August 31, 2021_
