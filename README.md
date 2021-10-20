@@ -13,7 +13,7 @@
 ## Required Secrets
 
 - Flask secret key (`SECRET_KEY`)
-- SQLite path (`DB_PATH`)
+- Absolute path to SQLite file (`DB_PATH`)
 - JSON list of auth keys for all non-GET operations (`AUTH_KEYS`)
 - Integer number of times supposed rotted links should be checked (`TIMES_FAILED_THRESHOLD`, default: 10)
 - Discord linkrot event logging boolean (`ENABLE_DISCORD_LOGGING`, default: `False`)
