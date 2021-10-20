@@ -6,7 +6,7 @@ _Unreleased_
 - Add new `is_dead` and `is_web_archive` properties to link
 - Update link title to indicate Web Archive/dead link on the fly, not in the database
 - Update linkrot endpoint response to present updated information
-- Add `Flask-DB` to handle database migrations
+- Add [`Flask-DB`](https://github.com/nickjj/flask-db) to handle database migrations
 - Rename gunicorn logs to match traditional web server log names
 
 # 1.0.5
