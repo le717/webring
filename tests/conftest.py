@@ -15,7 +15,8 @@ def app():
     os.environ["AUTH_KEYS"] = f'["{VALID_AUTH}"]'
     os.environ["SECRET_KEY"] = "testing-secret-key"
     os.environ["TIMES_FAILED_THRESHOLD"] = "3"
-    os.makedirs("tests/db")
+    os.environ["ENABLE_DISCORD_LOGGING"] = "false"
+    os.makedirs("tests/db", exist_ok=True)
 
     app = create_app()
     yield app

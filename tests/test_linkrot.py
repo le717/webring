@@ -1,7 +1,7 @@
 from tests import helpers
 
 
-def test_single_link_rot_maybe(client):
+def test_single_link_single_fail(client):
     """Ensure a dead link is flagged as rotten status of 'maybe'."""
     creation = client.post(
         helpers.authed_request("/", auth=helpers.VALID_AUTH),
@@ -24,10 +24,12 @@ def test_single_link_rot_maybe(client):
     assert response.status_code == 200
     assert response_data["id"] == item_id
     assert response_data["url"] == helpers.item_dead_url()["url"]
-    assert response_data["result"] == "maybe"
+    assert response_data["result"]["times_failed"] == 1
+    assert response_data["result"]["is_dead"] == False
+    assert response_data["result"]["is_web_archive"] == False
 
 
-def test_single_link_rot_yes(client):
+def test_single_link_is_dead(client):
     """Ensure a dead link is flagged as rotten status of 'yes'."""
     creation = client.post(
         helpers.authed_request("/", auth=helpers.VALID_AUTH),
@@ -43,4 +45,6 @@ def test_single_link_rot_yes(client):
     assert response.status_code == 200
     assert response_data["id"] == item_id
     assert response_data["url"] == helpers.item_dead_url()["url"]
-    assert response_data["result"] == "yes"
+    assert response_data["result"]["times_failed"] == 0
+    assert response_data["result"]["is_dead"] == True
+    assert response_data["result"]["is_web_archive"] == False
