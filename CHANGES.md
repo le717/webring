@@ -2,8 +2,10 @@
 
 _Unreleased_
 
+- Remove `rotted` property on a link
 - Add new `is_dead` and `is_web_archive` properties to link
-- Alter link title to indicate Web Archive/dead link on the fly
+- Update link title to indicate Web Archive/dead link on the fly, not in the database
+- Update linkrot endpoint response to present updated information
 - Add `Flask-DB` to handle database migrations
 - Rename gunicorn logs to match traditional web server log names
 
