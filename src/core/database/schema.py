@@ -16,7 +16,6 @@ class WebLink(db.Model):
     title = Column(String, nullable=False)
     description = Column(String, nullable=False)
     url = Column(String, nullable=False)
-    rotted = Column(String, nullable=False)
     date_added = Column(DateTime, nullable=False)
     is_dead = Column(Integer, nullable=False, server_default="0")
     is_web_archive = Column(Integer, nullable=False, server_default="0")

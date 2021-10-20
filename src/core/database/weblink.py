@@ -19,7 +19,6 @@ def create(data: OrderedDict) -> dict:
         title=Markup(data["title"]).striptags(),
         description=Markup(data["description"]).striptags(),
         url=Markup(data["url"]).striptags(),
-        rotted="no",
         date_added=datetime.now(timezone.utc),
     )
     db.session.add(weblink)

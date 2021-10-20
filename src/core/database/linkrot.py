@@ -93,7 +93,6 @@ def check_one(uuid: str) -> RotResult:
             weblink.update(
                 {
                     "id": link.id,
-                    "rotted": RotStates.NO.value,
                     "is_dead_link": False,
                     "is_web_archive_link": False,
                 }
@@ -114,7 +113,6 @@ def __record_failure(data: WebLink) -> RotStates:
     existing = __get(data.id)
     if existing is None:
         __create(data)
-        weblink.update({"id": data.id, "rotted": RotStates.MAYBE.value})
         LINKROT.error(
             {
                 "id": data.id,
@@ -138,7 +136,7 @@ def __record_failure(data: WebLink) -> RotStates:
 
     # The failure has occurred too often,
     # check the Web Archive for an archived URL
-    revised_info = {"id": data.id, "rotted": RotStates.YES.value, "is_dead_link": True}
+    revised_info = {"id": data.id, "is_dead_link": True}
     LINKROT.critical(
         {
             "id": data.id,
