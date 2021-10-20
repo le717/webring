@@ -3,9 +3,11 @@
 .vscode/
 .mypy_cache/
 __pycache__/
-database.db
+database/
+db/
 tests/
-backup/
 testing/
 node_modules/
 *.md
+.env
+database.db

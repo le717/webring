@@ -2,8 +2,8 @@
 
 _Unreleased_
 
-- Remove `rotted` property on a link
-- Add new `is_dead` and `is_web_archive` properties to link
+- Remove `rotted` property from a link
+- Add new `is_dead` and `is_web_archive` properties to a link
 - Update link title to indicate Web Archive/dead link on the fly, not in the database
 - Update linkrot endpoint response to present updated information
 - Add [`Flask-DB`](https://github.com/nickjj/flask-db) to handle database migrations
