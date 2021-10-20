@@ -13,15 +13,17 @@ class WebLink(db.Model):
     __tablename__ = "weblinks"
 
     id = Column(String, primary_key=True)
-    title = Column(String)
-    description = Column(String)
-    url = Column(String)
-    rotted = Column(String)
-    date_added = Column(DateTime)
+    title = Column(String, nullable=False)
+    description = Column(String, nullable=False)
+    url = Column(String, nullable=False)
+    rotted = Column(String, nullable=False)
+    date_added = Column(DateTime, nullable=False)
+    is_dead = Column(Integer, nullable=False, server_default="0")
+    is_web_archive = Column(Integer, nullable=False, server_default="0")
 
 
 class RottedLinks(db.Model):
     __tablename__ = "rotted_links"
 
     id = Column(String, primary_key=True)
-    times_failed = Column(Integer)
+    times_failed = Column(Integer, nullable=False)
