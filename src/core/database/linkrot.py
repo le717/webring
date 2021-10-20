@@ -7,16 +7,21 @@ import sys_vars
 from src.logger import LINKROT
 from src.core.database import weblink
 from src.core.database.schema import RottedLinks, WebLink, db
-from src.core.models.RotStates import RotStates
 
 
 __all__ = ["check_all", "check_one", "delete"]
 
 
+class Check(TypedDict):
+    times_failed: int
+    is_dead: bool
+    is_web_archive: bool
+
+
 class RotResult(TypedDict):
     id: str
     url: str
-    result: str
+    result: Check
 
 
 def __ping_url(url: str) -> bool:
@@ -79,7 +84,11 @@ def check_one(uuid: str) -> RotResult:
     # The site could be pinged, so we all good
     link = weblink.get(uuid)
     if __ping_url(link.url):
-        result = RotResult(id=link.id, url=link.url, result=RotStates.NO.value)
+        result = RotResult(
+            id=link.id,
+            url=link.url,
+            result=Check(times_failed=0, is_dead=False, is_web_archive=False),
+        )
 
         # A rotten link has been revived
         if delete(uuid):
@@ -93,21 +102,20 @@ def check_one(uuid: str) -> RotResult:
             weblink.update(
                 {
                     "id": link.id,
-                    "is_dead_link": False,
-                    "is_web_archive_link": False,
+                    "is_dead": 0,
+                    "is_web_archive": 0,
                 }
             )
 
     # We could not ping the site, decide the next step
     else:
-        result = RotResult(
-            id=link.id, url=link.url, result=__record_failure(link).value
-        )
+        result = RotResult(id=link.id, url=link.url, result=__record_failure(link))
     return result
 
 
-def __record_failure(data: WebLink) -> RotStates:
+def __record_failure(data: WebLink) -> Check:
     TIMES_FAILED_THRESHOLD = sys_vars.get_int("TIMES_FAILED_THRESHOLD")
+    result = Check(times_failed=0, is_dead=False, is_web_archive=False)
 
     # We don't have an existing failure record, so make one
     existing = __get(data.id)
@@ -120,7 +128,8 @@ def __record_failure(data: WebLink) -> RotStates:
                 "message": "Linkrot check failure #1.",
             }
         )
-        return RotStates.MAYBE
+        result["times_failed"] = 1
+        return result
 
     # We have an existing failure record, update the failure count
     if (existing.times_failed + 1) < TIMES_FAILED_THRESHOLD:
@@ -132,11 +141,12 @@ def __record_failure(data: WebLink) -> RotStates:
                 "message": f"Linkrot check failure #{existing.times_failed}.",
             }
         )
-        return RotStates.MAYBE
+        result["times_failed"] = existing.times_failed
+        return result
 
     # The failure has occurred too often,
     # check the Web Archive for an archived URL
-    revised_info = {"id": data.id, "is_dead_link": True}
+    revised_info = {"id": data.id, "is_dead": 1}
     LINKROT.critical(
         {
             "id": data.id,
@@ -146,7 +156,8 @@ def __record_failure(data: WebLink) -> RotStates:
     )
     if wb_url := __ping_wayback_machine(data.url):
         revised_info["url"] = wb_url
-        revised_info["is_web_archive_link"] = True
+        revised_info["is_web_archive"] = 1
+        result["is_web_archive"] = True
         LINKROT.critical(
             {
                 "id": data.id,
@@ -157,7 +168,8 @@ def __record_failure(data: WebLink) -> RotStates:
 
     # An archive url doesn't exist, mark as a dead link
     else:
-        revised_info["is_dead"] = True
+        revised_info["is_dead"] = 1
+        result["is_dead"] = True
         LINKROT.critical(
             {
                 "id": data.id,
@@ -168,4 +180,4 @@ def __record_failure(data: WebLink) -> RotStates:
 
     # Update the dead link
     weblink.update(revised_info)
-    return RotStates.YES
+    return result

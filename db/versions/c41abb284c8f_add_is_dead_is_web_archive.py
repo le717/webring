@@ -1,4 +1,4 @@
-"""add is_dead_link, is_web_archive_link columns
+"""add is_dead, is_web_archive columns
 
 Revision ID: c41abb284c8f
 Revises:
