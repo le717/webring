@@ -21,6 +21,8 @@ class WebLink(Schema):
     url = fields.Url()
     rotted = fields.String(validate=validate_rot_status)
     date_added = fields.DateTime(format="iso")
+    is_dead = fields.Boolean()
+    is_web_archive = fields.Boolean()
 
 
 class WebLinkCreate(Schema):
@@ -38,3 +40,5 @@ class WebLinkUpdate(Schema):
     description = fields.String()
     url = fields.Url()
     rotted = fields.String(validate=validate_rot_status)
+    is_dead = fields.Boolean()
+    is_web_archive = fields.Boolean()
