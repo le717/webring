@@ -1,7 +1,6 @@
-from marshmallow import fields, validate
+from marshmallow import fields, Schema
 import sys_vars
 
-from src.core.models import OrderedSchema
 
 AUTH_KEYS = sys_vars.get_json("AUTH_KEYS")
 
@@ -9,7 +8,7 @@ AUTH_KEYS = sys_vars.get_json("AUTH_KEYS")
 __all__ = ["AuthKey"]
 
 
-class AuthKey(OrderedSchema):
+class AuthKey(Schema):
     auth_key = fields.String(
         required=True,
         validate=lambda x: x in AUTH_KEYS,

@@ -1,12 +1,10 @@
-from marshmallow import fields
-
-from src.core.models import OrderedSchema
+from marshmallow import fields, Schema
 
 
 __all__ = ["RotResult"]
 
 
-class RotResult(OrderedSchema):
+class RotResult(Schema):
     id = fields.UUID()
     url = fields.Url()
     result = fields.String()

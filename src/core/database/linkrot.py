@@ -27,7 +27,7 @@ def __ping_url(url: str) -> bool:
             requests.codes.ok,
             requests.codes.created,
             requests.codes.no_content,
-            requests.codes.not_modified
+            requests.codes.not_modified,
         )
     except Exception:
         return False

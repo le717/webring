@@ -1,6 +1,5 @@
-from marshmallow import fields, ValidationError
+from marshmallow import fields, Schema, ValidationError
 
-from src.core.models import OrderedSchema
 from src.core.models.RotStates import RotStates
 
 
@@ -15,7 +14,7 @@ def validate_rot_status(value: str) -> bool:
         raise ValidationError("Linkrot status must be an acceptable value.")
 
 
-class WebLink(OrderedSchema):
+class WebLink(Schema):
     id = fields.UUID()
     title = fields.String()
     description = fields.String()
@@ -24,17 +23,17 @@ class WebLink(OrderedSchema):
     date_added = fields.DateTime(format="iso")
 
 
-class WebLinkCreate(OrderedSchema):
+class WebLinkCreate(Schema):
     title = fields.String(required=True)
     description = fields.String(required=True)
     url = fields.Url(required=True)
 
 
-class WebLinkId(OrderedSchema):
+class WebLinkId(Schema):
     id = fields.UUID(required=True)
 
 
-class WebLinkUpdate(OrderedSchema):
+class WebLinkUpdate(Schema):
     title = fields.String()
     description = fields.String()
     url = fields.Url()
