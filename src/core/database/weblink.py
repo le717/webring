@@ -72,7 +72,7 @@ def get_all(with_rotted: bool = False, **kwargs: Any) -> list[WebLink]:
 
     # Remove all rotted links
     if not with_rotted:
-        filters.append(WebLink.rotted != "yes")
+        filters.append(WebLink.is_dead != "1")
     wbs = WebLink.query.filter(*filters).all()
 
     # Adjust the title of the link depending on status
