@@ -2,8 +2,10 @@
 
 _Unreleased_
 
-- Added `Flask-DB` to handle database migrations
-- Updated project dependencies
+- Add new `is_dead` and `is_web_archive` properties to link
+- Alter link title to indicate Web Archive/dead link on the fly
+- Add `Flask-DB` to handle database migrations
+- Rename gunicorn logs to match traditional web server log names
 
 # 1.0.5
 
