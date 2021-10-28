@@ -1,13 +1,15 @@
 # 1.1.0
 
-_Unreleased_
+_Released October 28, 2021_
 
 - Remove `rotted` property from a link
 - Add new `is_dead` and `is_web_archive` properties to a link
 - Update link title to indicate Web Archive/dead link on the fly, not in the database
 - Update linkrot endpoint response to present updated information
 - Add [`Flask-DB`](https://github.com/nickjj/flask-db) to handle database migrations
+- Run database migrations automatically when needed
 - Rename gunicorn logs to match traditional web server log names
+- Remove duplicated error log
 
 # 1.0.5
 
