@@ -1,6 +1,4 @@
-from os import fspath
 from importlib import import_module
-import logging
 
 from alembic import command
 from alembic.config import Config
@@ -27,9 +25,6 @@ def create_app():
     # Don't enable API docs in prod
     if app.config["ENV"] == "production":
         app.config["OPENAPI_URL_PREFIX"] = None
-
-    # Add a file logger to record errors
-    app.logger.addHandler(logger.file_handler("error-app.log"))
 
     # Enable Discord webhook event logging, falling back to a text log
     if sys_vars.get_bool("ENABLE_DISCORD_LOGGING"):
