@@ -5,7 +5,8 @@ ENV PYTHONPATH=/app \
     SYS_VARS_PATH=/app/secrets \
     FLASK_APP=wsgi.py \
     TIMES_FAILED_THRESHOLD=10 \
-    ENABLE_DISCORD_LOGGING=false
+    ENABLE_DISCORD_LOGGING=false \
+    DB_PATH=./database/database.db
 
 # Copy the app files into the container
 RUN mkdir -p /app
