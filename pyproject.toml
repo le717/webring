@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "Webring"
-version = "1.1.0"
+version = "1.1.1"
 description = "Because everything on the Web eventually loops back onto itself."
 authors = ["Caleb <le717@users.noreply.github.com>"]
 license = "MIT"

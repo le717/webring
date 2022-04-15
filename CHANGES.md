@@ -1,3 +1,10 @@
+# 1.1.1
+
+_Released  April 15, 2022_
+
+- Update Python version to 3.10
+- Update all dependencies to their latest versions
+
 # 1.1.0
 
 _Released October 28, 2021_
