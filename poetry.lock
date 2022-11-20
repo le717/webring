@@ -15,19 +15,23 @@ tz = ["python-dateutil"]
 
 [[package]]
 name = "apispec"
-version = "5.2.2"
+version = "6.0.2"
 description = "A pluggable API specification generator. Currently supports the OpenAPI Specification (f.k.a. the Swagger specification)."
 category = "main"
 optional = false
 python-versions = ">=3.7"
 
+[package.dependencies]
+marshmallow = {version = ">=3.18.0", optional = true, markers = "extra == \"marshmallow\""}
+packaging = ">=21.3"
+
 [package.extras]
-dev = ["PyYAML (>=3.10)", "flake8 (==4.0.1)", "flake8-bugbear (==22.4.25)", "marshmallow (>=3.13.0)", "mock", "mypy (==0.950)", "prance[osv] (>=0.11)", "pre-commit (>=2.4,<3.0)", "pytest", "tox", "types-PyYAML"]
-docs = ["marshmallow (>=3.13.0)", "pyyaml (==6.0)", "sphinx (==4.5.0)", "sphinx-issues (==3.0.1)", "sphinx-rtd-theme (==1.0.0)"]
-lint = ["flake8 (==4.0.1)", "flake8-bugbear (==22.4.25)", "mypy (==0.950)", "pre-commit (>=2.4,<3.0)", "types-PyYAML"]
-marshmallow = ["marshmallow (>=3.13.0)"]
-tests = ["PyYAML (>=3.10)", "marshmallow (>=3.13.0)", "mock", "prance[osv] (>=0.11)", "pytest"]
-validation = ["prance[osv] (>=0.11)"]
+dev = ["PyYAML (>=3.10)", "flake8 (==5.0.4)", "flake8-bugbear (==22.9.23)", "marshmallow (>=3.13.0)", "mypy (==0.982)", "openapi-spec-validator (<0.5)", "prance[osv] (>=0.11)", "pre-commit (>=2.4,<3.0)", "pytest", "tox", "types-PyYAML"]
+docs = ["marshmallow (>=3.13.0)", "pyyaml (==6.0)", "sphinx (==5.2.3)", "sphinx-issues (==3.0.1)", "sphinx-rtd-theme (==1.0.0)"]
+lint = ["flake8 (==5.0.4)", "flake8-bugbear (==22.9.23)", "mypy (==0.982)", "pre-commit (>=2.4,<3.0)", "types-PyYAML"]
+marshmallow = ["marshmallow (>=3.18.0)"]
+tests = ["PyYAML (>=3.10)", "marshmallow (>=3.13.0)", "openapi-spec-validator (<0.5)", "prance[osv] (>=0.11)", "pytest"]
+validation = ["openapi-spec-validator (<0.5)", "prance[osv] (>=0.11)"]
 yaml = ["PyYAML (>=3.10)"]
 
 [[package]]
@@ -116,7 +120,7 @@ test = ["pytest (>=6)"]
 
 [[package]]
 name = "flask"
-version = "2.1.3"
+version = "2.2.2"
 description = "A simple framework for building complex web applications."
 category = "main"
 optional = false
@@ -126,7 +130,7 @@ python-versions = ">=3.7"
 click = ">=8.0"
 itsdangerous = ">=2.0"
 Jinja2 = ">=3.0"
-Werkzeug = ">=2.0"
+Werkzeug = ">=2.2.2"
 
 [package.extras]
 async = ["asgiref (>=3.2)"]
@@ -161,30 +165,35 @@ SQLAlchemy-Utils = "*"
 
 [[package]]
 name = "flask-smorest"
-version = "0.32.0"
+version = "0.40.0"
 description = "Flask/Marshmallow-based REST API framework"
 category = "main"
 optional = false
-python-versions = ">=3.6"
+python-versions = ">=3.7"
 
 [package.dependencies]
-apispec = ">=5.0.0,<6"
+apispec = {version = ">=6.0.0,<7", extras = ["marshmallow"]}
 flask = ">=2.0,<3"
-marshmallow = ">=3.13.0,<4"
+marshmallow = ">=3.18.0,<4"
 webargs = ">=8.0.0,<9"
 werkzeug = ">=2.0,<3"
 
+[package.extras]
+dev = ["PyYAML (==6.0)", "apispec (==6.0.0)", "coverage (==6.5.0)", "flake8 (==5.0.4)", "flake8-bugbear (==22.9.23)", "flask (==2.2.2)", "marshmallow (==3.18.0)", "pre-commit (==2.20.0)", "pytest (==7.1.3)", "pytest-cov (==4.0.0)", "webargs (==8.2.0)", "werkzeug (==2.2.2)"]
+lint = ["flake8 (==5.0.4)", "flake8-bugbear (==22.9.23)", "pre-commit (==2.20.0)"]
+tests = ["PyYAML (==6.0)", "apispec (==6.0.0)", "coverage (==6.5.0)", "flask (==2.2.2)", "marshmallow (==3.18.0)", "pytest (==7.1.3)", "pytest-cov (==4.0.0)", "webargs (==8.2.0)", "werkzeug (==2.2.2)"]
+
 [[package]]
 name = "flask-sqlalchemy"
-version = "2.5.1"
-description = "Adds SQLAlchemy support to your Flask application."
+version = "3.0.2"
+description = "Add SQLAlchemy support to your Flask application."
 category = "main"
 optional = false
-python-versions = ">= 2.7, != 3.0.*, != 3.1.*, != 3.2.*, != 3.3.*"
+python-versions = ">=3.7"
 
 [package.dependencies]
-Flask = ">=0.10"
-SQLAlchemy = ">=0.8.0"
+Flask = ">=2.2"
+SQLAlchemy = ">=1.4.18"
 
 [[package]]
 name = "greenlet"
@@ -397,11 +406,11 @@ testing = ["argcomplete", "hypothesis (>=3.56)", "mock", "nose", "pygments (>=2.
 
 [[package]]
 name = "python-dotenv"
-version = "0.19.2"
+version = "0.21.0"
 description = "Read key-value pairs from a .env file and set them as environment variables"
 category = "main"
 optional = false
-python-versions = ">=3.5"
+python-versions = ">=3.7"
 
 [package.extras]
 cli = ["click (>=5.0)"]
@@ -504,14 +513,14 @@ url = ["furl (>=0.4.1)"]
 
 [[package]]
 name = "sys-vars"
-version = "4.0.3"
+version = "5.0.0"
 description = "Access system variables in your code as native Python data types."
 category = "main"
 optional = false
-python-versions = ">=3.7,<4.0"
+python-versions = ">=3.8,<4.0"
 
 [package.dependencies]
-python-dotenv = ">=0.19.0,<0.20.0"
+python-dotenv = ">=0.21.0,<0.22.0"
 
 [[package]]
 name = "tomli"
@@ -578,7 +587,7 @@ watchdog = ["watchdog"]
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.10"
-content-hash = "55c0531da77193701e0d7a524d3784816bf7b6e1a194bbfa06daf9d89f5d00a7"
+content-hash = "0b9882545faf8df4240c76e84265b95c17ba4cd9d8939f981afee4ea9acff8dc"
 
 [metadata.files]
 alembic = [
@@ -586,8 +595,8 @@ alembic = [
     {file = "alembic-1.8.1.tar.gz", hash = "sha256:cd0b5e45b14b706426b833f06369b9a6d5ee03f826ec3238723ce8caaf6e5ffa"},
 ]
 apispec = [
-    {file = "apispec-5.2.2-py3-none-any.whl", hash = "sha256:f5f0d6b452c3e4a0e0922dce8815fac89dc4dbc758acef21fb9e01584d6602a5"},
-    {file = "apispec-5.2.2.tar.gz", hash = "sha256:6ea6542e1ebffe9fd95ba01ef3f51351eac6c200a974562c7473059b9cd20aa7"},
+    {file = "apispec-6.0.2-py3-none-any.whl", hash = "sha256:d97f0ae9c65133185b9ed9c5be1a434eb85627dfa33c4c53cabda122256c1b67"},
+    {file = "apispec-6.0.2.tar.gz", hash = "sha256:e76d80b739edef4be213092a6384ad7fd933ba7d64f6d5a0aff8d4da1bef7887"},
 ]
 attrs = [
     {file = "attrs-22.1.0-py2.py3-none-any.whl", hash = "sha256:86efa402f67bf2df34f51a335487cf46b1ec130d02b8d39fd248abfd30da551c"},
@@ -637,8 +646,8 @@ exceptiongroup = [
     {file = "exceptiongroup-1.0.4.tar.gz", hash = "sha256:bd14967b79cd9bdb54d97323216f8fdf533e278df937aa2a90089e7d6e06e5ec"},
 ]
 flask = [
-    {file = "Flask-2.1.3-py3-none-any.whl", hash = "sha256:9013281a7402ad527f8fd56375164f3aa021ecfaff89bfe3825346c24f87e04c"},
-    {file = "Flask-2.1.3.tar.gz", hash = "sha256:15972e5017df0575c3d6c090ba168b6db90259e620ac8d7ea813a396bad5b6cb"},
+    {file = "Flask-2.2.2-py3-none-any.whl", hash = "sha256:b9c46cc36662a7949f34b52d8ec7bb59c0d74ba08ba6cb9ce9adc1d8676d9526"},
+    {file = "Flask-2.2.2.tar.gz", hash = "sha256:642c450d19c4ad482f96729bd2a8f6d32554aa1e231f4f6b4e7e5264b16cca2b"},
 ]
 flask-cors = [
     {file = "Flask-Cors-3.0.10.tar.gz", hash = "sha256:b60839393f3b84a0f3746f6cdca56c1ad7426aa738b70d6c61375857823181de"},
@@ -648,12 +657,12 @@ flask-db = [
     {file = "Flask-DB-0.3.2.tar.gz", hash = "sha256:bf2c9e161fb415129c1ef251852ba26f84a7a53601ec100609d82a231e34fd12"},
 ]
 flask-smorest = [
-    {file = "flask-smorest-0.32.0.tar.gz", hash = "sha256:bf3d090d8490744ddb242a3dfef8b0d8f5d548548c9563815fe8a785ae91de93"},
-    {file = "flask_smorest-0.32.0-py3-none-any.whl", hash = "sha256:f45f17501984a39189f28ba396edf6ad3f387988c3dcd9ac183136916e8bb469"},
+    {file = "flask-smorest-0.40.0.tar.gz", hash = "sha256:9b46b4937ccf78702d99fed8cfd1cd5c37608ddefd65ff16a86d1ad5c7f7d8c0"},
+    {file = "flask_smorest-0.40.0-py3-none-any.whl", hash = "sha256:b7122837a698bf63266a66880baeeef2bc8c57704973d81b9d0c6cb595af6a79"},
 ]
 flask-sqlalchemy = [
-    {file = "Flask-SQLAlchemy-2.5.1.tar.gz", hash = "sha256:2bda44b43e7cacb15d4e05ff3cc1f8bc97936cc464623424102bfc2c35e95912"},
-    {file = "Flask_SQLAlchemy-2.5.1-py2.py3-none-any.whl", hash = "sha256:f12c3d4cc5cc7fdcc148b9527ea05671718c3ea45d50c7e732cceb33f574b390"},
+    {file = "Flask-SQLAlchemy-3.0.2.tar.gz", hash = "sha256:16199f5b3ddfb69e0df2f52ae4c76aedbfec823462349dabb21a1b2e0a2b65e9"},
+    {file = "Flask_SQLAlchemy-3.0.2-py3-none-any.whl", hash = "sha256:7d0cd9cf73e64a996bb881a1ebd01633fc5a6d11c36ea27f7b5e251dc45476e7"},
 ]
 greenlet = [
     {file = "greenlet-2.0.1-cp27-cp27m-macosx_10_14_x86_64.whl", hash = "sha256:9ed358312e63bf683b9ef22c8e442ef6c5c02973f0c2a939ec1d7b50c974015c"},
@@ -848,8 +857,8 @@ pytest = [
     {file = "pytest-7.2.0.tar.gz", hash = "sha256:c4014eb40e10f11f355ad4e3c2fb2c6c6d1919c73f3b5a433de4708202cade59"},
 ]
 python-dotenv = [
-    {file = "python-dotenv-0.19.2.tar.gz", hash = "sha256:a5de49a31e953b45ff2d2fd434bbc2670e8db5273606c1e737cc6b93eff3655f"},
-    {file = "python_dotenv-0.19.2-py2.py3-none-any.whl", hash = "sha256:32b2bdc1873fd3a3c346da1c6db83d0053c3c62f28f1f38516070c4c8971b1d3"},
+    {file = "python-dotenv-0.21.0.tar.gz", hash = "sha256:b77d08274639e3d34145dfa6c7008e66df0f04b7be7a75fd0d5292c191d79045"},
+    {file = "python_dotenv-0.21.0-py3-none-any.whl", hash = "sha256:1684eb44636dd462b66c3ee016599815514527ad99965de77f43e0944634a7e5"},
 ]
 requests = [
     {file = "requests-2.28.1-py3-none-any.whl", hash = "sha256:8fefa2a1a1365bf5520aac41836fbee479da67864514bdb821f31ce07ce65349"},
@@ -911,8 +920,8 @@ sqlalchemy-utils = [
     {file = "SQLAlchemy_Utils-0.38.3-py3-none-any.whl", hash = "sha256:5c13b5d08adfaa85f3d4e8ec09a75136216fad41346980d02974a70a77988bf9"},
 ]
 sys-vars = [
-    {file = "sys-vars-4.0.3.tar.gz", hash = "sha256:608d6bfce1c7e3faff37f0ff806a41f3d3c90641bedfd80390035949f59a860f"},
-    {file = "sys_vars-4.0.3-py3-none-any.whl", hash = "sha256:16f6d09298150abd5c17dde228f06daf163cb3ee9e8cff5011d1353540813122"},
+    {file = "sys_vars-5.0.0-py3-none-any.whl", hash = "sha256:4a621425f422493987d4859d73ce8358cf59413818d661e0a63a287fc7a473a6"},
+    {file = "sys_vars-5.0.0.tar.gz", hash = "sha256:6635d92e060c759fc6ade0c10b7cab12d922de80fbd087231180120cc16e74ce"},
 ]
 tomli = [
     {file = "tomli-2.0.1-py3-none-any.whl", hash = "sha256:939de3e7a6161af0c887ef91b7d41a53e7c5a1ca976325f429cb46ea9bc30ecc"},
