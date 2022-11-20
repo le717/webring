@@ -4,7 +4,7 @@ from typing import Literal, TypedDict, Union
 import requests
 import sys_vars
 
-from src.logger import LINKROT
+from src.core.logger import LINKROT
 from src.core.database import weblink
 from src.core.database.schema import RottedLinks, WebLink, db
 

@@ -4,7 +4,7 @@ from typing import Any, Optional, OrderedDict
 
 from markupsafe import Markup
 
-from src.logger import LINKROT
+from src.core.logger import LINKROT
 from src.core.database.schema import WebLink, db
 
 

@@ -7,7 +7,7 @@ from flask_cors import CORS
 from flask_smorest import Api
 import sys_vars
 
-from src import logger
+from src.core import logger
 from src.blueprints import all_blueprints
 from src.core.database.schema import db
 
