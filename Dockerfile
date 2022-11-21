@@ -1,4 +1,4 @@
-FROM python:3.10-alpine
+FROM python:3.10-slim
 
 # Set any env values we need
 ENV PYTHONPATH=/app \
@@ -14,14 +14,12 @@ COPY . /app
 WORKDIR /app
 
 # Install required deps
-RUN apk add --no-cache g++ && \
-    python3 -m pip install pip --upgrade && \
-    pip3 install --no-cache-dir toml && \
-    python3 ./get-requirements.py && \
-    pip3 install --no-cache-dir -r requirements.txt && \
+RUN python -m pip install pip --upgrade && \
+    pip install --no-cache-dir toml && \
+    python ./get-requirements.py && \
+    pip install --no-cache-dir -r requirements.txt && \
     rm ./requirements.txt && \
-    chmod u+x ./run-app.sh && \
-    apk del g++
+    chmod u+x ./run-app.sh
 
 # Start the app
 ENTRYPOINT [ "sh", "./run-app.sh" ]
