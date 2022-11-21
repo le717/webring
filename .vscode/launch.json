@@ -11,6 +11,7 @@
       "module": "flask",
       "console": "internalConsole",
       "jinja": false,
+      "justMyCode": true,
       "env": {
         "FLASK_APP": "wsgi.py",
         "FLASK_ENV": "development",

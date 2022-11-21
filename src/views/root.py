@@ -41,7 +41,7 @@ class WebRing(MethodView):
     @root.arguments(models.WebLinkId, location="path", as_kwargs=True)
     @root.arguments(models.WebLinkUpdate, location="json", as_kwargs=True)
     @root.response(204, models.Empty)
-    @root.alt_response(400, models.HttpError)
+    @root.alt_response(400, schema=models.HttpError)
     def patch(self, **kwargs: Any):
         """Update a webring item."""
         del kwargs["auth_key"]

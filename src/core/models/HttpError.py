@@ -1,13 +1,13 @@
-import marshmallow as ma
+from marshmallow import fields, Schema
 
 
 __all__ = ["HttpError"]
 
 
-class HttpError(ma.Schema):
+class HttpError(Schema):
     """Simple HTTP error schema."""
 
-    code = ma.fields.Integer()
-    status = ma.fields.String()
-    message = ma.fields.String()
-    errors = ma.fields.Dict()
+    code = fields.Integer()
+    status = fields.String()
+    message = fields.String()
+    errors = fields.Dict()
