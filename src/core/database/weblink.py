@@ -58,7 +58,7 @@ def exists(uuid: str) -> bool:
 
 def get(uuid: str) -> Optional[WebLink]:
     """Get a single weblink."""
-    return WebLink.query.filter_by(id=uuid).first()
+    return db.session.execute(db.select(WebLink).filter_by(id=uuid)).scalars().first()
 
 
 def get_all(with_rotted: bool = False, **kwargs: Any) -> list[WebLink]:
@@ -72,7 +72,7 @@ def get_all(with_rotted: bool = False, **kwargs: Any) -> list[WebLink]:
     # Remove all rotted links
     if not with_rotted:
         filters.append(WebLink.is_dead != "1")
-    wbs = WebLink.query.filter(*filters).all()
+    wbs = db.session.execute(db.select(WebLink).filter(*filters)).scalars().all()
 
     # Adjust the title of the link depending on status
     for wb in wbs:

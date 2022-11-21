@@ -1,6 +1,6 @@
 import json
 from urllib.parse import urlencode
-from typing import Any, Union
+from typing import Any
 
 
 __all__ = [
@@ -27,11 +27,11 @@ def authed_request(*args: str, **kwargs: Any) -> str:
     return f"{endpoint}?{__auth_key(kwargs['auth'])}".replace("//", "/")
 
 
-def from_json(data: str) -> Union[dict, list]:
+def from_json(data: str) -> dict | list:
     return json.loads(data)
 
 
-def to_json(data: Union[dict, list]) -> str:
+def to_json(data: dict | list) -> str:
     return json.dumps(data)
 
 

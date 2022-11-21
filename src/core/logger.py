@@ -2,7 +2,6 @@ from datetime import datetime
 import logging
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
-from typing import Union
 
 from flask import request
 import requests

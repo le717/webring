@@ -1,5 +1,5 @@
 import re
-from typing import Literal, TypedDict, Union
+from typing import Literal, TypedDict
 
 import requests
 import sys_vars
@@ -38,7 +38,7 @@ def __ping_url(url: str) -> bool:
         return False
 
 
-def __ping_wayback_machine(url: str) -> Union[Literal[False], str]:
+def __ping_wayback_machine(url: str) -> Literal[False] | str:
     """Check the Web Archive for an archived URL."""
     r = requests.get(f"https://archive.org/wayback/available?url={url}").json()
     if not r["archived_snapshots"]:
@@ -55,7 +55,9 @@ def __create(data: WebLink) -> Literal[True]:
 
 
 def __get(uuid: str) -> RottedLinks:
-    return RottedLinks.query.filter_by(id=uuid).first()
+    return (
+        db.session.execute(db.select(RottedLinks).filter_by(id=uuid)).scalars().first()
+    )
 
 
 def __update(data: RottedLinks) -> Literal[True]:
