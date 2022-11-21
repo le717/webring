@@ -1,3 +1,13 @@
+# 1.2.0
+
+_Released November 20, 2022_
+
+- Switch to Docker image `python:3.10-slim`
+- Update Poetry dependency process to v1.2.0+
+- Update all dependencies to their latest versions
+- Minor fixes to conform to third-party libraries updates
+
+
 # 1.1.1
 
 _Released  April 15, 2022_
