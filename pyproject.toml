@@ -14,7 +14,7 @@ gunicorn = "^22.0.0"
 sqlalchemy = "^1.4.44"
 flask-sqlalchemy = "^3.0.2"
 requests = "^2.32.0"
-flask-cors = "^3.0.10"
+flask-cors = "^4.0.1"
 flask-db = "^0.3.2"
 
 [tool.poetry.group.dev]
