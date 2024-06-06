@@ -55,6 +55,7 @@ def run_migrations_online():
     In this scenario we need to create an Engine and associate a connection
     with the context.
     """
+
     # If you use Alembic revision's --autogenerate flag this function will
     # prevent Alembic from creating an empty migration file if nothing changed.
     # Source: https://alembic.sqlalchemy.org/en/latest/cookbook.html

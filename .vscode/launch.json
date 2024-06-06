@@ -6,7 +6,7 @@
   "configurations": [
     {
       "name": "API (dev)",
-      "type": "python",
+      "type": "debugpy",
       "request": "launch",
       "module": "flask",
       "console": "internalConsole",
@@ -28,7 +28,7 @@
     },
     {
       "name": "API (test)",
-      "type": "python",
+      "type": "debugpy",
       "request": "launch",
       "module": "flask",
       "console": "internalConsole",

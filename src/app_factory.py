@@ -1,14 +1,14 @@
 from importlib import import_module
 
+import sys_vars
 from alembic import command
 from alembic.config import Config
 from flask import Flask
 from flask_cors import CORS
 from flask_smorest import Api
-import sys_vars
 
-from src.core import logger
 from src.blueprints import all_blueprints
+from src.core import logger
 from src.core.database.schema import db
 
 
@@ -23,7 +23,7 @@ def create_app():
     app.config.update(sys_vars.get_json("api.json"))
 
     # Don't enable API docs in prod
-    if app.config["ENV"] == "production":
+    if sys_vars.get("FLASK_ENV") == "production":
         app.config["OPENAPI_URL_PREFIX"] = None
 
     # Enable Discord webhook event logging, falling back to a text log
