@@ -42,6 +42,10 @@ indent-width = 4
 [tool.ruff.lint]
 preview = true
 
+ignore = [
+  "RET501", # unnecessary-return-none
+]
+
 select = [
   "A",    # flake8-builtins
   "ARG",  # flake8-unused-arguments
@@ -64,6 +68,8 @@ select = [
   "T20",  # flake8-print
   "TD",   # flake8-todos
   "UP",   # pyupgrade
+
+  "F401",
 ]
 
 [tool.ruff.format]

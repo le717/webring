@@ -9,7 +9,6 @@
 - Create, update, and delete entries
 - Linkrot checking, with Web Archive fallback url for dead links (when possible)
 - Optional linkrot event logging to [Discord](https://discord.com/) channel
-  - Text error log fallback if disabled
 
 ### Rotting links checking
 
@@ -79,6 +78,8 @@ is kept as simple as possible.
 1. Follow the Discord documentation for [creating a webhook](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
 1. Get the Discord webhook URL from the configuration and set it as the value for
 the `DISCORD_WEBHOOK_URL` secret key
+
+A text file logger for events is always configured.
 
 ## Required Secrets
 
