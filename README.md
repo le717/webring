@@ -13,9 +13,14 @@
 
 ### Filtering webring items
 
-Starting with version 1.3.0, TODO: write me!
+Starting with version 1.3.0, new filtering options are available to restrict the provided webring
+items. These filters are supported on both the root URL and the simple embed endpoints. These
+options are provided through query parameters to the URLs.
 
-### Auto-embed webring
+- `include_rotted: bool = "yes"`: Include links that have been determined to be rotten.
+- `exclude_origin: bool = "yes"`: Remove the site requested the webring from the results, if present.
+
+### Automatic simple embed
 
 Starting with version 1.3.0, a JavaScript file is provided to generate and embed a simple rendering
 of the webring into your site. It includes the entire ring in the script, preventing any additional
