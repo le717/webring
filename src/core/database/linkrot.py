@@ -32,8 +32,12 @@ def __ping_url(url: str) -> bool:
             httpx.codes.NO_CONTENT,
             httpx.codes.NOT_MODIFIED,
         )
-    except httpx.HTTPError as exc:
-        logger.exception("An error occurred when checking a URL for rotting.", exc_info=exc)
+    except httpx.HTTPError:
+        logger.info({
+            "id": "N/A",
+            "url": url,
+            "message": "Link could not be reached during a linkrot check.",
+        })
         return False
 
 
@@ -54,13 +58,15 @@ def __create(data: WebLink) -> Literal[True]:
 
 
 def __get(uuid: str) -> RottedLinks:
-    return db.session.execute(db.select(RottedLinks).filter_by(id=uuid)).scalars().first()
+    return db.session.execute(db.select(RottedLinks).filter_by(id=uuid)).scalar_one_or_none()
 
 
-def __update(data: RottedLinks) -> Literal[True]:
-    db.session.query(RottedLinks).filter_by(id=data.id).update(
-        {"times_failed": data.times_failed + 1}, synchronize_session="fetch"
-    )
+def __update(rl: RottedLinks) -> Literal[True]:
+    """Update the rotted log link with this instance."""
+    data = rl.as_dict()
+    del data["id"]
+    data["times_failed"] += 1
+    rl.update_with(data)
     db.session.commit()
     return True
 

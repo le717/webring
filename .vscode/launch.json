@@ -18,7 +18,7 @@
         "FLASK_DEBUG": "1",
         "SYS_VARS_PATH": "${workspaceFolder}/secrets",
         "DB_PATH": "${workspaceFolder}/database/database.db",
-        "TIMES_FAILED_THRESHOLD": "2",
+        "TIMES_FAILED_THRESHOLD": "3",
         "ENABLE_DISCORD_LOGGING": "false"
       },
       "args": [

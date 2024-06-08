@@ -1,7 +1,7 @@
 import uuid
 from collections import OrderedDict
-from datetime import UTC, datetime, timezone
-from typing import Any, Optional
+from datetime import UTC, datetime
+from typing import Any
 
 from markupsafe import Markup
 from sqlalchemy import func
@@ -55,7 +55,7 @@ def exists(uuid: str) -> bool:
 
 def get(uuid: str) -> WebLink | None:
     """Get a single weblink."""
-    return db.session.execute(db.select(WebLink).filter_by(id=uuid)).scalars().first()
+    return db.session.execute(db.select(WebLink).filter_by(id=uuid)).scalar_one_or_none()
 
 
 def get_all(include_rotted: bool = False, **kwargs: Any) -> list[WebLink]:
@@ -83,16 +83,14 @@ def get_all(include_rotted: bool = False, **kwargs: Any) -> list[WebLink]:
 
 def update(data: OrderedDict) -> bool:
     """Update a weblink."""
-    if not exists(data["id"]):
+    wb_id = data.pop("id")
+    if (wb := get(wb_id)) is None:
         return False
 
-    db.session.query(WebLink).filter_by(id=data["id"]).update(
-        {k: Markup(v).striptags() for k, v in data.items() if k != "id"},
-        synchronize_session="fetch",
-    )
+    wb.update_with(data)
     db.session.commit()
     logger.info({
-        "id": data["id"],
+        "id": wb_id,
         "url": "N/A",
         "message": f"Link has been updated with the following info: `{data}`",
     })
