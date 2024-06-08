@@ -34,7 +34,7 @@ def to_json(data: dict | list) -> str:
     return json.dumps(data)
 
 
-def item_dead_url() -> dict:
+def item_dead_url() -> dict[str, str]:
     return {
         "title": "A broken website",
         "description": "This is a broken website.",
@@ -42,7 +42,7 @@ def item_dead_url() -> dict:
     }
 
 
-def item_all_good() -> dict:
+def item_all_good() -> dict[str, str]:
     return {
         "title": "A working website",
         "description": "This is my website.",

@@ -3,13 +3,13 @@ import uuid
 from tests import helpers
 
 
-def test_empty_ring(client):
+def test_empty_ring(client) -> None:
     """There should be no items in the webring."""
     response = client.get("/")
     assert helpers.from_json(response.get_data(as_text=True)) == []
 
 
-def test_create_good_item(client):
+def test_create_good_item(client) -> None:
     """Successfully create an item."""
     response = client.post(
         helpers.authed_request("/", auth=helpers.VALID_AUTH),
@@ -19,7 +19,7 @@ def test_create_good_item(client):
     assert isinstance(uuid.UUID(helpers.from_json(response.data)["id"]), uuid.UUID)
 
 
-def test_create_item_dead_url(client):
+def test_create_item_dead_url(client) -> None:
     """Successfully create an item with a dead URL."""
     response = client.post(
         helpers.authed_request("/", auth=helpers.VALID_AUTH),
@@ -29,7 +29,7 @@ def test_create_item_dead_url(client):
     assert isinstance(uuid.UUID(helpers.from_json(response.data)["id"]), uuid.UUID)
 
 
-def test_delete_item(client):
+def test_delete_item(client) -> None:
     """Successfully delete an item."""
     creation = client.post(
         helpers.authed_request("/", auth=helpers.VALID_AUTH),
@@ -45,7 +45,7 @@ def test_delete_item(client):
     assert response.status_code == 204
 
 
-def test_update_item_title(client):
+def test_update_item_title(client) -> None:
     """Successfully update an item's title."""
     creation = client.post(
         helpers.authed_request("/", auth=helpers.VALID_AUTH),
@@ -62,7 +62,7 @@ def test_update_item_title(client):
     assert response.status_code == 204
 
 
-def test_update_item_dead_url(client):
+def test_update_item_dead_url(client) -> None:
     """Successfully update an item's dead URL."""
     creation = client.post(
         helpers.authed_request("/", auth=helpers.VALID_AUTH),

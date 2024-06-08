@@ -1,39 +1,46 @@
 import os
 from pathlib import Path
+from typing import Any
 
 import pytest
 
 os.environ["SYS_VARS_PATH"] = (Path.cwd() / "tests" / "secrets").as_posix()
 
+from alembic import command
+from alembic.config import Config
+from sqlalchemy import inspect
+
 from src.app_factory import create_app
-from src.core.database.schema import db
+from src.core.database.schema import Base, db
 from tests.helpers import VALID_AUTH
 
 
 @pytest.fixture
-def app():
+def app(tmp_path):
     os.environ["ENV"] = "testing"
-    os.environ["DB_PATH"] = "tests/db/database.db"
+    os.environ["DB_PATH"] = (tmp_path / "database.db").as_posix()
     os.environ["AUTH_KEYS"] = f'["{VALID_AUTH}"]'
     os.environ["SECRET_KEY"] = "testing-secret-key"
     os.environ["TIMES_FAILED_THRESHOLD"] = "3"
     os.environ["ENABLE_DISCORD_LOGGING"] = "false"
-    Path("tests/db").mkdir(parents=True, exist_ok=True)
 
     app = create_app()
-    yield app
-
     with app.app_context():
-        db.drop_all()
-        Path(os.environ["DB_PATH"]).unlink()
-        Path("tests/db").rmdir()
+        # Create the database tables if needed
+        if not bool(inspect(db.engine).get_table_names()):
+            Base.metadata.create_all(db.engine)
+
+            # Tell Alembic this is a new database and
+            # we don't need to update it to a newer schema
+            command.stamp(Config("alembic.ini"), "head")
+    yield app
 
 
 @pytest.fixture
-def client(app):
+def client(app) -> Any:
     return app.test_client()
 
 
 @pytest.fixture
-def runner(app):
+def runner(app) -> Any:
     return app.test_cli_runner()

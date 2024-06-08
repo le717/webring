@@ -1,7 +1,7 @@
 from tests import helpers
 
 
-def test_single_link_single_fail(client):
+def test_single_link_single_fail(client) -> None:
     """Ensure a dead link is flagged as rotten status of 'maybe'."""
     creation = client.post(
         helpers.authed_request("/", auth=helpers.VALID_AUTH),
@@ -27,7 +27,7 @@ def test_single_link_single_fail(client):
     assert response_data["result"]["is_web_archive"] is False
 
 
-def test_single_link_is_dead(client):
+def test_single_link_is_dead(client) -> None:
     """Ensure a dead link is flagged as rotten status of 'yes'."""
     creation = client.post(
         helpers.authed_request("/", auth=helpers.VALID_AUTH),

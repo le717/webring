@@ -12,6 +12,8 @@ sys.path.insert(0, Path(__file__).parent.parent.as_posix())
 from db.dummy_db import create_app
 from src.core.database.schema import Base, db
 
+__all__ = ["create_database"]
+
 
 def create_database() -> None:
     """Create a brand new copy of the database."""
