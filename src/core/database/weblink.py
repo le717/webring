@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 from typing import Any, Optional, OrderedDict
 
 from markupsafe import Markup
+from sqlalchemy import func
 
 from src.core.database.schema import WebLink, db
 from src.core.logger import logger
@@ -10,7 +11,7 @@ from src.core.logger import logger
 __all__ = ["create", "delete", "exists", "get", "get_all", "update"]
 
 
-def create(data: OrderedDict) -> dict:
+def create(data: OrderedDict) -> dict[str, uuid.UUID]:
     """Create a single weblink."""
     entry_id = str(uuid.uuid4())
     weblink = WebLink(
@@ -56,16 +57,17 @@ def get(uuid: str) -> Optional[WebLink]:
     return db.session.execute(db.select(WebLink).filter_by(id=uuid)).scalars().first()
 
 
-def get_all(with_rotted: bool = False, **kwargs: Any) -> list[WebLink]:
+def get_all(include_rotted: bool = False, **kwargs: Any) -> list[WebLink]:
     """Get all weblinks."""
     filters = []
 
-    # Filter out the site in the weblink we are on
+    # Filter out the site in the weblink we are on.
+    # Make sure we normalize the casing of the two URLs to better ensure we filter correctly
     if origin := kwargs.get("http_origin"):
-        filters.append(WebLink.url != origin)
+        filters.append(func.lower(WebLink.url) != func.lower(origin))
 
     # Remove all rotted links
-    if not with_rotted:
+    if not include_rotted:
         filters.append(WebLink.is_dead != "1")
     wbs = db.session.execute(db.select(WebLink).filter(*filters)).scalars().all()
 

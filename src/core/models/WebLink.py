@@ -1,7 +1,6 @@
-from marshmallow import fields, Schema
+from marshmallow import Schema, fields
 
-
-__all__ = ["WebLink", "WebLinkCreate", "WebLinkId", "WebLinkUpdate"]
+__all__ = ["WebLink", "WebLinkCreate", "WebLinkGet", "WebLinkId", "WebLinkUpdate"]
 
 
 class WebLink(Schema):
@@ -18,6 +17,11 @@ class WebLinkCreate(Schema):
     title = fields.String(required=True)
     description = fields.String(required=True)
     url = fields.Url(required=True)
+
+
+class WebLinkGet(Schema):
+    include_rotted = fields.Boolean(load_default=True)
+    exclude_origin = fields.Boolean(load_default=True)
 
 
 class WebLinkId(Schema):

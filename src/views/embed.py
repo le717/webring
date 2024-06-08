@@ -13,7 +13,7 @@ def embed() -> Response:
     # and convert them to plain dictionaries for including in the JavaScript file directly,
     # which removes the need for a fetch request on the client
     all_links = WebLink(only=["id", "url", "title", "description"]).dump(
-        db.get_all(with_rotted=True, http_origin=request.headers.get("ORIGIN")),
+        db.get_all(include_rotted=True, http_origin=request.headers.get("ORIGIN")),
         many=True,
     )
 
