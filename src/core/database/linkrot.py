@@ -32,7 +32,8 @@ def __ping_url(url: str) -> bool:
             httpx.codes.NO_CONTENT,
             httpx.codes.NOT_MODIFIED,
         )
-    except Exception:
+    except httpx.HTTPError as exc:
+        logger.exception("An error occurred when checking a URL for rotting.", exc_info=exc)
         return False
 
 

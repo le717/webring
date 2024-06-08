@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime
+from datetime import UTC, datetime
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
@@ -15,7 +15,7 @@ logger.setLevel(logging.DEBUG)
 
 
 def _linkrot_formatter(record: logging.LogRecord) -> str:
-    msg_date = datetime.fromtimestamp(record.created).strftime("%B %d, %Y @ %I:%M:%S %p")
+    msg_date = datetime.fromtimestamp(record.created, tz=UTC).strftime("%B %d, %Y @ %I:%M:%S %p")
     return f""":warning: Webring Alert :warning:
 Alert level: **{record.levelname.capitalize()}**
 Date: {msg_date}

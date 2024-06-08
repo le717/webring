@@ -31,6 +31,6 @@ def embed(**kwargs) -> Response:
 
     # Render the JavaScript module, taking care to indicate it's a JS file
     # so browsers correctly load it
-    resp = make_response(render_template("webring-embed.js", **{"all_links": all_links}))
+    resp = make_response(render_template("webring-embed.js", all_links=all_links))
     resp.mimetype = "text/javascript"
     return resp

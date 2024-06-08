@@ -20,11 +20,8 @@ fileConfig(config.config_file_name)
 config.set_main_option("sqlalchemy.url", db_uri)
 target_metadata = db.metadata
 
-# Configure anything else you deem important, example:
-# my_important_option = config.get_main_option("my_important_option")
 
-
-def run_migrations_offline():
+def run_migrations_offline() -> None:
     """
     Run migrations in 'offline' mode.
 
@@ -46,7 +43,7 @@ def run_migrations_offline():
         context.run_migrations()
 
 
-def run_migrations_online():
+def run_migrations_online() -> None:
     """
     Run migrations in 'online' mode.
 
@@ -57,7 +54,7 @@ def run_migrations_online():
     # If you use Alembic revision's --autogenerate flag this function will
     # prevent Alembic from creating an empty migration file if nothing changed.
     # Source: https://alembic.sqlalchemy.org/en/latest/cookbook.html
-    def process_revision_directives(context, revision, directives):
+    def process_revision_directives(context, revision, directives) -> None:  # noqa: ARG001
         if config.cmd_opts.autogenerate:
             script = directives[0]
             if script.upgrade_ops.is_empty():
