@@ -5,8 +5,8 @@
   const markup = ["<dl>"];
   const webring = {{ all_links }};
 
-  // If there's no embed area, we can't do anything
-  if (qWebringEmbedArea === null) {
+  // If there's no embed area or no weblinks, we can't do anything
+  if (qWebringEmbedArea === null || webring.length === 0) {
     return;
   }
 
