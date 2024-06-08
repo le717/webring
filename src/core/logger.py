@@ -1,12 +1,11 @@
-from datetime import datetime
 import logging
+from datetime import datetime
 from logging.handlers import RotatingFileHandler
 from pathlib import Path
 
-from flask import request
-import requests
+import httpx
 import sys_vars
-
+from flask import request
 
 __all__ = ["LINKROT", "DiscordHandler", "file_handler"]
 
@@ -39,7 +38,7 @@ class DiscordHandler(logging.Handler):
         return {"content": _linkrot_formatter(record)}
 
     def emit(self, record: logging.LogRecord) -> logging.LogRecord:
-        requests.post(
+        httpx.post(
             self.url,
             headers={"Content-type": "application/json"},
             json=self.format(record),

@@ -8,6 +8,7 @@ _Released TDB_
 - Update minimum Python version to 3.11
 - Update to Flask v3
 - ~~Update SQLAlchemy to v2~~ _update pending_
+- Replace `requests` with `python-httpx`
 - Update all dependencies to their latest versions
 - Switch to ruff for linting and formatting
 

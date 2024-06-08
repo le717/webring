@@ -1,12 +1,11 @@
 from typing import Literal, TypedDict
 
-import requests
+import httpx
 import sys_vars
 
-from src.core.logger import LINKROT
 from src.core.database import weblink
 from src.core.database.schema import RottedLinks, WebLink, db
-
+from src.core.logger import LINKROT
 
 __all__ = ["check_all", "check_one", "delete"]
 
@@ -26,12 +25,12 @@ class RotResult(TypedDict):
 def __ping_url(url: str) -> bool:
     """Check a link for rotting."""
     try:
-        r = requests.head(url)
+        r = httpx.head(url)
         return r.status_code in (
-            requests.codes.ok,
-            requests.codes.created,
-            requests.codes.no_content,
-            requests.codes.not_modified,
+            httpx.codes.OK,
+            httpx.codes.CREATED,
+            httpx.codes.NO_CONTENT,
+            httpx.codes.NOT_MODIFIED,
         )
     except Exception:
         return False
@@ -39,7 +38,7 @@ def __ping_url(url: str) -> bool:
 
 def __ping_wayback_machine(url: str) -> Literal[False] | str:
     """Check the Web Archive for an archived URL."""
-    r = requests.get(f"https://archive.org/wayback/available?url={url}").json()
+    r = httpx.get(f"https://archive.org/wayback/available?url={url}").json()
     if not r["archived_snapshots"]:
         return False
     return r["archived_snapshots"]["closest"]["url"]

@@ -13,7 +13,7 @@
 
 ### Auto-embed JavaScript
 
-Starting with version v1.3.0, TODO: write me!
+Starting with version 1.3.0, TODO: write me!
 
 ## Required Secrets
 
