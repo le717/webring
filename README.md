@@ -38,7 +38,8 @@ items. These filters are supported on both the root URL and the simple embed end
 options are provided through query parameters to the URLs.
 
 - `include_rotted: bool = "yes"`: Include links that have been determined to be rotten
-- `exclude_origin: bool = "yes"`: Remove the site requested the webring from the results, if present
+- `exclude_origin: bool = "yes"`: Remove the site requesting the webring from the results,
+if present
 
 ### Automatic simple embed
 
@@ -64,8 +65,8 @@ execution disabled or lack JS support completely in their browser.
 
 Note this could potentially be slow, depending on the number of entries in the ring. This script is
 also not minified, which could also increase your page load time. If you want or need greater
-control over loading and displaying the ring, it is suggested to manually call the ring's root URL
-to fetch the entries and display them as you desire.
+control over loading and displaying the wrbring, it is suggested to manually call the webring's
+root URL to fetch the entries and display them as you desire.
 
 ### Discord channel logger
 
