@@ -41,6 +41,6 @@ Starting with version 1.3.0, TODO: write me!
 
 ## License
 
-2021-2022 Caleb
+2021-2024 Caleb
 
 [MIT](LICENSE)
