@@ -7,12 +7,12 @@ from flask import Flask
 from flask_cors import CORS
 from flask_smorest import Api
 
-from src.blueprints import all_blueprints
+from src.blueprints import all_blueprints, route_embed
 from src.core import logger
 from src.core.database.schema import db
 
 
-def create_app():
+def create_app() -> Flask:
     """Instance the app."""
     # Create the app and enable CORS support
     app = Flask(__name__)
@@ -39,6 +39,10 @@ def create_app():
     for bp in all_blueprints:
         import_module(bp.import_name)
         api.register_blueprint(bp)
+
+    # Register the embed endpoint
+    import_module(route_embed.import_name)
+    app.register_blueprint(route_embed)
 
     # Create a database connection
     db_path = sys_vars.get_path("DB_PATH").resolve()

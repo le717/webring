@@ -4,6 +4,7 @@ _Released TDB_
 
 - **Breaking change**: `FLASK_ENV=production` is a required environment variable due to Flask changes
   - This is automatically handled for you if using the included `docker-compose` file
+- Add new `/webring-embed.js` route to automatically generate and embed a simple webring listing
 - Update minimum Python version to 3.11
 - Update to Flask v3
 - ~~Update SQLAlchemy to v2~~ _update pending_
