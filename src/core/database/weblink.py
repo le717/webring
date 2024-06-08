@@ -1,6 +1,7 @@
 import uuid
-from datetime import datetime, timezone
-from typing import Any, Optional, OrderedDict
+from collections import OrderedDict
+from datetime import UTC, datetime, timezone
+from typing import Any, Optional
 
 from markupsafe import Markup
 from sqlalchemy import func
@@ -19,7 +20,7 @@ def create(data: OrderedDict) -> dict[str, uuid.UUID]:
         title=Markup(data["title"]).striptags(),
         description=Markup(data["description"]).striptags(),
         url=Markup(data["url"]).striptags(),
-        date_added=datetime.now(timezone.utc),
+        date_added=datetime.now(UTC),
     )
     db.session.add(weblink)
     db.session.commit()
@@ -52,7 +53,7 @@ def exists(uuid: str) -> bool:
     return get(uuid) is not None
 
 
-def get(uuid: str) -> Optional[WebLink]:
+def get(uuid: str) -> WebLink | None:
     """Get a single weblink."""
     return db.session.execute(db.select(WebLink).filter_by(id=uuid)).scalars().first()
 

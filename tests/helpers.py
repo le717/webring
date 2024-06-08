@@ -1,7 +1,6 @@
 import json
-from urllib.parse import urlencode
 from typing import Any
-
+from urllib.parse import urlencode
 
 __all__ = [
     "INVALID_AUTH",

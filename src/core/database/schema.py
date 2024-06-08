@@ -1,4 +1,3 @@
-# coding: utf-8
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import Column, DateTime, Integer, String, inspect
 

@@ -1,4 +1,5 @@
 import os
+
 import pytest
 
 os.environ["SYS_VARS_PATH"] = f"{os.getcwd()}/tests/secrets"

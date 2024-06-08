@@ -1,4 +1,4 @@
-from datetime import timezone
+from datetime import UTC, timezone
 
 from marshmallow import Schema, fields
 
@@ -10,7 +10,7 @@ class WebLink(Schema):
     title = fields.String()
     description = fields.String()
     url = fields.Url()
-    date_added = fields.AwareDateTime(format="iso", default_timezone=timezone.utc)
+    date_added = fields.AwareDateTime(format="iso", default_timezone=UTC)
     is_dead = fields.Boolean()
     is_web_archive = fields.Boolean()
 

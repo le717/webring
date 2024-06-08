@@ -39,7 +39,37 @@ target-version = "py311"
 line-length = 100
 indent-width = 4
 
+[tool.ruff.lint]
+preview = true
+
+select = [
+  "A",    # flake8-builtins
+  "ARG",  # flake8-unused-arguments
+  "BLE",  # flake8-blind-except
+  "C4",   # flake8-comprehensions
+  "C90",  # mccabe
+  "DTZ",  # flake8-datetimez
+  "ERA",  # eradicate
+  "FIX",  # flake8-fixme
+  "FLY",  # flynt
+  "FURB", # refurb
+  "I",    # isort
+  "LOG",  # flake8-logging
+  "G",    # flake8-logging-format
+  "PERF", # Perflint
+  "PIE",  # flake8-pie
+  "PTH",  # flake8-use-pathlib
+  "RET",  # flake8-return
+  "SIM",  # flake8-simplify
+  "T20",  # flake8-print
+  "TD",   # flake8-todos
+  "UP",   # pyupgrade
+]
+
 [tool.ruff.format]
 preview = true
 indent-style = "space"
 quote-style = "double"
+
+[tool.ruff.lint.mccabe]
+max-complexity = 10

@@ -65,6 +65,7 @@ def __update(data: RottedLinks) -> Literal[True]:
 
 
 def delete(uuid: str) -> bool:
+    """Delete an item from the linkrot log."""
     if exists := __get(uuid):
         db.session.delete(exists)
         db.session.commit()
@@ -74,7 +75,7 @@ def delete(uuid: str) -> bool:
 
 def check_all() -> list[RotResult]:
     """Check all links for rotting."""
-    return [check_one(link.id) for link in weblink.get_all()]
+    return [check_one(link.id) for link in weblink.get_all(include_rotted=False)]
 
 
 def check_one(uuid: str) -> RotResult | None:

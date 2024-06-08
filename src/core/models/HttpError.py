@@ -1,5 +1,4 @@
-from marshmallow import fields, Schema
-
+from marshmallow import Schema, fields
 
 __all__ = ["HttpError"]
 
