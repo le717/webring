@@ -11,6 +11,27 @@
 - Optional linkrot event logging to [Discord](https://discord.com/) channel
   - Text error log fallback if disabled
 
+### Rotting links checking
+
+Because websites can and will eventually vanish, even after
+[a few months](https://www.theregister.com/2024/05/20/webpages_vanish_decade/), linkrot is a real
+problem for webrings. Because they are manually curated and maintained, knowing if an entry is
+no longer available can be a maintenance burden. To that end, this webring has built-in rotten link
+detection. However, it is not automatically set up and must be configured on your server.
+
+The entire webring can be checked for rotten links by issuing an authenticated `POST` request to
+the `/linkrot/` endpoint. Each entry that has not previously been determined to be dead will
+be checked for a 200, 201, 204, or 304 HTTP response. If a URL fails that check, that failure
+will be recorded. Once the check has failed more than the configured `TIMES_FAILED_THRESHOLD` limit,
+the [Web Archive](http://web.archive.org/) site will be checked for an archived version. If found,
+the entry will be updated to use that link and the entry title will be adjusted to note such.
+If there is no archived version, the site will be recorded as dead and the entry title adjusted.
+
+Individual entries, including dead entries, can also be checked.
+
+One way to configure the linkrot check to run automatically is to create a Python script that
+makes the aforementioned `POST` request and schedule it to automatically run via some scheduler.
+
 ### Filtering webring items
 
 Starting with version 1.3.0, new filtering options are available to restrict the provided webring

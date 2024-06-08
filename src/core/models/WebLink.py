@@ -1,4 +1,4 @@
-from datetime import UTC, timezone
+from datetime import UTC
 
 from marshmallow import Schema, fields
 

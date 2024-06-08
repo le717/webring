@@ -8,6 +8,7 @@ _Released TDB_
 - Add ability to control showing rotted and same-origin results for root entrypoint and simple embed
 - Add readme sections to explain new filtering and embed features
 - Add readme section to explain setting up the Discord linkrot logger
+- Add readme section to explain the linkrot check functionality
 - Ensure the `date_added` field is expressed in UTC
 - Fix error when linkrot checking with an ID that does not exist in the webring
 - Always enable the linkrot text file logger
