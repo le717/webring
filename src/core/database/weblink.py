@@ -8,6 +8,7 @@ from sqlalchemy import func
 from src.core.database.schema import WebLink, db
 from src.core.logger import logger
 
+
 __all__ = ["create", "delete", "exists", "get", "get_all", "update"]
 
 

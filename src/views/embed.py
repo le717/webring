@@ -6,6 +6,7 @@ from src.core.models.WebLink import WebLink, WebLinkGet
 
 from ..blueprints import route_embed
 
+
 __all__ = ["embed"]
 
 

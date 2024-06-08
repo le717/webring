@@ -4,6 +4,7 @@ from pathlib import Path
 import sys_vars
 from flask import Flask
 
+
 # We have to add the app path to the path to get the db schema
 sys.path.insert(0, Path(__file__).parent.parent.as_posix())
 

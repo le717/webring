@@ -6,6 +6,7 @@ from sqlalchemy import Integer, String, inspect
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 from sqlalchemy.types import String
 
+
 __all__ = ["Base", "RottedLinks", "WebLink"]
 
 

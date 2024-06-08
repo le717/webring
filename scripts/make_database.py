@@ -5,12 +5,14 @@ from alembic import command
 from alembic.config import Config
 from sqlalchemy import inspect
 
+
 # We have to add the app path to the path to get the db
 sys.path.insert(0, Path(__file__).parent.parent.as_posix())
 
 
 from db.dummy_db import create_app
 from src.core.database.schema import Base, db
+
 
 __all__ = ["create_database"]
 

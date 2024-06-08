@@ -1,6 +1,7 @@
 import sys_vars
 from marshmallow import Schema, fields
 
+
 AUTH_KEYS = sys_vars.get_json("AUTH_KEYS")
 
 

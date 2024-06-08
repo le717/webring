@@ -5,6 +5,7 @@ from sqlalchemy import engine_from_config, pool
 
 from src.app_factory import create_app
 
+
 # There's no access to current_app here so we must create our own app.
 app = create_app()
 db_uri = app.config["SQLALCHEMY_DATABASE_URI"]

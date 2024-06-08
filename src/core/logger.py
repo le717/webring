@@ -7,6 +7,7 @@ import httpx
 import sys_vars
 from flask import request
 
+
 __all__ = ["logger", "DiscordHandler", "file_handler"]
 
 

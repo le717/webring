@@ -4,6 +4,7 @@ from typing import Any
 
 import pytest
 
+
 os.environ["SYS_VARS_PATH"] = (Path.cwd() / "tests" / "secrets").as_posix()
 
 from alembic import command

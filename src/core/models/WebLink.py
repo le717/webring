@@ -2,6 +2,7 @@ from datetime import UTC
 
 from marshmallow import Schema, fields
 
+
 __all__ = ["WebLink", "WebLinkCreate", "WebLinkGet", "WebLinkId", "WebLinkUpdate"]
 
 

@@ -7,6 +7,7 @@ from src.core.database import weblink
 from src.core.database.schema import RottedLinks, WebLink, db
 from src.core.logger import logger
 
+
 __all__ = ["check_all", "check_one", "delete"]
 
 

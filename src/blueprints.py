@@ -1,6 +1,7 @@
 from flask import Blueprint as FlBlueprint
 from flask_smorest import Blueprint
 
+
 __all__ = ["all_blueprints", "route_embed"]
 
 
