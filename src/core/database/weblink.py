@@ -1,5 +1,4 @@
 import uuid
-from collections import OrderedDict
 from datetime import UTC, datetime
 from typing import Any
 
@@ -12,7 +11,7 @@ from src.core.logger import logger
 __all__ = ["create", "delete", "exists", "get", "get_all", "update"]
 
 
-def create(data: OrderedDict) -> dict[str, uuid.UUID]:
+def create(data: dict) -> dict[str, uuid.UUID]:
     """Create a single weblink."""
     entry_id = str(uuid.uuid4())
     weblink = WebLink(
@@ -81,7 +80,7 @@ def get_all(include_rotted: bool = False, **kwargs: Any) -> list[WebLink]:
     return wbs
 
 
-def update(data: OrderedDict) -> bool:
+def update(data: dict) -> bool:
     """Update a weblink."""
     wb_id = data.pop("id")
     if (wb := get(wb_id)) is None:
