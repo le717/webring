@@ -6,6 +6,7 @@ _Released TDB_
   - This is automatically handled for you if using the included `docker-compose` file
 - Add new `/webring-embed.js` route to automatically generate and embed a simple webring listing
 - Add ability to control showing rotted and same-origin results for root entrypoint and simple embed
+- Ensure the `date_added` field is expressed in UTC
 - Update minimum Python version to 3.11
 - Update to Flask v3
 - ~~Update SQLAlchemy to v2~~ _update pending_
