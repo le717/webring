@@ -27,3 +27,13 @@ ruff = "^0.4.8"
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+indent-width = 4
+
+[tool.ruff.format]
+preview = true
+indent-style = "space"
+quote-style = "double"

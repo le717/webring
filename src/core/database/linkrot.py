@@ -1,4 +1,3 @@
-import re
 from typing import Literal, TypedDict
 
 import requests
@@ -55,9 +54,7 @@ def __create(data: WebLink) -> Literal[True]:
 
 
 def __get(uuid: str) -> RottedLinks:
-    return (
-        db.session.execute(db.select(RottedLinks).filter_by(id=uuid)).scalars().first()
-    )
+    return db.session.execute(db.select(RottedLinks).filter_by(id=uuid)).scalars().first()
 
 
 def __update(data: RottedLinks) -> Literal[True]:
@@ -94,20 +91,16 @@ def check_one(uuid: str) -> RotResult:
 
         # A rotten link has been revived
         if delete(uuid):
-            LINKROT.info(
-                {
-                    "id": link.id,
-                    "url": link.url,
-                    "message": f"Link has been marked to not be dead or a Web Archive reference.",
-                }
-            )
-            weblink.update(
-                {
-                    "id": link.id,
-                    "is_dead": 0,
-                    "is_web_archive": 0,
-                }
-            )
+            LINKROT.info({
+                "id": link.id,
+                "url": link.url,
+                "message": "Link has been marked to not be dead or a Web Archive reference.",
+            })
+            weblink.update({
+                "id": link.id,
+                "is_dead": 0,
+                "is_web_archive": 0,
+            })
 
     # We could not ping the site, decide the next step
     else:
@@ -123,26 +116,22 @@ def __record_failure(data: WebLink) -> Check:
     existing = __get(data.id)
     if existing is None:
         __create(data)
-        LINKROT.error(
-            {
-                "id": data.id,
-                "url": data.url,
-                "message": "Linkrot check failure #1.",
-            }
-        )
+        LINKROT.error({
+            "id": data.id,
+            "url": data.url,
+            "message": "Linkrot check failure #1.",
+        })
         result["times_failed"] = 1
         return result
 
     # We have an existing failure record, update the failure count
     if (existing.times_failed + 1) < TIMES_FAILED_THRESHOLD:
         __update(existing)
-        LINKROT.error(
-            {
-                "id": data.id,
-                "url": data.url,
-                "message": f"Linkrot check failure #{existing.times_failed}.",
-            }
-        )
+        LINKROT.error({
+            "id": data.id,
+            "url": data.url,
+            "message": f"Linkrot check failure #{existing.times_failed}.",
+        })
         result["times_failed"] = existing.times_failed
         return result
 
@@ -153,25 +142,21 @@ def __record_failure(data: WebLink) -> Check:
         revised_info["url"] = wb_url
         revised_info["is_web_archive"] = 1
         result["is_web_archive"] = True
-        LINKROT.critical(
-            {
-                "id": data.id,
-                "url": data.url,
-                "message": "Link has been updated to indicate a Web Archive reference.",
-            }
-        )
+        LINKROT.critical({
+            "id": data.id,
+            "url": data.url,
+            "message": "Link has been updated to indicate a Web Archive reference.",
+        })
 
     # An archive url doesn't exist, mark as a dead link
     else:
         revised_info["is_dead"] = 1
         result["is_dead"] = True
-        LINKROT.critical(
-            {
-                "id": data.id,
-                "url": data.url,
-                "message": "Link has been marked as a dead link.",
-            }
-        )
+        LINKROT.critical({
+            "id": data.id,
+            "url": data.url,
+            "message": "Link has been marked as a dead link.",
+        })
 
     # Update the dead link
     weblink.update(revised_info)

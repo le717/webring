@@ -16,17 +16,15 @@ LINKROT.setLevel(logging.DEBUG)
 
 
 def _linkrot_formatter(record: logging.LogRecord) -> str:
-    msg_date = datetime.fromtimestamp(record.created).strftime(
-        "%B %d, %Y @ %I:%M:%S %p"
-    )
+    msg_date = datetime.fromtimestamp(record.created).strftime("%B %d, %Y @ %I:%M:%S %p")
     msg = f""":warning: Webring Alert :warning:
 Alert level: **{record.levelname.capitalize()}**
 Date: {msg_date}
 Webring URL: {request.root_url}
 
-Link ID: `{record.msg['id']}`
-Link URL: {record.msg['url']}
-Message: {record.msg['message']}"""
+Link ID: `{record.msg["id"]}`
+Link URL: {record.msg["url"]}
+Message: {record.msg["message"]}"""
     return msg
 
 
