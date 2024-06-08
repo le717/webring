@@ -24,11 +24,10 @@ def create_app() -> Flask:
     if sys_vars.get("FLASK_ENV") == "production":
         app.config["OPENAPI_URL_PREFIX"] = None
 
-    # Enable Discord webhook event logging, falling back to a text log
+    # Set up a file logger, additionally enabling the Discord webhook event logging if requested
+    logger.logger.addHandler(logger.file_handler("error-linkrot.log", linkrot=True))
     if sys_vars.get_bool("ENABLE_DISCORD_LOGGING"):
         logger.logger.addHandler(logger.DiscordHandler())
-    else:
-        logger.logger.addHandler(logger.file_handler("error-linkrot.log", linkrot=True))
 
     # Register the API endpoints
     api = Api(app)

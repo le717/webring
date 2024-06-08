@@ -9,6 +9,7 @@ _Released TDB_
 - Add readme sections to explain new filtering and embed features
 - Ensure the `date_added` field is expressed in UTC
 - Fix error when linkrot checking with an ID that does not exist in the webring
+- Always enable the linkrot text file logger
 - Replace `requests` with `python-httpx`
 - Update OpenAPI spec version
 - Update minimum Python version to 3.11
