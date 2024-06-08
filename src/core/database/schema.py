@@ -2,9 +2,9 @@ from datetime import datetime
 from typing import Any
 
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Column, DateTime, Integer, String, inspect
+from sqlalchemy import Integer, String, inspect
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
-from sqlalchemy.types import DateTime, String
+from sqlalchemy.types import String
 
 __all__ = ["Base", "RottedLinks", "WebLink"]
 
@@ -38,14 +38,13 @@ class WebLink(HelperMethods, Base):
     url: Mapped[str] = mapped_column(
         String,
     )
-    date_added: Mapped[datetime] = Column(
-        DateTime,
+    date_added: Mapped[datetime] = mapped_column(
         nullable=False,
         default=datetime.now,
         onupdate=datetime.now,
     )
-    is_dead: Mapped[bool] = mapped_column(default=False, server_default="0")
-    is_web_archive: Mapped[bool] = mapped_column(default=False, server_default="0")
+    is_dead: Mapped[bool] = mapped_column(default=False)
+    is_web_archive: Mapped[bool] = mapped_column(default=False)
 
 
 class RottedLinks(HelperMethods, Base):

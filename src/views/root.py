@@ -14,7 +14,7 @@ from src.core import models
 class WebRing(MethodView):
     @root.arguments(models.WebLinkGet, location="query", as_kwargs=True)
     @root.response(200, models.WebLink(many=True))
-    def get(self, **kwargs: Any) -> Sequence[models.WebLink]:
+    def get(self, **kwargs: Any) -> Sequence[db.schema.WebLink]:
         """Fetch webring items.
 
         Provide the appropriate query string arguments to
