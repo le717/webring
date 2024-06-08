@@ -21,10 +21,21 @@ Starting with version 1.3.0, a JavaScript file is provided to generate and embed
 of the webring into your site. It includes the entire ring in the script, preventing any additional
 requests to fetch ring entries.
 
-TODO: noscript/no js backup
+To use it, create an HTML element in your page with a CSS ID of `webring-embed-area`.
+If the selector is found and there are webring items to display, the webring will be injected
+into that area of your site. A simple setup might look as follows:
 
+```html
+<section id="webring-embed-area">
+  <noscript>The webring could be loaded because your browser doesn't support running JavaScript.</noscript>
+</section>
 
-TODO: write me!
+<!-- Load the webring -->
+<script src="https://example.com/webring-embed.js"></script>
+```
+
+As illustrated, a no-js fallback is recommended for visitors to your site that may have JavaScript
+execution disabled or lack JS support completely in their browser.
 
 Note this could potentially be slow, depending on the number of entries in the ring. This script is
 also not minified, which could also increase your page load time. If you want or need greater
