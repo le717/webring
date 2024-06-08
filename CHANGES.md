@@ -1,6 +1,6 @@
 # 1.3.0
 
-_Released TDB_
+_Released June 8, 2024_
 
 - **Possible breaking change**: `FLASK_ENV=production` is a required environment variable due to
 Flask changes
@@ -12,18 +12,18 @@ Flask changes
 - Add readme section to explain the linkrot check functionality
 - Ensure the `date_added` field is expressed in UTC
 - Fix error when linkrot checking with an ID that does not exist in the webring
-- Fix broken tests by better using `pytest`'s temporary testing data directory
 - Always enable the linkrot text file logger
+- Fix broken tests by better using `pytest`'s temporary testing data directory
 - Replace `requests` with `python-httpx`
+- Switch to [ruff](https://docs.astral.sh/ruff/) for linting and formatting
 - Update `get-requirements.py` for Poetry changes
-- Update OpenAPI spec version
+- Move new database creation into own script
 - Update minimum Python version to 3.11
+- Update Docker image to `python:3.11-slim`
 - Update to Flask v3
 - Update to SQLAlchemy v2 and API
-- Update Docker image to `python:3.11-slim`
 - Update all dependencies to their latest versions
-- Switch to [ruff](https://docs.astral.sh/ruff/) for linting and formatting
-- Move new database creation into own script
+- Update OpenAPI spec version
 - Various internal tweaks and adjustments
 
 # 1.2.0
