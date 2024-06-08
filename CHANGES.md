@@ -2,7 +2,8 @@
 
 _Released TDB_
 
-- **Breaking change**: `FLASK_ENV=production` is a required environment variable due to Flask changes
+- **Possible breaking change**: `FLASK_ENV=production` is a required environment variable due to
+Flask changes
   - This is automatically handled for you if using the included `docker-compose` file
 - Add new `/webring-embed.js` route to automatically generate and embed a simple webring listing
 - Add ability to control showing rotted and same-origin results for root entrypoint and simple embed
@@ -11,8 +12,10 @@ _Released TDB_
 - Add readme section to explain the linkrot check functionality
 - Ensure the `date_added` field is expressed in UTC
 - Fix error when linkrot checking with an ID that does not exist in the webring
+- Fix broken tests by better using `pytest`'s temporary testing data directory
 - Always enable the linkrot text file logger
 - Replace `requests` with `python-httpx`
+- Update `get-requirements.py` for Poetry changes
 - Update OpenAPI spec version
 - Update minimum Python version to 3.11
 - Update to Flask v3
