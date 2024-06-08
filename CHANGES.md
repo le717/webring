@@ -18,6 +18,7 @@ _Released TDB_
 - Update Docker image to `python:3.11-slim`
 - Update all dependencies to their latest versions
 - Switch to [ruff](https://docs.astral.sh/ruff/) for linting and formatting
+- Move new database creation into own script
 - Various internal tweaks and adjustments
 
 # 1.2.0
