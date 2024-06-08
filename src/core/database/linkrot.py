@@ -77,10 +77,13 @@ def check_all() -> list[RotResult]:
     return [check_one(link.id) for link in weblink.get_all()]
 
 
-def check_one(uuid: str) -> RotResult:
+def check_one(uuid: str) -> RotResult | None:
     """Check a single link for rotting."""
+    # The uuid doesn't exist in the db, we can't do anything
+    if (link := weblink.get(uuid)) is None:
+        return None
+
     # The site could be pinged, so we all good
-    link = weblink.get(uuid)
     if __ping_url(link.url):
         result = RotResult(
             id=link.id,

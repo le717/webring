@@ -1,6 +1,7 @@
 from typing import Any
 
 from flask.views import MethodView
+from flask_smorest import abort
 
 from src.blueprints import linkrot
 from src.core import models
@@ -22,7 +23,10 @@ class LinkRotSingleCheck(MethodView):
     @linkrot.arguments(models.AuthKey, location="query", as_kwargs=True)
     @linkrot.arguments(models.WebLinkId, location="path", as_kwargs=True)
     @linkrot.response(200, models.RotResult)
+    @linkrot.alt_response(404, schema=models.HttpError)
     def post(self, **kwargs: Any) -> models.RotResult:
         """Check a single link in the ring for link rot."""
         del kwargs["auth_key"]
-        return db.check_one(str(kwargs["id"]))
+        if (result := db.check_one(str(kwargs["id"]))) is None:
+            abort(404, message="That ID does not exist in the webring.")
+        return result
