@@ -15,7 +15,6 @@ WORKDIR /app
 
 # Install required deps
 RUN python -m pip install pip --upgrade && \
-    pip install --no-cache-dir toml && \
     python ./get-requirements.py && \
     pip install --no-cache-dir -r requirements.txt && \
     rm ./requirements.txt && \

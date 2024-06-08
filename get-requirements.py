@@ -1,6 +1,6 @@
 from pathlib import Path
 from sys import argv
-from toml import loads
+from tomllib import loads
 
 
 def get_package(package_info: dict) -> str:
