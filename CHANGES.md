@@ -1,3 +1,15 @@
+# 1.3.0
+
+_Released TDB_
+
+- **Breaking change**: `FLASK_ENV=production` is a required environment variable due to Flask changes
+  - This is automatically handled for you if using the included `docker-compose` file
+- Update minimum Python version to 3.11
+- Update to Flask v3
+- ~~Update SQLAlchemy to v2~~ _update pending_
+- Update all dependencies to their latest versions
+- Switch to ruff for linting and formatting
+
 # 1.2.0
 
 _Released November 20, 2022_

@@ -1,4 +1,4 @@
-FROM python:3.10-slim
+FROM python:3.11-slim
 
 # Set any env values we need
 ENV PYTHONPATH=/app \
