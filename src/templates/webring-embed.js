@@ -1,4 +1,4 @@
-(function() {
+(async function() {
   "use strict";
 
   const qWebringEmbedArea = document.querySelector("#webring-embed-area");
@@ -23,4 +23,4 @@
 
   // Add the completed markup into the page
   qWebringEmbedArea.insertAdjacentHTML("beforeend", markup.join(""));
-})();
+}());
