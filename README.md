@@ -11,11 +11,17 @@
 - Optional linkrot event logging to [Discord](https://discord.com/) channel
   - Text error log fallback if disabled
 
-### Auto-embed feature
+### Filtering webring items
+
+Starting with version 1.3.0, TODO: write me!
+
+### Auto-embed webring
 
 Starting with version 1.3.0, a JavaScript file is provided to generate and embed a simple rendering
 of the webring into your site. It includes the entire ring in the script, preventing any additional
 requests to fetch ring entries.
+
+TODO: noscript/no js backup
 
 
 TODO: write me!
@@ -24,6 +30,7 @@ Note this could potentially be slow, depending on the number of entries in the r
 also not minified, which could also increase your page load time. If you want or need greater
 control over loading and displaying the ring, it is suggested to manually call the ring's root URL
 to fetch the entries and display them as you desire.
+
 
 ## Required Secrets
 
