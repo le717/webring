@@ -16,6 +16,7 @@ class WebRing(MethodView):
 
         This will return rotted links in the result set.
         """
+        # TODO: Add query param to exclude rotted params
         return db.get_all(with_rotted=True, http_origin=request.headers.get("ORIGIN"))
 
     @root.arguments(models.AuthKey, location="query", as_kwargs=True)

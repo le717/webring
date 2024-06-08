@@ -11,9 +11,19 @@
 - Optional linkrot event logging to [Discord](https://discord.com/) channel
   - Text error log fallback if disabled
 
-### Auto-embed JavaScript
+### Auto-embed feature
 
-Starting with version 1.3.0, TODO: write me!
+Starting with version 1.3.0, a JavaScript file is provided to generate and embed a simple rendering
+of the webring into your site. It includes the entire ring in the script, preventing any additional
+requests to fetch ring entries.
+
+
+TODO: write me!
+
+Note this could potentially be slow, depending on the number of entries in the ring. This script is
+also not minified, which could also increase your page load time. If you want or need greater
+control over loading and displaying the ring, it is suggested to manually call the ring's root URL
+to fetch the entries and display them as you desire.
 
 ## Required Secrets
 
@@ -27,7 +37,7 @@ Starting with version 1.3.0, TODO: write me!
 
 ## Development
 
-1. Install Python 3.10+, [Poetry](https://python-poetry.org/) 1.2.0+, and VS Code
+1. Install Python 3.11+, [Poetry](https://python-poetry.org/) 1.2.0+, and VS Code
 1. Create required secret keys (default: `/app/secrets` or environment)
 1. Run `poetry install`
 1. Launch the API using the provided VS Code launch configuration
