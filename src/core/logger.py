@@ -7,11 +7,11 @@ import httpx
 import sys_vars
 from flask import request
 
-__all__ = ["LINKROT", "DiscordHandler", "file_handler"]
+__all__ = ["logger", "DiscordHandler", "file_handler"]
 
 
-LINKROT = logging.getLogger("linkrot-status")
-LINKROT.setLevel(logging.DEBUG)
+logger = logging.getLogger("linkrot-status")
+logger.setLevel(logging.DEBUG)
 
 
 def _linkrot_formatter(record: logging.LogRecord) -> str:

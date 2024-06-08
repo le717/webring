@@ -5,7 +5,7 @@ import sys_vars
 
 from src.core.database import weblink
 from src.core.database.schema import RottedLinks, WebLink, db
-from src.core.logger import LINKROT
+from src.core.logger import logger
 
 __all__ = ["check_all", "check_one", "delete"]
 
@@ -90,7 +90,7 @@ def check_one(uuid: str) -> RotResult:
 
         # A rotten link has been revived
         if delete(uuid):
-            LINKROT.info({
+            logger.info({
                 "id": link.id,
                 "url": link.url,
                 "message": "Link has been marked to not be dead or a Web Archive reference.",
@@ -115,7 +115,7 @@ def __record_failure(data: WebLink) -> Check:
     existing = __get(data.id)
     if existing is None:
         __create(data)
-        LINKROT.error({
+        logger.error({
             "id": data.id,
             "url": data.url,
             "message": "Linkrot check failure #1.",
@@ -126,7 +126,7 @@ def __record_failure(data: WebLink) -> Check:
     # We have an existing failure record, update the failure count
     if (existing.times_failed + 1) < TIMES_FAILED_THRESHOLD:
         __update(existing)
-        LINKROT.error({
+        logger.error({
             "id": data.id,
             "url": data.url,
             "message": f"Linkrot check failure #{existing.times_failed}.",
@@ -141,7 +141,7 @@ def __record_failure(data: WebLink) -> Check:
         revised_info["url"] = wb_url
         revised_info["is_web_archive"] = 1
         result["is_web_archive"] = True
-        LINKROT.critical({
+        logger.critical({
             "id": data.id,
             "url": data.url,
             "message": "Link has been updated to indicate a Web Archive reference.",
@@ -151,7 +151,7 @@ def __record_failure(data: WebLink) -> Check:
     else:
         revised_info["is_dead"] = 1
         result["is_dead"] = True
-        LINKROT.critical({
+        logger.critical({
             "id": data.id,
             "url": data.url,
             "message": "Link has been marked as a dead link.",

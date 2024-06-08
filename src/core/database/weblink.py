@@ -1,12 +1,11 @@
-from datetime import datetime, timezone
 import uuid
+from datetime import datetime, timezone
 from typing import Any, Optional, OrderedDict
 
 from markupsafe import Markup
 
-from src.core.logger import LINKROT
 from src.core.database.schema import WebLink, db
-
+from src.core.logger import logger
 
 __all__ = ["create", "delete", "exists", "get", "get_all", "update"]
 
@@ -24,7 +23,7 @@ def create(data: OrderedDict) -> dict:
     db.session.add(weblink)
     db.session.commit()
     db.session.refresh(weblink)
-    LINKROT.info({
+    logger.info({
         "id": entry_id,
         "url": weblink.url,
         "message": "Link has been added to the webring.",
@@ -39,7 +38,7 @@ def delete(uuid: str) -> bool:
 
     db.session.delete(get(uuid))
     db.session.commit()
-    LINKROT.info({
+    logger.info({
         "id": uuid,
         "url": "N/A",
         "message": "Link has been deleted from the webring.",
@@ -89,7 +88,7 @@ def update(data: OrderedDict) -> bool:
         synchronize_session="fetch",
     )
     db.session.commit()
-    LINKROT.info({
+    logger.info({
         "id": data["id"],
         "url": "N/A",
         "message": f"Link has been updated with the following info: `{data}`",

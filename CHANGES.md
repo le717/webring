@@ -8,9 +8,11 @@ _Released TDB_
 - Update minimum Python version to 3.11
 - Update to Flask v3
 - ~~Update SQLAlchemy to v2~~ _update pending_
-- Replace `requests` with `python-httpx`
+- Update Docker image to `python:3.11-slim`
 - Update all dependencies to their latest versions
-- Switch to ruff for linting and formatting
+- Replace `requests` with `python-httpx`
+- Switch to [ruff](https://docs.astral.sh/ruff/) for linting and formatting
+- Various internal tweaks and adjustments
 
 # 1.2.0
 
