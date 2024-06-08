@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import UTC, datetime
 from typing import Any
 
 from flask_sqlalchemy import SQLAlchemy
@@ -14,6 +14,11 @@ class Base(DeclarativeBase): ...
 
 
 db = SQLAlchemy(model_class=Base)
+
+
+def now_in_utc() -> datetime:
+    """Get the current datetime, expressed in UTC."""
+    return datetime.now(tz=UTC)
 
 
 class HelperMethods:
@@ -40,8 +45,8 @@ class WebLink(HelperMethods, Base):
     )
     date_added: Mapped[datetime] = mapped_column(
         nullable=False,
-        default=datetime.now,
-        onupdate=datetime.now,
+        default=now_in_utc,
+        onupdate=now_in_utc,
     )
     is_dead: Mapped[bool] = mapped_column(default=False)
     is_web_archive: Mapped[bool] = mapped_column(default=False)
