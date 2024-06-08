@@ -1,4 +1,4 @@
-from typing import Any
+from typing import Any, Sequence
 from uuid import UUID
 
 from flask import abort, request
@@ -13,7 +13,7 @@ from src.core.database import weblink as db
 class WebRing(MethodView):
     @root.arguments(models.WebLinkGet, location="query", as_kwargs=True)
     @root.response(200, models.WebLink(many=True))
-    def get(self, **kwargs: Any) -> list[models.WebLink]:
+    def get(self, **kwargs: Any) -> Sequence[models.WebLink]:
         """Fetch webring items.
 
         Provide the appropriate query string arguments to

@@ -23,10 +23,16 @@ httpx = "^0.27.0"
 mypy = "^1.10.0"
 pytest = "^8.2.2"
 ruff = "^0.4.8"
+types-flask-cors = "^4.0.0.20240523"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.mypy]
+[[tool.mypy.overrides]]
+module = ["flask_smorest", "sys_vars", "sqlalchemy"]
+ignore_missing_imports = true
 
 [tool.ruff]
 target-version = "py311"

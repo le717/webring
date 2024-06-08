@@ -797,6 +797,20 @@ files = [
 python-dotenv = ">=0.21.0,<0.22.0"
 
 [[package]]
+name = "types-flask-cors"
+version = "4.0.0.20240523"
+description = "Typing stubs for Flask-Cors"
+optional = false
+python-versions = ">=3.8"
+files = [
+    {file = "types-Flask-Cors-4.0.0.20240523.tar.gz", hash = "sha256:be57da07b6fd398eef2a79d4d43436fb72cfc3dd23a29a141627cd12576b8b1b"},
+    {file = "types_Flask_Cors-4.0.0.20240523-py3-none-any.whl", hash = "sha256:010c03c4f4f17ee1fb4eea6072f86c90bac03692b8ec09d2f7078bc72a6b1694"},
+]
+
+[package.dependencies]
+Flask = ">=2.0.0"
+
+[[package]]
 name = "typing-extensions"
 version = "4.12.2"
 description = "Backported and Experimental Type Hints for Python 3.8+"
@@ -849,4 +863,4 @@ watchdog = ["watchdog (>=2.3)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.11"
-content-hash = "e05ced61649737cbe3b2b91cf3a728e951919637ad4666e65814522547098b33"
+content-hash = "5e164a384da19e88617d19b41da310121c07af0e2df3d317868db4e42cc462e3"
