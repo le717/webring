@@ -17,8 +17,8 @@ Starting with version 1.3.0, new filtering options are available to restrict the
 items. These filters are supported on both the root URL and the simple embed endpoints. These
 options are provided through query parameters to the URLs.
 
-- `include_rotted: bool = "yes"`: Include links that have been determined to be rotten.
-- `exclude_origin: bool = "yes"`: Remove the site requested the webring from the results, if present.
+- `include_rotted: bool = "yes"`: Include links that have been determined to be rotten
+- `exclude_origin: bool = "yes"`: Remove the site requested the webring from the results, if present
 
 ### Automatic simple embed
 
@@ -47,6 +47,17 @@ also not minified, which could also increase your page load time. If you want or
 control over loading and displaying the ring, it is suggested to manually call the ring's root URL
 to fetch the entries and display them as you desire.
 
+### Discord channel logger
+
+If the [Discord](https://discord.com) logger is enabled and configured, links that are found to be
+rotting or rotted will be reported in a Discord channel. This can be helpful for keeping up with
+the webring's health and ensuring recorded sites are available. Configuring the Discord logger
+is kept as simple as possible.
+
+1. Set the `ENABLE_DISCORD_LOGGING` secret value to `True` to enable the logger
+1. Follow the Discord documentation for [creating a webhook](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
+1. Get the Discord webhook URL from the configuration and set it as the value for
+the `DISCORD_WEBHOOK_URL` secret key
 
 ## Required Secrets
 
