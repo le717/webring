@@ -1,8 +1,9 @@
 import os
+from pathlib import Path
 
 import pytest
 
-os.environ["SYS_VARS_PATH"] = f"{os.getcwd()}/tests/secrets"
+os.environ["SYS_VARS_PATH"] = (Path.cwd() / "tests" / "secrets").as_posix()
 
 from src.app_factory import create_app
 from src.core.database.schema import db
@@ -17,15 +18,15 @@ def app():
     os.environ["SECRET_KEY"] = "testing-secret-key"
     os.environ["TIMES_FAILED_THRESHOLD"] = "3"
     os.environ["ENABLE_DISCORD_LOGGING"] = "false"
-    os.makedirs("tests/db", exist_ok=True)
+    Path("tests/db").mkdir(parents=True, exist_ok=True)
 
     app = create_app()
     yield app
 
     with app.app_context():
         db.drop_all()
-        os.unlink(os.environ["DB_PATH"])
-        os.rmdir("tests/db")
+        Path(os.environ["DB_PATH"]).unlink()
+        Path("tests/db").rmdir()
 
 
 @pytest.fixture
