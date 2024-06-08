@@ -13,7 +13,8 @@ _Released TDB_
 - Update OpenAPI spec version
 - Update minimum Python version to 3.11
 - Update to Flask v3
-- ~~Update SQLAlchemy to v2~~ _update pending_
+- Update to SQLAlchemy v2
+- ~~Migrate SQLAlchemy to v2 API~~ _update pending_
 - Update Docker image to `python:3.11-slim`
 - Update all dependencies to their latest versions
 - Switch to [ruff](https://docs.astral.sh/ruff/) for linting and formatting
