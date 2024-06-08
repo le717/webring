@@ -52,7 +52,7 @@ into that area of your site. A simple setup might look as follows:
 
 ```html
 <section id="webring-embed-area">
-  <noscript>The webring could be loaded because your browser doesn't support running JavaScript.</noscript>
+  <noscript>The webring couldn't be loaded because your browser doesn't support running JavaScript.</noscript>
 </section>
 
 <!-- Load the webring -->
