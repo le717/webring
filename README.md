@@ -4,9 +4,8 @@
 
 ## Features
 
-- View all entries in the ring
+- Create, update, view, and delete entries
 - Automatically provided JavaScript to embed a simple rendering of all entries
-- Create, update, and delete entries
 - Linkrot checking, with Web Archive fallback url for dead links (when possible)
 - Optional linkrot event logging to [Discord](https://discord.com/) channel
 
@@ -14,7 +13,7 @@
 
 Because websites can and will eventually vanish, even after
 [a few months](https://www.theregister.com/2024/05/20/webpages_vanish_decade/), linkrot is a real
-problem for webrings. Because they are manually curated and maintained, knowing if an entry is
+problem for webrings. As they are manually curated and maintained, knowing if an entry is
 no longer available can be a maintenance burden. To that end, this webring has built-in rotten link
 detection. However, it is not automatically set up and must be configured on your server.
 
@@ -22,7 +21,7 @@ The entire webring can be checked for rotten links by issuing an authenticated `
 the `/linkrot/` endpoint. Each entry that has not previously been determined to be dead will
 be checked for a 200, 201, 204, or 304 HTTP response. If a URL fails that check, that failure
 will be recorded. Once the check has failed more than the configured `TIMES_FAILED_THRESHOLD` limit,
-the [Web Archive](http://web.archive.org/) site will be checked for an archived version. If found,
+the [Web Archive](https://web.archive.org/) site will be checked for an archived version. If found,
 the entry will be updated to use that link and the entry title will be adjusted to note such.
 If there is no archived version, the site will be recorded as dead and the entry title adjusted.
 
@@ -31,29 +30,32 @@ Individual entries, including dead entries, can also be checked.
 One way to configure the linkrot check to run automatically is to create a Python script that
 makes the aforementioned `POST` request and schedule it to automatically run via some scheduler.
 
-### Filtering webring items
+### Filtering webring entries
 
 Starting with version 1.3.0, new filtering options are available to restrict the provided webring
-items. These filters are supported on both the root URL and the simple embed endpoints. These
+entries. These filters are supported on both the root URL and the simple embed endpoints. These
 options are provided through query parameters to the URLs.
 
-- `include_rotted: bool = "yes"`: Include links that have been determined to be rotten
-- `exclude_origin: bool = "yes"`: Remove the site requesting the webring from the results,
+- `include_rotted: bool = "yes"`: Include entries that have been determined to be rotten
+- `exclude_origin: bool = "yes"`: Remove the site requesting the webring from the entries,
 if present
 
 ### Automatic simple embed
 
 Starting with version 1.3.0, a JavaScript file is provided to generate and embed a simple rendering
-of the webring into your site. It includes the entire ring in the script, preventing any additional
-requests to fetch ring entries.
+of the webring into your site. It includes all entries in the script, preventing any additional
+HTTP requests.
 
 To use it, create an HTML element in your page with a CSS ID of `webring-embed-area`.
-If the selector is found and there are webring items to display, the webring will be injected
+If the selector is found and there are entries to display, the webring will be injected
 into that area of your site. A simple setup might look as follows:
 
 ```html
+<!-- Create an area to display the webring -->
 <section id="webring-embed-area">
-  <noscript>The webring couldn't be loaded because your browser doesn't support running JavaScript.</noscript>
+  <noscript>
+    The webring could not be loaded because your browser doesn't support running JavaScript.
+  </noscript>
 </section>
 
 <!-- Load the webring -->
@@ -63,16 +65,16 @@ into that area of your site. A simple setup might look as follows:
 As illustrated, a no-js fallback is recommended for visitors to your site that may have JavaScript
 execution disabled or lack JS support completely in their browser.
 
-Note this could potentially be slow, depending on the number of entries in the ring. This script is
+Note this could potentially be slow, depending on the number of entries. This script is
 also not minified, which could also increase your page load time. If you want or need greater
-control over loading and displaying the wrbring, it is suggested to manually call the webring's
-root URL to fetch the entries and display them as you desire.
+control over loading and displaying the webring, it is suggested to manually call the root URL to
+fetch the entries and display them as you desire.
 
 ### Discord channel logger
 
-If the [Discord](https://discord.com) logger is enabled and configured, links that are found to be
+If the [Discord](https://discord.com) logger is enabled and configured, entries that are found to be
 rotting or rotted will be reported in a Discord channel. This can be helpful for keeping up with
-the webring's health and ensuring recorded sites are available. Configuring the Discord logger
+the webring's health and ensuring entries are available. Configuring the Discord logger
 is kept as simple as possible.
 
 1. Set the `ENABLE_DISCORD_LOGGING` secret value to `True` to enable the logger
