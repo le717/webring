@@ -8,12 +8,13 @@ _Released TDB_
 - Add ability to control showing rotted and same-origin results for root entrypoint and simple embed
 - Add readme sections to explain new filtering and embed features
 - Ensure the `date_added` field is expressed in UTC
+- Replace `requests` with `python-httpx`
+- Update OpenAPI spec version
 - Update minimum Python version to 3.11
 - Update to Flask v3
 - ~~Update SQLAlchemy to v2~~ _update pending_
 - Update Docker image to `python:3.11-slim`
 - Update all dependencies to their latest versions
-- Replace `requests` with `python-httpx`
 - Switch to [ruff](https://docs.astral.sh/ruff/) for linting and formatting
 - Various internal tweaks and adjustments
 
