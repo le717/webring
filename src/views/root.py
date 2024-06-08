@@ -11,7 +11,7 @@ from src.core.database import weblink as db
 @root.route("/")
 class WebRing(MethodView):
     @root.response(200, models.WebLink(many=True))
-    def get(self):
+    def get(self) -> list[models.WebLink]:
         """Fetch webring items.
 
         This will return rotted links in the result set.
@@ -32,7 +32,7 @@ class WebRing(MethodView):
     @root.arguments(models.AuthKey, location="query", as_kwargs=True)
     @root.arguments(models.WebLinkId, location="path", as_kwargs=True)
     @root.response(204, models.Empty)
-    def delete(self, **kwargs: Any):
+    def delete(self, **kwargs: Any) -> None:
         """Delete a webring item."""
         del kwargs["auth_key"]
         db.delete(str(kwargs["id"]))
@@ -42,7 +42,7 @@ class WebRing(MethodView):
     @root.arguments(models.WebLinkUpdate, location="json", as_kwargs=True)
     @root.response(204, models.Empty)
     @root.alt_response(400, schema=models.HttpError)
-    def patch(self, **kwargs: Any):
+    def patch(self, **kwargs: Any) -> None:
         """Update a webring item."""
         del kwargs["auth_key"]
 

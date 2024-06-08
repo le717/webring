@@ -1,4 +1,5 @@
 from typing import Any
+
 from flask.views import MethodView
 
 from src.blueprints import linkrot
@@ -10,7 +11,7 @@ from src.core.database import linkrot as db
 class LinkRotCheck(MethodView):
     @linkrot.arguments(models.AuthKey, location="query", as_kwargs=True)
     @linkrot.response(200, models.RotResult(many=True))
-    def post(self, **kwargs: Any):
+    def post(self, **kwargs: Any) -> list[models.RotResult]:
         """Check all links in the ring for link rot."""
         del kwargs["auth_key"]
         return db.check_all()
@@ -21,7 +22,7 @@ class LinkRotSingleCheck(MethodView):
     @linkrot.arguments(models.AuthKey, location="query", as_kwargs=True)
     @linkrot.arguments(models.WebLinkId, location="path", as_kwargs=True)
     @linkrot.response(200, models.RotResult)
-    def post(self, **kwargs: Any):
+    def post(self, **kwargs: Any) -> models.RotResult:
         """Check a single link in the ring for link rot."""
         del kwargs["auth_key"]
         return db.check_one(str(kwargs["id"]))

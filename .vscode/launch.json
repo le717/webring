@@ -10,7 +10,7 @@
       "request": "launch",
       "module": "flask",
       "console": "internalConsole",
-      "jinja": false,
+      "jinja": true,
       "justMyCode": true,
       "env": {
         "FLASK_APP": "wsgi.py",
@@ -23,7 +23,9 @@
       },
       "args": [
         "run",
-        "--no-debugger"
+        "--no-debugger",
+        "--no-reload"
+
       ]
     },
     {
