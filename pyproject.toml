@@ -47,6 +47,8 @@ ignore = [
   "PLR6301", # no-self-use
   "PLR1711", # useless-return
   "RET501",  # unnecessary-return-none
+  "TD002",   # missing-todo-author
+  "TD003",   # missing-todo-link
 ]
 
 select = [
