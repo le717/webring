@@ -21,9 +21,9 @@ The entire webring can be checked for rotten links by issuing an authenticated `
 the `/linkrot/` endpoint. Each entry that has not previously been determined to be dead will
 be checked for a 200, 201, 204, or 304 HTTP response. If a URL fails that check, that failure
 will be recorded. Once the check has failed more than the configured `TIMES_FAILED_THRESHOLD` limit,
-the [Web Archive](https://web.archive.org/) site will be checked for an archived version. If found,
-the entry will be updated to use that link and the entry title will be adjusted to note such.
-If there is no archived version, the site will be recorded as dead and the entry title adjusted.
+the [Web Archive](https://web.archive.org/) will be checked for an archived version. If found,
+the entry will be updated to use that link and the title will be adjusted to note such.
+If there is no archived version, the entry will be recorded as dead and the title adjusted.
 
 Individual entries, including dead entries, can also be checked.
 
@@ -62,16 +62,17 @@ into that area of your site. A simple setup might look as follows:
 </section>
 
 <!-- Load the webring -->
-<script src="https://example.com/webring-embed.js"></script>
+<script defer src="https://example.com/webring-embed.js"></script>
 ```
 
 As illustrated, a no-js fallback is recommended for visitors to your site that may have JavaScript
-execution disabled or lack JS support completely in their browser.
+execution disabled or do not have JavaScript support.
 
-Note this could potentially be slow, depending on the number of entries. This script is
-also not minified, which could also increase your page load time. If you want or need greater
-control over loading and displaying the webring, it is suggested to manually call the root URL to
-fetch the entries and display them as you desire.
+Note that using the simple embed could potentially be slow and increase the page load time,
+depending on the number of entries. This script is also not minified, which could also increase the
+page load time. If greater control over loading and displaying the webring is desired, it is
+suggested to manually call the root URL to fetch and display the entries, or put the webring on a
+non-heavily trafficked page of your site.
 
 ### Discord channel logger
 
