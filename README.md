@@ -12,7 +12,7 @@
 ### Rotting links checking
 
 Because websites can and will eventually vanish, even after
-[a few months](https://www.theregister.com/2024/05/20/webpages_vanish_decade/), linkrot is a real
+[a few months](https://www.theregister.com/2024/05/20/webpages_vanish_decade/), link rot is a real
 problem for webrings. As they are manually curated and maintained, knowing if an entry is
 no longer available can be a maintenance burden. To that end, this webring has built-in rotten link
 detection. However, it is not automatically set up and must be configured on your server.
@@ -57,7 +57,7 @@ into that area of your site. A simple setup might look as follows:
 <!-- Create an area to display the webring -->
 <section id="webring-embed-area">
   <noscript>
-    The webring could not be loaded because your browser doesn't support running JavaScript.
+    The webring could not be loaded because your browser doesn't support JavaScript.
   </noscript>
 </section>
 
