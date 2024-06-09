@@ -55,7 +55,7 @@ if get_dev_packages:
 
 # Work out all of the requirements, and generate a simple requirements.txt file
 all_packages = filter_packages(poetry_lock["package"], dev_packages)
-with Path("requirements.txt").open("w") as f:
+with Path("requirements.txt").open("w", encoding="utf-8") as f:
     # Write all the requested packages
     for package in all_packages:
         f.write(f"{get_package(package)}\n")

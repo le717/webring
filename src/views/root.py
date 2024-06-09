@@ -36,7 +36,7 @@ class WebRing(MethodView):
 
 
 @root.route("/<uuid:id>")
-class WebRing(MethodView):
+class WebRingItem(MethodView):
     @root.arguments(models.AuthKey, location="query", as_kwargs=True)
     @root.arguments(models.WebLinkId, location="path", as_kwargs=True)
     @root.response(204, models.Empty)

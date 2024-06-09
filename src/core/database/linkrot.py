@@ -26,13 +26,12 @@ class RotResult(TypedDict):
 def __ping_url(url: str) -> bool:
     """Check a link for rotting."""
     try:
-        r = httpx.head(url)
-        return r.status_code in (
+        return httpx.head(url).status_code in {
             httpx.codes.OK,
             httpx.codes.CREATED,
             httpx.codes.NO_CONTENT,
             httpx.codes.NOT_MODIFIED,
-        )
+        }
     except httpx.HTTPError:
         logger.info({
             "id": "N/A",

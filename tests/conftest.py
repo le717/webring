@@ -16,7 +16,7 @@ from src.core.database.schema import Base, db
 from tests.helpers import VALID_AUTH
 
 
-@pytest.fixture
+@pytest.fixture()
 def app(tmp_path):
     os.environ["ENV"] = "testing"
     os.environ["DB_PATH"] = (tmp_path / "database.db").as_posix()
@@ -34,14 +34,14 @@ def app(tmp_path):
             # Tell Alembic this is a new database and
             # we don't need to update it to a newer schema
             command.stamp(Config("alembic.ini"), "head")
-    yield app
+    return app
 
 
-@pytest.fixture
+@pytest.fixture()
 def client(app) -> Any:
     return app.test_client()
 
 
-@pytest.fixture
+@pytest.fixture()
 def runner(app) -> Any:
     return app.test_cli_runner()

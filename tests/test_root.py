@@ -1,5 +1,7 @@
 import uuid
 
+from httpx import codes
+
 from tests import helpers
 
 
@@ -15,7 +17,7 @@ def test_create_good_item(client) -> None:
         helpers.authed_request("/", auth=helpers.VALID_AUTH),
         json=helpers.item_all_good(),
     )
-    assert response.status_code == 201
+    assert response.status_code == codes.CREATED
     assert isinstance(uuid.UUID(helpers.from_json(response.data)["id"]), uuid.UUID)
 
 
@@ -25,7 +27,7 @@ def test_create_item_dead_url(client) -> None:
         helpers.authed_request("/", auth=helpers.VALID_AUTH),
         json=helpers.item_dead_url(),
     )
-    assert response.status_code == 201
+    assert response.status_code == codes.CREATED
     assert isinstance(uuid.UUID(helpers.from_json(response.data)["id"]), uuid.UUID)
 
 
@@ -42,7 +44,7 @@ def test_delete_item(client) -> None:
             auth=helpers.VALID_AUTH,
         ),
     )
-    assert response.status_code == 204
+    assert response.status_code == codes.NO_CONTENT
 
 
 def test_update_item_title(client) -> None:
@@ -59,7 +61,7 @@ def test_update_item_title(client) -> None:
         ),
         json={"title": "My amazing website"},
     )
-    assert response.status_code == 204
+    assert response.status_code == codes.NO_CONTENT
 
 
 def test_update_item_dead_url(client) -> None:
@@ -76,4 +78,4 @@ def test_update_item_dead_url(client) -> None:
         ),
         json={"url": "https://example.com"},
     )
-    assert response.status_code == 204
+    assert response.status_code == codes.NO_CONTENT

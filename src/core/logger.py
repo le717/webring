@@ -8,7 +8,7 @@ import sys_vars
 from flask import request
 
 
-__all__ = ["logger", "DiscordHandler", "file_handler"]
+__all__ = ["DiscordHandler", "file_handler", "logger"]
 
 
 logger = logging.getLogger("linkrot-status")
@@ -62,6 +62,6 @@ def file_handler(log_name: str, *, linkrot: bool = False) -> RotatingFileHandler
     else:
         handler.setLevel(logging.ERROR)
         handler.setFormatter(
-            logging.Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s")
+            logging.Formatter("[%(asctime)s] %(levelname)s in %(module)s: %(message)s"),
         )
     return handler

@@ -1,3 +1,5 @@
+from httpx import codes
+
 from tests import helpers
 
 
@@ -19,7 +21,7 @@ def test_single_link_single_fail(client) -> None:
     )
     response = client.post(helpers.authed_request("/", "linkrot", item_id, auth=helpers.VALID_AUTH))
     response_data = helpers.from_json(response.get_data(as_text=True))
-    assert response.status_code == 200
+    assert response.status_code == codes.OK
     assert response_data["id"] == item_id
     assert response_data["url"] == helpers.item_dead_url()["url"]
     assert response_data["result"]["times_failed"] == 1
@@ -37,10 +39,10 @@ def test_single_link_is_dead(client) -> None:
     item_id = helpers.from_json(creation.data)["id"]
     for _ in range(3):
         response = client.post(
-            helpers.authed_request("/", "linkrot", item_id, auth=helpers.VALID_AUTH)
+            helpers.authed_request("/", "linkrot", item_id, auth=helpers.VALID_AUTH),
         )
     response_data = helpers.from_json(response.get_data(as_text=True))
-    assert response.status_code == 200
+    assert response.status_code == codes.OK
     assert response_data["id"] == item_id
     assert response_data["url"] == helpers.item_dead_url()["url"]
     assert response_data["result"]["times_failed"] == 0

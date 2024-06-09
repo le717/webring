@@ -8,9 +8,9 @@ __all__ = [
     "VALID_AUTH",
     "authed_request",
     "from_json",
-    "to_json",
     "item_all_good",
     "item_dead_url",
+    "to_json",
 ]
 
 
