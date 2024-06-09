@@ -1,4 +1,4 @@
-version: '3.7'
+name: webring
 
 services:
   webring:
@@ -12,5 +12,3 @@ services:
       - 127.0.0.1:5000:80
     environment:
       - FLASK_ENV=production
-      - FILTER_INCLUDE_ROTTED=true
-      - FILTER_EXCLUDE_ORIGIN=true

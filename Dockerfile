@@ -6,7 +6,9 @@ ENV PYTHONPATH=/app \
     FLASK_APP=wsgi.py \
     FLASK_SKIP_DOTENV=1 \
     TIMES_FAILED_THRESHOLD=10 \
-    ENABLE_DISCORD_LOGGING=false
+    ENABLE_DISCORD_LOGGING=false \
+    FILTER_INCLUDE_ROTTED=true \
+    FILTER_EXCLUDE_ORIGIN=true
 
 # Copy the app files into the container
 RUN mkdir -p /app
