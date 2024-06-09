@@ -1,6 +1,6 @@
 # 1.3.1
 
-_Released TDB_
+_Released June 9, 2024_
 
 - Add `FILTER_INCLUDE_ROTTED` and `FILTER_EXCLUDE_ORIGIN` app configuration keys
   - These allow changing the default filtering options for all requests
