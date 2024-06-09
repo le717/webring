@@ -12,4 +12,5 @@ services:
       - 127.0.0.1:5000:80
     environment:
       - FLASK_ENV=production
-      - TIMES_FAILED_THRESHOLD=5
+      - FILTER_INCLUDE_ROTTED=true
+      - FILTER_EXCLUDE_ORIGIN=true

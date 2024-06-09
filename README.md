@@ -40,6 +40,9 @@ options are provided through query parameters to the URLs.
 - `exclude_origin: bool = "yes"`: Remove the site requesting the webring from the entries,
 if present
 
+These values can also be set globally through the app configuration but will be overridden by
+individual requests.
+
 ### Automatic simple embed
 
 Starting with version 1.3.0, a JavaScript file is provided to generate and embed a simple rendering
@@ -84,7 +87,7 @@ the `DISCORD_WEBHOOK_URL` secret key
 
 A text file logger for events is always configured.
 
-## Required Secrets
+## Required Secret/Configuration Keys
 
 - Flask secret key (`SECRET_KEY`)
 - Flask app environment (`FLASK_ENV`) set to `"production"`
@@ -93,6 +96,9 @@ A text file logger for events is always configured.
 - Integer number of times supposed rotted links should be checked (`TIMES_FAILED_THRESHOLD`, default: 10)
 - Discord linkrot event logging boolean (`ENABLE_DISCORD_LOGGING`, default: `False`)
   - Discord webhook URL (`DISCORD_WEBHOOK_URL`)
+- Webring entry filtering
+  - `FILTER_INCLUDE_ROTTED`, default: `True`
+  - `FILTER_EXCLUDE_ORIGIN`, default: `True`
 
 ## Development
 

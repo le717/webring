@@ -1,5 +1,6 @@
 from datetime import UTC
 
+import sys_vars
 from marshmallow import Schema, fields
 
 
@@ -23,8 +24,12 @@ class WebLinkCreate(Schema):
 
 
 class WebLinkGet(Schema):
-    include_rotted = fields.Boolean(load_default=True)
-    exclude_origin = fields.Boolean(load_default=True)
+    include_rotted = fields.Boolean(
+        load_default=sys_vars.get_bool("FILTER_INCLUDE_ROTTED", default=True)
+    )
+    exclude_origin = fields.Boolean(
+        load_default=sys_vars.get_bool("FILTER_EXCLUDE_ORIGIN", default=True)
+    )
 
 
 class WebLinkId(Schema):

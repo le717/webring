@@ -19,7 +19,9 @@
         "SYS_VARS_PATH": "${workspaceFolder}/secrets",
         "DB_PATH": "${workspaceFolder}/database/database.db",
         "TIMES_FAILED_THRESHOLD": "3",
-        "ENABLE_DISCORD_LOGGING": "false"
+        "ENABLE_DISCORD_LOGGING": "false",
+        "FILTER_INCLUDE_ROTTED": "true",
+        "FILTER_EXCLUDE_ORIGIN": "true"
       },
       "args": [
         "run",
@@ -42,7 +44,9 @@
         "SYS_VARS_PATH": "${workspaceFolder}/secrets",
         "DB_PATH": "${workspaceFolder}/database/database.db",
         "TIMES_FAILED_THRESHOLD": "5",
-        "ENABLE_DISCORD_LOGGING": "true"
+        "ENABLE_DISCORD_LOGGING": "true",
+        "FILTER_INCLUDE_ROTTED": "true",
+        "FILTER_EXCLUDE_ORIGIN": "true"
       },
       "args": [
         "run",
