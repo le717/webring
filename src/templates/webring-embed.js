@@ -1,3 +1,4 @@
+/*! webring v{{ config.API_VERSION }} - https://github.com/le717/webring */
 (async function() {
   "use strict";
 
