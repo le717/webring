@@ -42,7 +42,6 @@ class WebLink(HelperMethods, Base):
     description: Mapped[str]
     url: Mapped[str]
     date_added: Mapped[datetime] = mapped_column(
-        nullable=False,
         default=now_in_utc,
         onupdate=now_in_utc,
     )
