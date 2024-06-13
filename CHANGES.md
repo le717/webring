@@ -5,7 +5,6 @@ _Released TBD_
 - Add application version in comment in simple embed JavaScript
   - This will help consumers better determine what version of the webring is being run
     and what features are supported
-- Generate `ETag` header on webring root `GET` request
 - Dependency updates
 
 # 1.3.1

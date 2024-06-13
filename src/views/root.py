@@ -11,7 +11,6 @@ from src.core import models
 
 
 @root.route("/")
-@root.etag
 class WebRing(MethodView):
     @root.arguments(models.WebLinkGet, location="query", as_kwargs=True)
     @root.response(200, models.WebLink(many=True))
@@ -37,7 +36,6 @@ class WebRing(MethodView):
 
 
 @root.route("/<uuid:id>")
-@root.etag
 class WebRingItem(MethodView):
     @root.arguments(models.AuthKey, location="query", as_kwargs=True)
     @root.arguments(models.WebLinkId, location="path", as_kwargs=True)
