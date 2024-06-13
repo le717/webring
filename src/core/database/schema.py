@@ -2,7 +2,7 @@ from datetime import UTC, datetime
 from typing import Any, ClassVar
 
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import Integer, String, inspect
+from sqlalchemy import String, inspect
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
@@ -38,11 +38,9 @@ class WebLink(HelperMethods, Base):
     __table_args__: ClassVar = {"comment": "Store the webring entries."}
 
     id: Mapped[str] = mapped_column(String, primary_key=True)
-    title: Mapped[str] = mapped_column(String)
-    description: Mapped[str] = mapped_column(String)
-    url: Mapped[str] = mapped_column(
-        String,
-    )
+    title: Mapped[str]
+    description: Mapped[str]
+    url: Mapped[str]
     date_added: Mapped[datetime] = mapped_column(
         nullable=False,
         default=now_in_utc,
@@ -57,4 +55,4 @@ class RottedLinks(HelperMethods, Base):
     __table_args__: ClassVar = {"comment": "Log rotting webring entries."}
 
     id: Mapped[str] = mapped_column(String, primary_key=True)
-    times_failed: Mapped[int] = mapped_column(Integer)
+    times_failed: Mapped[int]
