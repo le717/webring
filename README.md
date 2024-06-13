@@ -103,7 +103,7 @@ A text file logger for events is always configured.
 
 ## Development
 
-1. Install Python 3.11+, [Poetry](https://python-poetry.org/) 1.6.0+, and VS Code
+1. Install Python 3.11+, [Poetry](https://python-poetry.org/) 1.8.0+, and VS Code
 1. Create required secret keys (default: `/app/secrets` or environment)
 1. Run `poetry install`
 1. Launch the API using the provided VS Code launch configuration

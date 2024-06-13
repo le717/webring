@@ -4,6 +4,7 @@ version = "1.3.2"
 description = "Because everything on the Web eventually loops back onto itself."
 authors = ["Caleb <le717@users.noreply.github.com>"]
 license = "MIT"
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.11"
