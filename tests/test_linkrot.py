@@ -4,7 +4,7 @@ from tests import helpers
 
 
 def test_single_link_single_fail(client) -> None:
-    """Ensure a dead link is flagged as rotten status of 'maybe'."""
+    """Ensure a dead link is flagged is not web archived or dead but failed the rot check once."""
     creation = client.post(
         helpers.authed_request("/", auth=helpers.VALID_AUTH),
         json=helpers.item_all_good(),
@@ -30,7 +30,7 @@ def test_single_link_single_fail(client) -> None:
 
 
 def test_single_link_is_dead(client) -> None:
-    """Ensure a dead link is flagged as rotten status of 'yes'."""
+    """Ensure a dead link is flagged as dead."""
     creation = client.post(
         helpers.authed_request("/", auth=helpers.VALID_AUTH),
         json=helpers.item_dead_url(),
@@ -48,3 +48,9 @@ def test_single_link_is_dead(client) -> None:
     assert response_data["result"]["times_failed"] == 0
     assert response_data["result"]["is_dead"] is True
     assert response_data["result"]["is_web_archive"] is False
+
+
+def test_single_link_is_web_archive(client) -> None:
+    """Ensure a dead link is flagged as a web archive link."""
+    # TODO: Fill in this test
+    assert True is True
