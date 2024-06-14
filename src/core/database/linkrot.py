@@ -109,6 +109,7 @@ def check_one(uuid: WebLink | str) -> RotResult | None:
                 "url": link.url,
                 "message": "Link has been marked to not be dead or a Web Archive reference.",
             })
+            # TODO: Can these be Booleans instead of ints?
             weblink.update({
                 "id": link.uuid,
                 "is_dead": 0,
@@ -147,11 +148,11 @@ def __record_failure(data: WebLink) -> Check:
         result["times_failed"] = existing.times_failed
         return result
 
-    # The failure has occurred too often,
-    # check the Web Archive for an archived URL
+    # The failure has occurred too often, check the Web Archive for an archived URL
     revised_info = {"id": data.uuid}
     if wb_url := __ping_wayback_machine(data.url):
         revised_info["url"] = wb_url
+        # TODO: Can revised_info["is_dead"] = True?
         revised_info["is_web_archive"] = 1
         result["is_web_archive"] = True
         logger.critical({

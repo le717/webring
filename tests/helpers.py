@@ -10,6 +10,7 @@ __all__ = [
     "from_json",
     "item_all_good",
     "item_dead_url",
+    "item_web_archive_url",
     "to_json",
 ]
 
@@ -40,6 +41,14 @@ def item_dead_url() -> dict[str, str]:
         "title": "A broken website",
         "description": "This is a broken website.",
         "url": "https://noooooooo.tld.that.does.not.exist.at.all",
+    }
+
+
+def item_web_archive_url() -> dict[str, str]:
+    return {
+        "title": "A Web Archive only website",
+        "description": "This is a website that is only available via the Web Archive.",
+        "url": "https://triangle717.wordpress.com",
     }
 
 

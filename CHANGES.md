@@ -9,6 +9,7 @@ _Released TBD_
   - The previous UUID has been moved to the `uuid` field
   - **No request or response formats and structures have changed**
 - Improve linkrot check all efficiency by not looking up entries twice
+- Add test to create and check for an entry only available via the Web Archive
 - Dependency updates
 
 # 1.3.1

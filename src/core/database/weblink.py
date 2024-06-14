@@ -69,17 +69,16 @@ def get_all(include_rotted: bool = False, **kwargs: Any) -> list[WebLink]:
 
     # Remove all rotted links
     if not include_rotted:
-        # TODO: Can this be a Boolean comparison?
-        filters.append(WebLink.is_dead != "1")
-    wbs = db.session.execute(db.select(WebLink).filter(*filters)).scalars().all()
+        filters.append(WebLink.is_dead == False)
+    entries = db.session.execute(db.select(WebLink).filter(*filters)).scalars().all()
 
     # Adjust the title of the link depending on status
-    for wb in wbs:
+    for wb in entries:
         if wb.is_dead:
             wb.title += " (Dead link)"
         elif wb.is_web_archive:
             wb.title += " (Web Archive link)"
-    return wbs
+    return entries
 
 
 def update(data: dict) -> bool:
