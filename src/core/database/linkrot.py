@@ -82,7 +82,9 @@ def delete_rot_record(uuid: str) -> bool:
 
 def check_all() -> list[RotResult]:
     """Check all links for rotting."""
-    return [check_one(link) for link in weblink.get_all(include_rotted=False)]
+    return [
+        check_one(link) for link in weblink.get_all(include_rotted=True, include_web_archive=True)
+    ]
 
 
 def check_one(uuid: WebLink | str) -> RotResult | None:
@@ -91,9 +93,17 @@ def check_one(uuid: WebLink | str) -> RotResult | None:
     # If it doesn't exist in the db, we can't do anything
     if isinstance(uuid, str) and (uuid := weblink.get(uuid)) is None:
         return None
+    link = uuid
+
+    # If the site is already marked as a Web Archive entry, don't do anything more
+    if link.is_web_archive:
+        return RotResult(
+            id=link.uuid,
+            url=link.url,
+            result=Check(times_failed=0, is_dead=False, is_web_archive=True),
+        )
 
     # If the site could be pinged, we're all good
-    link = uuid
     if __ping_url(link.url):
         # A rotten link has been revived
         result = RotResult(
@@ -109,11 +119,10 @@ def check_one(uuid: WebLink | str) -> RotResult | None:
                 "url": link.url,
                 "message": "Link has been marked to not be dead or a Web Archive reference.",
             })
-            # TODO: Can these be Booleans instead of ints?
             weblink.update({
                 "id": link.uuid,
-                "is_dead": 0,
-                "is_web_archive": 0,
+                "is_dead": False,
+                "is_web_archive": False,
             })
         return result
 
@@ -152,8 +161,7 @@ def __record_failure(data: WebLink) -> Check:
     revised_info = {"id": data.uuid}
     if wb_url := __ping_wayback_machine(data.url):
         revised_info["url"] = wb_url
-        # TODO: Can revised_info["is_dead"] = True?
-        revised_info["is_web_archive"] = 1
+        revised_info["is_web_archive"] = True
         result["is_web_archive"] = True
         logger.critical({
             "id": data.uuid,
@@ -163,8 +171,7 @@ def __record_failure(data: WebLink) -> Check:
 
     # An archive url doesn't exist, mark as a dead link
     else:
-        # TODO: Can revised_info["is_dead"] = True?
-        revised_info["is_dead"] = 1
+        revised_info["is_dead"] = True
         result["is_dead"] = True
         logger.critical({
             "id": data.uuid,

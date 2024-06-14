@@ -30,7 +30,7 @@ class WebRing(MethodView):
     @root.arguments(models.WebLinkCreate, location="json", as_kwargs=True)
     @root.response(201, models.WebLinkId)
     def post(self, **kwargs: Any) -> dict[str, UUID]:
-        """Create a webring item."""
+        """Create an entry."""
         del kwargs["auth_key"]
         return db.weblink.create(kwargs)
 
@@ -41,7 +41,7 @@ class WebRingItem(MethodView):
     @root.arguments(models.WebLinkId, location="path", as_kwargs=True)
     @root.response(204, models.Empty)
     def delete(self, **kwargs: Any) -> None:
-        """Delete a webring item."""
+        """Delete an entry."""
         del kwargs["auth_key"]
         db.weblink.delete(str(kwargs["id"]))
 
@@ -51,7 +51,7 @@ class WebRingItem(MethodView):
     @root.response(204, models.Empty)
     @root.alt_response(400, schema=models.HttpError)
     def patch(self, **kwargs: Any) -> None:
-        """Update a webring item."""
+        """Update an entry."""
         del kwargs["auth_key"]
 
         kwargs["id"] = str(kwargs["id"])
