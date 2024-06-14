@@ -34,10 +34,10 @@ class HelperMethods:
 
 
 class WebLink(HelperMethods, Base):
-    __tablename__ = "weblinks"
+    __tablename__: str = "weblinks"
     __table_args__: ClassVar = {"comment": "Store the webring entries."}
 
-    id: Mapped[str] = mapped_column(String, primary_key=True)
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
     title: Mapped[str]
     description: Mapped[str]
     url: Mapped[str]
@@ -47,10 +47,11 @@ class WebLink(HelperMethods, Base):
     )
     is_dead: Mapped[bool] = mapped_column(default=False)
     is_web_archive: Mapped[bool] = mapped_column(default=False)
+    uuid: Mapped[str]
 
 
 class RottedLinks(HelperMethods, Base):
-    __tablename__ = "rotted_links"
+    __tablename__: str = "rotted_links"
     __table_args__: ClassVar = {"comment": "Log rotting webring entries."}
 
     id: Mapped[str] = mapped_column(String, primary_key=True)

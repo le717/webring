@@ -1,10 +1,13 @@
-# 1.3.2
+# 1.4.0
 
 _Released TBD_
 
 - Add application version in comment in simple embed JavaScript
   - This will help consumers better determine what version of the webring is being run
     and what features are supported
+- Revise database to use `AUTOINCREMENT PRIMARY KEY INT` for the `id` field
+  - The previous UUID has been moved to the `uuid` field
+  - **No request and response formats and structures have changed**
 - Dependency updates
 
 # 1.3.1

@@ -25,13 +25,14 @@ def embed(**kwargs) -> Response:
     # Get all current links in the webring, including dead links, excluding the current site,
     # and convert them to plain dictionaries for including in the JavaScript file directly,
     # which removes the need for a fetch request on the client
-    all_links = WebLink(only=["id", "url", "title", "description"]).dump(
+    all_links = WebLink(only=["uuid", "url", "title", "description"]).dump(
         db.get_all(include_rotted=kwargs["include_rotted"], **query_args),
         many=True,
     )
 
     # Render the JavaScript module, taking care to indicate it's a JS file
     # so browsers correctly load it
+    # TODO: Consider adding a pre-rendered HTML response
     resp = make_response(render_template("webring-embed.js", all_links=all_links))
     resp.mimetype = "text/javascript"
     return resp

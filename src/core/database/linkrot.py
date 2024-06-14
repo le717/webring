@@ -50,7 +50,7 @@ def __ping_wayback_machine(url: str) -> Literal[False] | str:
 
 
 def __create(data: WebLink) -> Literal[True]:
-    rot_entry = RottedLinks(id=data.id, times_failed=1)
+    rot_entry = RottedLinks(id=data.uuid, times_failed=1)
     db.session.add(rot_entry)
     db.session.commit()
     db.session.refresh(rot_entry)
@@ -82,11 +82,13 @@ def delete(uuid: str) -> bool:
 
 def check_all() -> list[RotResult]:
     """Check all links for rotting."""
-    return [check_one(link.id) for link in weblink.get_all(include_rotted=False)]
+    return [check_one(link.uuid) for link in weblink.get_all(include_rotted=False)]
 
 
 def check_one(uuid: str) -> RotResult | None:
     """Check a single link for rotting."""
+    # TODO: Make this accept  WebLink | str (uuid)
+    # if isinstance(uuid, str): ...
     # The uuid doesn't exist in the db, we can't do anything
     if (link := weblink.get(uuid)) is None:
         return None
@@ -102,19 +104,19 @@ def check_one(uuid: str) -> RotResult | None:
         # A rotten link has been revived
         if delete(uuid):
             logger.info({
-                "id": link.id,
+                "id": link.uuid,
                 "url": link.url,
                 "message": "Link has been marked to not be dead or a Web Archive reference.",
             })
             weblink.update({
-                "id": link.id,
+                "id": link.uuid,
                 "is_dead": 0,
                 "is_web_archive": 0,
             })
 
     # We could not ping the site, decide the next step
     else:
-        result = RotResult(id=link.id, url=link.url, result=__record_failure(link))
+        result = RotResult(id=link.uuid, url=link.url, result=__record_failure(link))
     return result
 
 
@@ -123,11 +125,11 @@ def __record_failure(data: WebLink) -> Check:
     result = Check(times_failed=0, is_dead=False, is_web_archive=False)
 
     # We don't have an existing failure record, so make one
-    existing = __get(data.id)
+    existing = __get(data.uuid)
     if existing is None:
         __create(data)
         logger.error({
-            "id": data.id,
+            "id": data.uuid,
             "url": data.url,
             "message": "Linkrot check failure #1.",
         })
@@ -138,7 +140,7 @@ def __record_failure(data: WebLink) -> Check:
     if (existing.times_failed + 1) < TIMES_FAILED_THRESHOLD:
         __update(existing)
         logger.error({
-            "id": data.id,
+            "id": data.uuid,
             "url": data.url,
             "message": f"Linkrot check failure #{existing.times_failed}.",
         })
@@ -147,23 +149,24 @@ def __record_failure(data: WebLink) -> Check:
 
     # The failure has occurred too often,
     # check the Web Archive for an archived URL
-    revised_info = {"id": data.id}
+    revised_info = {"id": data.uuid}
     if wb_url := __ping_wayback_machine(data.url):
         revised_info["url"] = wb_url
         revised_info["is_web_archive"] = 1
         result["is_web_archive"] = True
         logger.critical({
-            "id": data.id,
+            "id": data.uuid,
             "url": data.url,
             "message": "Link has been updated to indicate a Web Archive reference.",
         })
 
     # An archive url doesn't exist, mark as a dead link
     else:
+        # TODO: Can revised_info["is_dead"] = True?
         revised_info["is_dead"] = 1
         result["is_dead"] = True
         logger.critical({
-            "id": data.id,
+            "id": data.uuid,
             "url": data.url,
             "message": "Link has been marked as a dead link.",
         })

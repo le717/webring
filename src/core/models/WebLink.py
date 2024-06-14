@@ -8,7 +8,7 @@ __all__ = ["WebLink", "WebLinkCreate", "WebLinkGet", "WebLinkId", "WebLinkUpdate
 
 
 class WebLink(Schema):
-    id = fields.UUID()
+    uuid = fields.UUID(data_key="id")
     title = fields.String()
     description = fields.String()
     url = fields.Url()

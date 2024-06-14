@@ -16,11 +16,11 @@ def create(data: dict) -> dict[str, uuid.UUID]:
     """Create a single weblink."""
     entry_id = str(uuid.uuid4())
     weblink = WebLink(
-        id=entry_id,
+        uuid=entry_id,
         title=Markup(data["title"]).striptags(),
         description=Markup(data["description"]).striptags(),
         url=Markup(data["url"]).striptags(),
-        date_added=datetime.now(UTC),
+        date_added=datetime.now(tz=UTC),
     )
     db.session.add(weblink)
     db.session.commit()
@@ -55,7 +55,7 @@ def exists(uuid: str) -> bool:
 
 def get(uuid: str) -> WebLink | None:
     """Get a single weblink."""
-    return db.session.execute(db.select(WebLink).filter_by(id=uuid)).scalar_one_or_none()
+    return db.session.execute(db.select(WebLink).filter_by(uuid=uuid)).scalar_one_or_none()
 
 
 def get_all(include_rotted: bool = False, **kwargs: Any) -> list[WebLink]:
@@ -69,6 +69,7 @@ def get_all(include_rotted: bool = False, **kwargs: Any) -> list[WebLink]:
 
     # Remove all rotted links
     if not include_rotted:
+        # TODO: Can this be a Boolean comparison?
         filters.append(WebLink.is_dead != "1")
     wbs = db.session.execute(db.select(WebLink).filter(*filters)).scalars().all()
 
@@ -83,14 +84,14 @@ def get_all(include_rotted: bool = False, **kwargs: Any) -> list[WebLink]:
 
 def update(data: dict) -> bool:
     """Update a weblink."""
-    wb_id = data.pop("id")
-    if (wb := get(wb_id)) is None:
+    uuid = data.pop("id")
+    if (wb := get(uuid)) is None:
         return False
 
     wb.update_with(data)
     db.session.commit()
     logger.info({
-        "id": wb_id,
+        "id": uuid,
         "url": "N/A",
         "message": f"Link has been updated with the following info: `{data}`",
     })
