@@ -58,7 +58,7 @@ def get(uuid: str) -> WebLink | None:
     return db.session.execute(db.select(WebLink).filter_by(uuid=uuid)).scalar_one_or_none()
 
 
-def get_all(include_rotted: bool = False, **kwargs: Any) -> list[WebLink]:
+def get_all(**kwargs: Any) -> list[WebLink]:
     """Get all weblinks."""
     filters = []
 
@@ -67,9 +67,11 @@ def get_all(include_rotted: bool = False, **kwargs: Any) -> list[WebLink]:
     if origin := kwargs.get("http_origin"):
         filters.append(func.lower(WebLink.url) != func.lower(origin))
 
-    # Remove all rotted links
-    if not include_rotted:
+    # Filter out dead and/or Web Archive only links
+    if not kwargs["include_rotted"]:
         filters.append(WebLink.is_dead == False)
+    if not kwargs["include_web_archive"]:
+        filters.append(WebLink.is_web_archive == False)
     entries = db.session.execute(db.select(WebLink).filter(*filters)).scalars().all()
 
     # Adjust the title of the link depending on status

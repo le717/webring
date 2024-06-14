@@ -25,6 +25,9 @@ class WebLinkCreate(Schema):
 
 class WebLinkGet(Schema):
     include_rotted = fields.Boolean(load_default=sys_vars.get_bool("FILTER_INCLUDE_ROTTED"))
+    include_web_archive = fields.Boolean(
+        load_default=sys_vars.get_bool("FILTER_INCLUDE_WEB_ARCHIVE")
+    )
     exclude_origin = fields.Boolean(load_default=sys_vars.get_bool("FILTER_EXCLUDE_ORIGIN"))
 
 

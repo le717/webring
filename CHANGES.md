@@ -3,10 +3,15 @@
 _Released TBD_
 
 - Add application version in comment in simple embed JavaScript
+- Add ability to filter out Web Archive entries
+  - Entries flagged as Web Archive only are included by default
+  - Accessible on individual requests via `include_web_archive` query param
+  - Globally controlled via FILTER_INCLUDE_WEB_ARCHIVE` app configuration key
   - This will help consumers better determine what version of the webring is being run
     and what features are supported
 - Revise database to use `AUTOINCREMENT PRIMARY KEY INT` for the `id` field
   - The previous UUID has been moved to the `uuid` field
+  - This change was made to support future planned features
   - **No request or response formats and structures have changed**
 - Improve linkrot check all efficiency by not looking up entries twice
 - Add test to create and check for an entry only available via the Web Archive

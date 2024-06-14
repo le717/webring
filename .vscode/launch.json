@@ -21,6 +21,7 @@
         "TIMES_FAILED_THRESHOLD": "3",
         "ENABLE_DISCORD_LOGGING": "false",
         "FILTER_INCLUDE_ROTTED": "true",
+        "FILTER_INCLUDE_WEB_ARCHIVE": "true",
         "FILTER_EXCLUDE_ORIGIN": "true"
       },
       "args": [

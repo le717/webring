@@ -15,16 +15,16 @@ class WebRing(MethodView):
     @root.arguments(models.WebLinkGet, location="query", as_kwargs=True)
     @root.response(200, models.WebLink(many=True))
     def get(self, **kwargs: Any) -> Sequence[db.schema.WebLink]:
-        """Fetch webring items.
+        """Fetch all entries.
 
         Provide the appropriate query string arguments to
         filter the result set as desired.
         """
         # Remove the site making the request from the result set if told to
-        query_args = {}
         if kwargs["exclude_origin"]:
-            query_args["http_origin"] = request.headers.get("ORIGIN")
-        return db.weblink.get_all(include_rotted=kwargs["include_rotted"], **query_args)
+            kwargs["http_origin"] = request.headers.get("ORIGIN")
+            del kwargs["exclude_origin"]
+        return db.weblink.get_all(**kwargs)
 
     @root.arguments(models.AuthKey, location="query", as_kwargs=True)
     @root.arguments(models.WebLinkCreate, location="json", as_kwargs=True)

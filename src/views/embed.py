@@ -18,15 +18,15 @@ def embed(**kwargs) -> Response:
     Provide the appropriate query string arguments to filter the result set as desired.
     """
     # Remove the site making the request from the result set if told to
-    query_args = {}
     if kwargs["exclude_origin"]:
-        query_args["http_origin"] = request.headers.get("ORIGIN")
+        kwargs["http_origin"] = request.headers.get("ORIGIN")
+        del kwargs["exclude_origin"]
 
     # Get all current links in the webring, including dead links, excluding the current site,
     # and convert them to plain dictionaries for including in the JavaScript file directly,
     # which removes the need for a fetch request on the client
     all_links = WebLink(only=["uuid", "url", "title", "description"]).dump(
-        db.get_all(include_rotted=kwargs["include_rotted"], **query_args),
+        db.get_all(**kwargs),
         many=True,
     )
 

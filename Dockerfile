@@ -8,6 +8,7 @@ ENV PYTHONPATH=/app \
     TIMES_FAILED_THRESHOLD=10 \
     ENABLE_DISCORD_LOGGING=false \
     FILTER_INCLUDE_ROTTED=true \
+    FILTER_INCLUDE_WEB_ARCHIVE=true \
     FILTER_EXCLUDE_ORIGIN=true
 
 # Copy the app files into the container

@@ -37,6 +37,8 @@ entries. These filters are supported on both the root URL and the simple embed e
 options are provided through query parameters to the URLs.
 
 - `include_rotted: bool = "yes"`: Include entries that have been determined to be rotten
+- `include_web_archive: bool = "yes"`: Include entries that can only be accessed through
+  the Web Archive (added in version 1.4.0)
 - `exclude_origin: bool = "yes"`: Remove the site requesting the webring from the entries,
 if present
 
@@ -99,6 +101,7 @@ A text file logger for events is always configured.
   - Discord webhook URL (`DISCORD_WEBHOOK_URL`)
 - Webring entry filtering
   - `FILTER_INCLUDE_ROTTED`, default: `True`
+  - `FILTER_INCLUDE_WEB_ARCHIVE`, default: `True`
   - `FILTER_EXCLUDE_ORIGIN`, default: `True`
 
 ## Development
