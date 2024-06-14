@@ -8,7 +8,7 @@ from src.core.database.schema import RottedLinks, WebLink, db
 from src.core.logger import logger
 
 
-__all__ = ["check_all", "check_one", "delete"]
+__all__ = ["check_all", "check_one", "delete_rot_record"]
 
 
 class Check(TypedDict):
@@ -71,7 +71,7 @@ def __update(rl: RottedLinks) -> Literal[True]:
     return True
 
 
-def delete(uuid: str) -> bool:
+def delete_rot_record(uuid: str) -> bool:
     """Delete an item from the linkrot log."""
     if exists := __get(uuid):
         db.session.delete(exists)
@@ -82,27 +82,28 @@ def delete(uuid: str) -> bool:
 
 def check_all() -> list[RotResult]:
     """Check all links for rotting."""
-    return [check_one(link.uuid) for link in weblink.get_all(include_rotted=False)]
+    return [check_one(link) for link in weblink.get_all(include_rotted=False)]
 
 
-def check_one(uuid: str) -> RotResult | None:
+def check_one(uuid: WebLink | str) -> RotResult | None:
     """Check a single link for rotting."""
-    # TODO: Make this accept  WebLink | str (uuid)
-    # if isinstance(uuid, str): ...
-    # The uuid doesn't exist in the db, we can't do anything
-    if (link := weblink.get(uuid)) is None:
+    # If we got an uuid string, then we need to look up the entry.
+    # If it doesn't exist in the db, we can't do anything
+    if isinstance(uuid, str) and (uuid := weblink.get(uuid)) is None:
         return None
 
-    # The site could be pinged, so we all good
+    # If the site could be pinged, we're all good
+    link = uuid
     if __ping_url(link.url):
+        # A rotten link has been revived
         result = RotResult(
-            id=link.id,
+            id=link.uuid,
             url=link.url,
             result=Check(times_failed=0, is_dead=False, is_web_archive=False),
         )
 
-        # A rotten link has been revived
-        if delete(uuid):
+        # Remove the rot record
+        if delete_rot_record(link.uuid):
             logger.info({
                 "id": link.uuid,
                 "url": link.url,
@@ -113,11 +114,10 @@ def check_one(uuid: str) -> RotResult | None:
                 "is_dead": 0,
                 "is_web_archive": 0,
             })
+        return result
 
     # We could not ping the site, decide the next step
-    else:
-        result = RotResult(id=link.uuid, url=link.url, result=__record_failure(link))
-    return result
+    return RotResult(id=link.uuid, url=link.url, result=__record_failure(link))
 
 
 def __record_failure(data: WebLink) -> Check:

@@ -7,7 +7,8 @@ _Released TBD_
     and what features are supported
 - Revise database to use `AUTOINCREMENT PRIMARY KEY INT` for the `id` field
   - The previous UUID has been moved to the `uuid` field
-  - **No request and response formats and structures have changed**
+  - **No request or response formats and structures have changed**
+- Improve linkrot check all efficiency by not looking up entries twice
 - Dependency updates
 
 # 1.3.1
