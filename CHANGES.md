@@ -9,6 +9,7 @@ _Released TBD_
   - Globally controlled via FILTER_INCLUDE_WEB_ARCHIVE` app configuration key
   - This will help consumers better determine what version of the webring is being run
     and what features are supported
+- Check rotted entries during a linkrot check
 - Revise database to use `AUTOINCREMENT PRIMARY KEY INT` for the `id` field
   - The previous UUID has been moved to the `uuid` field
   - This change was made to support future planned features
