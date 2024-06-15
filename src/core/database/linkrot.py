@@ -1,14 +1,15 @@
-from typing import Literal, TypedDict
+from copy import copy
+from typing import TypedDict
 
 import httpx
 import sys_vars
 
 from src.core.database import weblink
-from src.core.database.schema import RottedLinks, WebLink, db
+from src.core.database.schema import LinkrotHistory, WebLink, db
 from src.core.logger import logger
 
 
-__all__ = ["check_all", "check_one", "delete_rot_record"]
+__all__ = ["check_all", "check_one"]
 
 
 class Check(TypedDict):
@@ -23,7 +24,7 @@ class RotResult(TypedDict):
     result: Check
 
 
-def __ping_url(url: str) -> bool:
+def __can_reach_site(url: str) -> bool:
     """Check a link for rotting."""
     try:
         return httpx.head(url).status_code in {
@@ -41,144 +42,148 @@ def __ping_url(url: str) -> bool:
         return False
 
 
-def __ping_wayback_machine(url: str) -> Literal[False] | str:
+def __check_wayback_archive(url: str) -> str:
     """Check the Web Archive for an archived URL."""
     r = httpx.get(f"https://archive.org/wayback/available?url={url}").json()
     if not r["archived_snapshots"]:
-        return False
+        return ""
     return r["archived_snapshots"]["closest"]["url"]
-
-
-def __create(data: WebLink) -> Literal[True]:
-    rot_entry = RottedLinks(id=data.uuid, times_failed=1)
-    db.session.add(rot_entry)
-    db.session.commit()
-    db.session.refresh(rot_entry)
-    return True
-
-
-def __get(uuid: str) -> RottedLinks:
-    return db.session.execute(db.select(RottedLinks).filter_by(id=uuid)).scalar_one_or_none()
-
-
-def __update(rl: RottedLinks) -> Literal[True]:
-    """Update the rotted log link with this instance."""
-    data = rl.as_dict()
-    del data["id"]
-    data["times_failed"] += 1
-    rl.update_with(data)
-    db.session.commit()
-    return True
-
-
-def delete_rot_record(uuid: str) -> bool:
-    """Delete an item from the linkrot log."""
-    if exists := __get(uuid):
-        db.session.delete(exists)
-        db.session.commit()
-        return True
-    return False
 
 
 def check_all() -> list[RotResult]:
     """Check all links for rotting."""
     return [
-        check_one(link) for link in weblink.get_all(include_rotted=True, include_web_archive=True)
+        check_one(link) for link in weblink.get_all(include_rotted=True, include_web_archive=False)
     ]
 
 
 def check_one(uuid: WebLink | str) -> RotResult | None:
-    """Check a single link for rotting."""
+    """Check a single entry for rotting."""
     # If we got an uuid string, then we need to look up the entry.
     # If it doesn't exist in the db, we can't do anything
     if isinstance(uuid, str) and (uuid := weblink.get(uuid)) is None:
         return None
-    link = uuid
+    entry = uuid
 
-    # If the site is already marked as a Web Archive entry, don't do anything more
-    if link.is_web_archive:
+    # If the entry is already marked as a Web Archive entry, don't do anything more.
+    # We can't do much more because it's really hard to extract the original URL
+    # from a WA URL without a human looking at it
+    if entry.is_web_archive:
+        logger.info({
+            "id": entry.uuid,
+            "url": entry.url,
+            "message": (
+                "Entry has previously been marked to as a Web Archive entry, not checking again."
+            ),
+        })
+        times_failed = len([e.id for e in entry.history if not e.was_alive])
         return RotResult(
-            id=link.uuid,
-            url=link.url,
-            result=Check(times_failed=0, is_dead=False, is_web_archive=True),
+            id=entry.uuid,
+            url=entry.url,
+            result=Check(times_failed=times_failed, is_dead=False, is_web_archive=True),
         )
 
-    # If the site could be pinged, we're all good
-    if __ping_url(link.url):
-        # A rotten link has been revived
-        result = RotResult(
-            id=link.uuid,
-            url=link.url,
+    # Create a history record. It may be updated later with rot results
+    history_entry = LinkrotHistory(url_checked=entry.url, entry=entry)
+    db.session.add(history_entry)
+    db.session.commit()
+    db.session.refresh(history_entry)
+
+    # If the site could be pinged, then the site is alive
+    if __can_reach_site(entry.url):
+        # The site status hasn't changed
+        if not entry.is_dead:
+            message = "Entry remains online and available."
+            history_entry.update_with({"message": message})
+            db.session.commit()
+            logger.info({
+                "id": entry.uuid,
+                "url": entry.url,
+                "message": message,
+            })
+            return RotResult(
+                id=entry.uuid,
+                url=entry.url,
+                result=Check(times_failed=0, is_dead=False, is_web_archive=False),
+            )
+
+        # The entry was previously marked as dead, change that
+        message = "Entry was previously determined to be dead but has been revived."
+        history_entry.update_with({"message": message})
+        entry.update_with({
+            "is_dead": False,
+            "is_web_archive": False,
+        })
+        db.session.commit()
+        logger.info({
+            "id": entry.uuid,
+            "url": entry.url,
+            "message": message,
+        })
+        return RotResult(
+            id=entry.uuid,
+            url=entry.url,
             result=Check(times_failed=0, is_dead=False, is_web_archive=False),
         )
 
-        # Remove the rot record
-        if delete_rot_record(link.uuid):
-            logger.info({
-                "id": link.uuid,
-                "url": link.url,
-                "message": "Link has been marked to not be dead or a Web Archive reference.",
-            })
-            weblink.update({
-                "id": link.uuid,
-                "is_dead": False,
-                "is_web_archive": False,
-            })
-        return result
-
-    # We could not ping the site, decide the next step
-    return RotResult(id=link.uuid, url=link.url, result=__record_failure(link))
+    # We could not ping the site, determine if it is dead or WA-only entry
+    # and update our history record accordingly
+    history_entry.update_with({"was_alive": False})
+    db.session.commit()
+    result = __record_failure(entry, history_entry)
+    return RotResult(id=entry.uuid, url=entry.url, result=result)
 
 
-def __record_failure(data: WebLink) -> Check:
+def __record_failure(entry: WebLink, history_entry: LinkrotHistory) -> Check:
     TIMES_FAILED_THRESHOLD = sys_vars.get_int("TIMES_FAILED_THRESHOLD")
     result = Check(times_failed=0, is_dead=False, is_web_archive=False)
 
-    # We don't have an existing failure record, so make one
-    existing = __get(data.uuid)
-    if existing is None:
-        __create(data)
+    # Determine how many times we've failed the rot check since the last successful check
+    id_of_last_success = max(e.id for e in entry.history if e.was_alive)
+    times_failed = len([
+        e.id for e in entry.history if not e.was_alive and e.id > id_of_last_success
+    ])
+    result["times_failed"] = times_failed
+
+    # We've failed the rot check less than the allowed threshold, only issue a warning
+    if times_failed <= TIMES_FAILED_THRESHOLD:
+        plural = "times" if times_failed > 1 else "time"
+        message = f"Entry has failed the linkrot check {times_failed} {plural}."
         logger.error({
-            "id": data.uuid,
-            "url": data.url,
-            "message": "Linkrot check failure #1.",
+            "id": entry.uuid,
+            "url": entry.url,
+            "message": message,
         })
-        result["times_failed"] = 1
+        history_entry.update_with({"message": message})
+        db.session.commit()
         return result
 
-    # We have an existing failure record, update the failure count
-    if (existing.times_failed + 1) < TIMES_FAILED_THRESHOLD:
-        __update(existing)
-        logger.error({
-            "id": data.uuid,
-            "url": data.url,
-            "message": f"Linkrot check failure #{existing.times_failed}.",
-        })
-        result["times_failed"] = existing.times_failed
-        return result
-
-    # The failure has occurred too often, check the Web Archive for an archived URL
-    revised_info = {"id": data.uuid}
-    if wb_url := __ping_wayback_machine(data.url):
-        revised_info["url"] = wb_url
-        revised_info["is_web_archive"] = True
+    # We've failed the threshold too many times, check the Web Archive for an archived URL
+    if wb_url := __check_wayback_archive(entry.url):
+        # We have an WA URL, update the entry with it.
+        # Make sure we copy the old URL so we can reference it in the logger message
+        old_url = copy(entry.url)
+        entry.update_with({"url": wb_url, "is_web_archive": True})
         result["is_web_archive"] = True
-        logger.critical({
-            "id": data.uuid,
-            "url": data.url,
-            "message": "Link has been updated to indicate a Web Archive reference.",
+        message = "Entry has been updated to indicate a Web Archive reference."
+        logger.info({
+            "id": entry.uuid,
+            "url": old_url,
+            "message": message,
         })
+        history_entry.update_with({"message": message})
+        db.session.commit()
+        return result
 
-    # An archive url doesn't exist, mark as a dead link
-    else:
-        revised_info["is_dead"] = True
-        result["is_dead"] = True
-        logger.critical({
-            "id": data.uuid,
-            "url": data.url,
-            "message": "Link has been marked as a dead link.",
-        })
-
-    # Update the dead link
-    weblink.update(revised_info)
+    # We can't find the site on the web archive. It's a dead entry
+    entry.update_with({"is_dead": True})
+    result["is_dead"] = True
+    message = "Entry has been marked as a dead link."
+    logger.critical({
+        "id": entry.uuid,
+        "url": entry.url,
+        "message": message,
+    })
+    history_entry.update_with({"message": message})
+    db.session.commit()
     return result

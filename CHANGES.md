@@ -9,12 +9,17 @@ _Released TBD_
   - Globally controlled via FILTER_INCLUDE_WEB_ARCHIVE` app configuration key
   - This will help consumers better determine what version of the webring is being run
     and what features are supported
-- Check rotted entries during a linkrot check
+- Include rotted entries when checking all entries for linkrot
+- Exclude Web Archive entries when checking all entries for linkrot
+- Rewrite linkrot checking to create a full audit history of all checks
+  - This simplifies the linkrot checking and provides full insight into the checks
+  - History may be exposed through an auth key protected endpoint in the future
 - Revise database to use `AUTOINCREMENT PRIMARY KEY INT` for the `id` field
   - The previous UUID has been moved to the `uuid` field
   - This change was made to support future planned features
   - **No request or response formats and structures have changed**
 - Improve linkrot check all efficiency by not looking up entries twice
+- Include timezone in linkrot log messages
 - Add test to create and check for an entry only available via the Web Archive
 - Dependency updates
 

@@ -2,11 +2,11 @@ from datetime import UTC, datetime
 from typing import Any, ClassVar
 
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import String, inspect
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from sqlalchemy import ForeignKey, inspect
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 
-__all__ = ["Base", "RottedLinks", "WebLink"]
+__all__ = ["Base", "LinkrotHistory", "WebLink"]
 
 
 # Set up the flask-sqlalchemy extension for "new-style" models
@@ -49,10 +49,20 @@ class WebLink(HelperMethods, Base):
     is_web_archive: Mapped[bool] = mapped_column(default=False)
     uuid: Mapped[str]
 
+    history: Mapped[list["LinkrotHistory"]] = relationship(back_populates="entry")
 
-class RottedLinks(HelperMethods, Base):
-    __tablename__: str = "rotted_links"
-    __table_args__: ClassVar = {"comment": "Log rotting webring entries."}
 
-    id: Mapped[str] = mapped_column(String, primary_key=True)
-    times_failed: Mapped[int]
+class LinkrotHistory(HelperMethods, Base):
+    __tablename__: str = "linkrot_history"
+    __table_args__: ClassVar = {"comment": "Audit log of linkrot checks."}
+
+    id: Mapped[int] = mapped_column(primary_key=True, autoincrement=True)
+    date_checked: Mapped[datetime] = mapped_column(default=now_in_utc)
+    url_checked: Mapped[str]
+    was_alive: Mapped[bool] = mapped_column(default=True)
+    message: Mapped[str] = mapped_column(default="")
+    entry_id: Mapped[int] = mapped_column(
+        ForeignKey("weblinks.id", ondelete="CASCADE", onupdate="CASCADE")
+    )
+
+    entry: Mapped["WebLink"] = relationship(back_populates="history")

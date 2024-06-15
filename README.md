@@ -90,6 +90,10 @@ the `DISCORD_WEBHOOK_URL` secret key
 
 A text file logger for events is always configured.
 
+### Auth key creation/management
+
+TODO: write me!
+
 ## Required Secret/Configuration Keys
 
 - Flask secret key (`SECRET_KEY`)
