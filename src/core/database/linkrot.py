@@ -139,7 +139,10 @@ def __record_failure(entry: WebLink, history_entry: LinkrotHistory) -> Check:
     result = Check(times_failed=0, is_dead=False, is_web_archive=False)
 
     # Determine how many times we've failed the rot check since the last successful check
-    id_of_last_success = max(e.id for e in entry.history if e.was_alive)
+    try:
+        id_of_last_success = max(e.id for e in entry.history if e.was_alive)
+    except ValueError:
+        id_of_last_success = 0
     times_failed = len([
         e.id for e in entry.history if not e.was_alive and e.id > id_of_last_success
     ])
