@@ -17,9 +17,10 @@ from tests.helpers import VALID_AUTH
 
 
 @pytest.fixture()
-def app(tmp_path):
+def app(tmp_path: Path):
+    db_path: Path = tmp_path / "database.db"
     os.environ["ENV"] = "testing"
-    os.environ["DB_PATH"] = (tmp_path / "database.db").as_posix()
+    os.environ["DB_PATH"] = db_path.as_posix()
     os.environ["AUTH_KEYS"] = f'["{VALID_AUTH}"]'
     os.environ["SECRET_KEY"] = "testing-secret-key"
     os.environ["TIMES_FAILED_THRESHOLD"] = "3"
@@ -34,7 +35,12 @@ def app(tmp_path):
             # Tell Alembic this is a new database and
             # we don't need to update it to a newer schema
             command.stamp(Config("alembic.ini"), "head")
-    return app
+    yield app
+
+    # Delete the database after running all of the tests
+    db_path.unlink(missing_ok=True)
+
+
 
 
 @pytest.fixture()
