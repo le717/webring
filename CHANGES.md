@@ -2,27 +2,28 @@
 
 _Released TBD_
 
-- Add application version in comment in simple embed JavaScript
 - Add ability to filter out Web Archive entries
   - Entries flagged as Web Archive only are included by default
   - Accessible on individual requests via `include_web_archive` query param
-  - Globally controlled via FILTER_INCLUDE_WEB_ARCHIVE` app configuration key
-  - This will help consumers better determine what version of the webring is being run
+  - Globally controlled via `FILTER_INCLUDE_WEB_ARCHIVE` app configuration key
+- Rewrite linkrot checking to create a full audit history of all checks
+  - This simplifies the linkrot checking and creates full insight into the check
+  - History may be exposed through an auth key protected endpoint in the future
     and what features are supported
+- An off-by-one error was corrected during a linkrot check when comparing to
+  `TIMES_FAILED_THRESHOLD`. An entry must now fail the linkrot check `TIMES_FAILED_THRESHOLD + 1`
+  times to be considered and flagged as a dead link
 - Include rotted entries when checking all entries for linkrot
 - Exclude Web Archive entries when checking all entries for linkrot
-- Rewrite linkrot checking to create a full audit history of all checks
-  - This simplifies the linkrot checking and provides full insight into the checks
-  - An off-by-one error was corrected when comparing to `TIMES_FAILED_THRESHOLD`.
-    An entry must fail the linkrot check `TIMES_FAILED_THRESHOLD` + 1 times to be
-    considered and flagged as a dead link
-  - History may be exposed through an auth key protected endpoint in the future
+- Improve linkrot check all efficiency by not looking up entries twice
 - Revise database to use `AUTOINCREMENT PRIMARY KEY INT` for the `id` field
-  - The previous UUID has been moved to the `uuid` field
+  - The previous UUID value has been moved to the `uuid` field
   - This change was made to support future planned features
   - **No request or response formats and structures have changed**
-- Improve linkrot check all efficiency by not looking up entries twice
 - Include timezone in linkrot log messages
+- Include application version in comment in simple embed JavaScript
+  - This will help consumers better determine what version of the webring is being run
+    to know what features are supported
 - Add test to create and check for an entry only available via the Web Archive
 - Dependency updates
 
