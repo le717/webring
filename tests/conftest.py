@@ -35,10 +35,10 @@ def app(tmp_path: Path):
             # Tell Alembic this is a new database and
             # we don't need to update it to a newer schema
             command.stamp(Config("alembic.ini"), "head")
-    yield app
+    return app
 
     # Delete the database after running all of the tests
-    db_path.unlink(missing_ok=True)
+    # db_path.unlink(missing_ok=True)
 
 
 @pytest.fixture()
