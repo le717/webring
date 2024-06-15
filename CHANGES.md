@@ -13,6 +13,9 @@ _Released TBD_
 - Exclude Web Archive entries when checking all entries for linkrot
 - Rewrite linkrot checking to create a full audit history of all checks
   - This simplifies the linkrot checking and provides full insight into the checks
+  - An off-by-one error was corrected when comparing to `TIMES_FAILED_THRESHOLD`.
+    An entry must fail the linkrot check `TIMES_FAILED_THRESHOLD` + 1 times to be
+    considered and flagged as a dead link
   - History may be exposed through an auth key protected endpoint in the future
 - Revise database to use `AUTOINCREMENT PRIMARY KEY INT` for the `id` field
   - The previous UUID has been moved to the `uuid` field

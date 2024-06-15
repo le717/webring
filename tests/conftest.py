@@ -41,8 +41,6 @@ def app(tmp_path: Path):
     db_path.unlink(missing_ok=True)
 
 
-
-
 @pytest.fixture()
 def client(app) -> Any:
     return app.test_client()
