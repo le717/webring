@@ -1,7 +1,10 @@
 from marshmallow import Schema, fields
 
 
-__all__ = ["HttpError"]
+__all__ = ["Empty", "HttpError"]
+
+
+class Empty(Schema): ...
 
 
 class HttpError(Schema):

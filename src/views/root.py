@@ -8,6 +8,7 @@ from flask.views import MethodView
 from src.blueprints import root
 from src.core import database as db
 from src.core import models
+from src.core.models import Generic
 
 
 @root.route("/")
@@ -39,8 +40,8 @@ class WebRing(MethodView):
 class WebRingItem(MethodView):
     @root.arguments(models.AuthKey, location="query", as_kwargs=True)
     @root.arguments(models.WebLinkId, location="path", as_kwargs=True)
-    @root.response(204, models.Empty)
-    @root.alt_response(422, schema=models.HttpError)
+    @root.response(204, Generic.Empty)
+    @root.alt_response(422, schema=Generic.HttpError)
     def delete(self, **kwargs: Any) -> None:
         """Delete an entry."""
         del kwargs["auth_key"]
@@ -49,9 +50,9 @@ class WebRingItem(MethodView):
     @root.arguments(models.AuthKey, location="query", as_kwargs=True)
     @root.arguments(models.WebLinkId, location="path", as_kwargs=True)
     @root.arguments(models.WebLinkUpdate, location="json", as_kwargs=True)
-    @root.response(204, models.Empty)
-    @root.alt_response(400, schema=models.HttpError)
-    @root.alt_response(422, schema=models.HttpError)
+    @root.response(204, Generic.Empty)
+    @root.alt_response(400, schema=Generic.HttpError)
+    @root.alt_response(422, schema=Generic.HttpError)
     def patch(self, **kwargs: Any) -> None:
         """Update an entry."""
         del kwargs["auth_key"]
