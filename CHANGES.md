@@ -1,6 +1,6 @@
 # 1.4.0
 
-_Released TBD_
+_Released June 19, 2024_
 
 - Add ability to filter out Web Archive entries
   - Entries flagged as Web Archive only are included by default
