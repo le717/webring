@@ -25,6 +25,8 @@ _Released TBD_
   - This will help consumers better determine what version of the webring is being run
     to know what features are supported
 - Add test to create and check for an entry only available via the Web Archive
+- Add readme section to explain auth keys
+- Ensure all `422 UNPROCESSABLE ENTITY` errors are auto-documented
 - Dependency updates
 
 # 1.3.1

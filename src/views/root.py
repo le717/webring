@@ -40,6 +40,7 @@ class WebRingItem(MethodView):
     @root.arguments(models.AuthKey, location="query", as_kwargs=True)
     @root.arguments(models.WebLinkId, location="path", as_kwargs=True)
     @root.response(204, models.Empty)
+    @root.alt_response(422, schema=models.HttpError)
     def delete(self, **kwargs: Any) -> None:
         """Delete an entry."""
         del kwargs["auth_key"]
@@ -50,6 +51,7 @@ class WebRingItem(MethodView):
     @root.arguments(models.WebLinkUpdate, location="json", as_kwargs=True)
     @root.response(204, models.Empty)
     @root.alt_response(400, schema=models.HttpError)
+    @root.alt_response(422, schema=models.HttpError)
     def patch(self, **kwargs: Any) -> None:
         """Update an entry."""
         del kwargs["auth_key"]
