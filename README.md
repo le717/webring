@@ -12,7 +12,7 @@
 ### Rotting links checking
 
 Because websites can and will eventually vanish, even after
-[a few months](https://www.theregister.com/2024/05/20/webpages_vanish_decade/), link rot is a real
+[a few months](https://brisray.com/web/linkrot.htm), link rot is a real
 problem for webrings. As they are manually curated and maintained, knowing if an entry is
 no longer available can be a maintenance burden. To that end, this webring has built-in rotten link
 detection. However, it is not automatically set up and must be configured on your server.
@@ -92,7 +92,11 @@ A text file logger for events is always configured.
 
 ### Auth key creation/management
 
-TODO: write me!
+All non HTTP `GET` requests (so, basically, anything except fetching the webring entries) are
+protected by an auth key which is intentionally kept extremely simple. Any string of characters
+can be used as a key. All keys are defined as a JSON list called `AUTH_KEYS`. The key is to be
+passed to the request via the `auth_key` query parameter. If the given key is in the defined list,
+the operation succeeds. If it is not, a `422 UNPROCESSABLE ENTITY` HTTP error is raised.
 
 ## Required Secret/Configuration Keys
 
