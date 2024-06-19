@@ -59,4 +59,5 @@ class WebRingItem(MethodView):
 
         kwargs["id"] = str(kwargs["id"])
         if not db.weblink.update(kwargs):
+            # TODO: Add response message and make it show up
             abort(400)

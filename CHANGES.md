@@ -9,7 +9,6 @@ _Released TBD_
 - Rewrite linkrot checking to create a full audit history of all checks
   - This simplifies the linkrot checking and creates full insight into the check
   - History may be exposed through an auth key protected endpoint in the future
-    and what features are supported
 - An off-by-one error was corrected during a linkrot check when comparing to
   `TIMES_FAILED_THRESHOLD`. An entry must now fail the linkrot check `TIMES_FAILED_THRESHOLD + 1`
   times to be considered and flagged as a dead link
@@ -23,10 +22,11 @@ _Released TBD_
 - Include timezone in linkrot log messages
 - Include application version in comment in simple embed JavaScript
   - This will help consumers better determine what version of the webring is being run
-    to know what features are supported
+    and what features are supported
 - Add test to create and check for an entry only available via the Web Archive
 - Add readme section to explain auth keys
 - Ensure all `422 UNPROCESSABLE ENTITY` errors are auto-documented
+- Ensure Web Archive links are always `https://`
 - Dependency updates
 
 # 1.3.1

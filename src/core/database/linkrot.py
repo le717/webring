@@ -47,7 +47,9 @@ def __check_wayback_archive(url: str) -> str:
     r = httpx.get(f"https://archive.org/wayback/available?url={url}").json()
     if not r["archived_snapshots"]:
         return ""
-    return r["archived_snapshots"]["closest"]["url"]
+
+    # Transform the provided URL to use HTTPS for the scheme
+    return str(httpx.URL(r["archived_snapshots"]["closest"]["url"]).copy_with(scheme="https"))
 
 
 def check_all() -> list[RotResult]:
