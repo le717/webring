@@ -52,6 +52,64 @@ def __check_wayback_archive(url: str) -> str:
     return str(httpx.URL(r["archived_snapshots"]["closest"]["url"]).copy_with(scheme="https"))
 
 
+def __record_failure(entry: WebLink, history_entry: LinkrotHistory) -> Check:
+    TIMES_FAILED_THRESHOLD = sys_vars.get_int("TIMES_FAILED_THRESHOLD")
+    result = Check(times_failed=0, is_dead=False, is_web_archive=False)
+
+    # Determine how many times we've failed the rot check since the last successful check
+    try:
+        id_of_last_success = max(e.id for e in entry.history if e.was_alive)
+    except ValueError:
+        id_of_last_success = 0
+    times_failed = len([
+        e.id for e in entry.history if not e.was_alive and e.id > id_of_last_success
+    ])
+    result["times_failed"] = times_failed
+
+    # We've failed the rot check less than the allowed threshold, only issue a warning
+    if times_failed <= TIMES_FAILED_THRESHOLD:
+        plural = "times" if times_failed > 1 else "time"
+        message = f"Entry has failed the linkrot check {times_failed} {plural}."
+        logger.error({
+            "id": entry.uuid,
+            "url": entry.url,
+            "message": message,
+        })
+        history_entry.update_with({"message": message})
+        db.session.commit()
+        return result
+
+    # We've failed the threshold too many times, check the Web Archive for an archived URL
+    if wb_url := __check_wayback_archive(entry.url):
+        # We have an WA URL, update the entry with it.
+        # Make sure we copy the old URL so we can reference it in the logger message
+        old_url = copy(entry.url)
+        entry.update_with({"url": wb_url, "is_web_archive": True})
+        result["is_web_archive"] = True
+        message = "Entry has been updated to indicate a Web Archive reference."
+        logger.info({
+            "id": entry.uuid,
+            "url": old_url,
+            "message": message,
+        })
+        history_entry.update_with({"message": message})
+        db.session.commit()
+        return result
+
+    # We can't find the site on the web archive. It's a dead entry
+    entry.update_with({"is_dead": True})
+    result["is_dead"] = True
+    message = "Entry has been marked as a dead link."
+    logger.critical({
+        "id": entry.uuid,
+        "url": entry.url,
+        "message": message,
+    })
+    history_entry.update_with({"message": message})
+    db.session.commit()
+    return result
+
+
 def check_all() -> list[RotResult]:
     """Check all links for rotting."""
     return [
@@ -134,61 +192,3 @@ def check_one(uuid: WebLink | str) -> RotResult | None:
     db.session.commit()
     result = __record_failure(entry, history_entry)
     return RotResult(id=entry.uuid, url=entry.url, result=result)
-
-
-def __record_failure(entry: WebLink, history_entry: LinkrotHistory) -> Check:
-    TIMES_FAILED_THRESHOLD = sys_vars.get_int("TIMES_FAILED_THRESHOLD")
-    result = Check(times_failed=0, is_dead=False, is_web_archive=False)
-
-    # Determine how many times we've failed the rot check since the last successful check
-    try:
-        id_of_last_success = max(e.id for e in entry.history if e.was_alive)
-    except ValueError:
-        id_of_last_success = 0
-    times_failed = len([
-        e.id for e in entry.history if not e.was_alive and e.id > id_of_last_success
-    ])
-    result["times_failed"] = times_failed
-
-    # We've failed the rot check less than the allowed threshold, only issue a warning
-    if times_failed <= TIMES_FAILED_THRESHOLD:
-        plural = "times" if times_failed > 1 else "time"
-        message = f"Entry has failed the linkrot check {times_failed} {plural}."
-        logger.error({
-            "id": entry.uuid,
-            "url": entry.url,
-            "message": message,
-        })
-        history_entry.update_with({"message": message})
-        db.session.commit()
-        return result
-
-    # We've failed the threshold too many times, check the Web Archive for an archived URL
-    if wb_url := __check_wayback_archive(entry.url):
-        # We have an WA URL, update the entry with it.
-        # Make sure we copy the old URL so we can reference it in the logger message
-        old_url = copy(entry.url)
-        entry.update_with({"url": wb_url, "is_web_archive": True})
-        result["is_web_archive"] = True
-        message = "Entry has been updated to indicate a Web Archive reference."
-        logger.info({
-            "id": entry.uuid,
-            "url": old_url,
-            "message": message,
-        })
-        history_entry.update_with({"message": message})
-        db.session.commit()
-        return result
-
-    # We can't find the site on the web archive. It's a dead entry
-    entry.update_with({"is_dead": True})
-    result["is_dead"] = True
-    message = "Entry has been marked as a dead link."
-    logger.critical({
-        "id": entry.uuid,
-        "url": entry.url,
-        "message": message,
-    })
-    history_entry.update_with({"message": message})
-    db.session.commit()
-    return result
