@@ -92,7 +92,7 @@ A text file logger for events is always configured.
 
 ### Auth key creation/management
 
-All non HTTP `GET` requests (so, basically, anything except fetching the webring entries) are
+All administrative operations (effectively anything except fetching the webring entries) are
 protected by an auth key which is intentionally kept extremely simple. Any string of characters
 can be used as a key. All keys are defined as a JSON list called `AUTH_KEYS`. The key is to be
 passed to the request via the `auth_key` query parameter. If the given key is in the defined list,
@@ -103,7 +103,7 @@ the operation succeeds. If it is not, a `422 UNPROCESSABLE ENTITY` HTTP error is
 - Flask secret key (`SECRET_KEY`)
 - Flask app environment (`FLASK_ENV`) set to `"production"`
 - Absolute path to SQLite file (`DB_PATH`)
-- JSON list of auth keys for all non-GET operations (`AUTH_KEYS`)
+- JSON list of auth keys for all administrative operations (`AUTH_KEYS`)
 - Integer number of times supposed rotted links should be checked (`TIMES_FAILED_THRESHOLD`, default: 10)
 - Discord linkrot event logging boolean (`ENABLE_DISCORD_LOGGING`, default: `False`)
   - Discord webhook URL (`DISCORD_WEBHOOK_URL`)

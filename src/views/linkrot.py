@@ -31,6 +31,5 @@ class LinkRotSingleCheck(MethodView):
         """Check a single link in the ring for link rot."""
         del kwargs["auth_key"]
         if (result := db.linkrot.check_one(str(kwargs["id"]))) is None:
-            # TODO: Make this message display in the response
             abort(404, message="That ID does not exist in the webring.")
         return result
