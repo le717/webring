@@ -5,14 +5,13 @@ from flask_smorest import abort
 
 from src.blueprints import linkrot
 from src.core import database as db
-from src.core import models
-from src.core.models import Generic
+from src.core.models import Generic, WebLink, auth, rot_result
 
 
 @linkrot.route("/")
 class LinkRotCheck(MethodView):
-    @linkrot.arguments(models.AuthKey, location="query", as_kwargs=True)
-    @linkrot.response(200, models.RotResult(many=True))
+    @linkrot.arguments(auth.AuthKey, location="query", as_kwargs=True)
+    @linkrot.response(200, rot_result.RotResult(many=True))
     @linkrot.alt_response(422, schema=Generic.HttpError)
     def post(self, **kwargs: Any) -> list[db.linkrot.RotResult]:
         """Check all links in the ring for link rot."""
@@ -22,9 +21,9 @@ class LinkRotCheck(MethodView):
 
 @linkrot.route("/<uuid:id>")
 class LinkRotSingleCheck(MethodView):
-    @linkrot.arguments(models.AuthKey, location="query", as_kwargs=True)
-    @linkrot.arguments(models.WebLinkId, location="path", as_kwargs=True)
-    @linkrot.response(200, models.RotResult)
+    @linkrot.arguments(auth.AuthKey, location="query", as_kwargs=True)
+    @linkrot.arguments(WebLink.EntryId, location="path", as_kwargs=True)
+    @linkrot.response(200, rot_result.RotResult)
     @linkrot.alt_response(404, schema=Generic.HttpError)
     @linkrot.alt_response(422, schema=Generic.HttpError)
     def post(self, **kwargs: Any) -> db.linkrot.RotResult | None:

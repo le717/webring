@@ -2,7 +2,7 @@ from flask import Response, make_response, render_template, request
 from webargs.flaskparser import use_kwargs
 
 from src.core.database import weblink as db
-from src.core.models.WebLink import WebLink, WebLinkGet
+from src.core.models.WebLink import Entry, RingArgs
 
 from ..blueprints import route_embed
 
@@ -11,7 +11,7 @@ __all__ = ["embed"]
 
 
 @route_embed.get("")
-@use_kwargs(WebLinkGet().fields, location="query")
+@use_kwargs(RingArgs().fields, location="query")
 def embed(**kwargs) -> Response:
     """Get a small JavaScript file that automatically embeds the webring on your site.
 
@@ -25,7 +25,7 @@ def embed(**kwargs) -> Response:
     # Get all current links in the webring, including dead links, excluding the current site,
     # and convert them to plain dictionaries for including in the JavaScript file directly,
     # which removes the need for a fetch request on the client
-    all_links = WebLink(only=["uuid", "url", "title", "description"]).dump(
+    all_links = Entry(only=["uuid", "url", "title", "description"]).dump(
         db.get_all(**kwargs),
         many=True,
     )
