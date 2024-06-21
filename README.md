@@ -27,11 +27,11 @@ If there is no archived version, the entry will be recorded as dead and the titl
 
 Individual entries, including dead entries, can also be checked.
 
-Starting with version 1.4.1, a full history of linkrot checks are available for individual entries
-by making an authenticated `GET` request to `/linkrot/<uuid>/history`.
-
 One way to configure the linkrot check to run automatically is to create a Python script that
 makes the aforementioned `POST` request and schedule it to automatically run via some scheduler.
+
+Starting with version 1.4.1, a full history of linkrot checks are available for individual entries
+by making an authenticated `GET` request to `/linkrot/<uuid>/history`.
 
 ### Filtering webring entries
 
