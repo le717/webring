@@ -1,8 +1,10 @@
 from datetime import UTC, datetime
+from sqlite3 import Connection as SQLite3Connection
 from typing import Any, ClassVar
 
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy import ForeignKey, inspect
+from sqlalchemy import ForeignKey, event, inspect
+from sqlalchemy.engine import Engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 
@@ -14,6 +16,18 @@ class Base(DeclarativeBase): ...
 
 
 db = SQLAlchemy(model_class=Base)
+
+
+@event.listens_for(Engine, "connect")
+def _set_sqlite_pragma(dbapi_connection, connection_record) -> None:  # noqa: ARG001
+    """Make cascading deletes work on SQLite.
+
+    Taken from https://stackoverflow.com/a/62327279
+    """
+    if isinstance(dbapi_connection, SQLite3Connection):
+        cursor = dbapi_connection.cursor()
+        cursor.execute("PRAGMA foreign_keys=ON;")
+        cursor.close()
 
 
 def now_in_utc() -> datetime:
@@ -49,7 +63,9 @@ class WebLink(HelperMethods, Base):
     is_web_archive: Mapped[bool] = mapped_column(default=False)
     uuid: Mapped[str]
 
-    history: Mapped[list["LinkrotHistory"]] = relationship(back_populates="entry")
+    history: Mapped[list["LinkrotHistory"]] = relationship(
+        back_populates="entry", passive_deletes=True
+    )
 
 
 class LinkrotHistory(HelperMethods, Base):
