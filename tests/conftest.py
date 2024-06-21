@@ -37,9 +37,6 @@ def app(tmp_path: Path):
             command.stamp(Config("alembic.ini"), "head")
     return app
 
-    # Delete the database after running all of the tests
-    # db_path.unlink(missing_ok=True)
-
 
 @pytest.fixture()
 def client(app) -> Any:

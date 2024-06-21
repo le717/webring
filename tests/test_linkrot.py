@@ -7,7 +7,7 @@ def test_single_link_single_fail(client) -> None:
     """Ensure a dead link is flagged is not web archived or dead but failed the rot check once."""
     creation = client.post(
         helpers.authed_request("/", auth=helpers.VALID_AUTH),
-        json=helpers.item_all_good(),
+        json=helpers.entry_all_good(),
     )
 
     item_id = helpers.from_json(creation.data)["id"]
@@ -17,13 +17,13 @@ def test_single_link_single_fail(client) -> None:
             item_id,
             auth=helpers.VALID_AUTH,
         ),
-        json={"url": helpers.item_dead_url()["url"]},
+        json={"url": helpers.entry_dead_url()["url"]},
     )
     response = client.post(helpers.authed_request("/", "linkrot", item_id, auth=helpers.VALID_AUTH))
     response_data = helpers.from_json(response.get_data(as_text=True))
     assert response.status_code == codes.OK
     assert response_data["id"] == item_id
-    assert response_data["url"] == helpers.item_dead_url()["url"]
+    assert response_data["url"] == helpers.entry_dead_url()["url"]
     assert response_data["result"]["times_failed"] == 1
     assert response_data["result"]["is_dead"] is False
     assert response_data["result"]["is_web_archive"] is False
@@ -33,7 +33,7 @@ def test_single_link_is_dead(client) -> None:
     """Ensure a dead link is flagged as dead."""
     creation = client.post(
         helpers.authed_request("/", auth=helpers.VALID_AUTH),
-        json=helpers.item_dead_url(),
+        json=helpers.entry_dead_url(),
     )
 
     item_id = helpers.from_json(creation.data)["id"]
@@ -44,7 +44,7 @@ def test_single_link_is_dead(client) -> None:
     response_data = helpers.from_json(response.get_data(as_text=True))
     assert response.status_code == codes.OK
     assert response_data["id"] == item_id
-    assert response_data["url"] == helpers.item_dead_url()["url"]
+    assert response_data["url"] == helpers.entry_dead_url()["url"]
     assert response_data["result"]["times_failed"] == 4  # noqa: PLR2004
     assert response_data["result"]["is_dead"] is True
     assert response_data["result"]["is_web_archive"] is False
@@ -54,7 +54,7 @@ def test_single_link_is_web_archive(client) -> None:
     """Ensure a dead link is flagged as a web archive link."""
     creation = client.post(
         helpers.authed_request("/", auth=helpers.VALID_AUTH),
-        json=helpers.item_web_archive_url(),
+        json=helpers.entry_web_archive_url(),
     )
     item_id = helpers.from_json(creation.data)["id"]
     for _ in range(4):
@@ -64,7 +64,7 @@ def test_single_link_is_web_archive(client) -> None:
     response_data = helpers.from_json(response.get_data(as_text=True))
     assert response.status_code == codes.OK
     assert response_data["id"] == item_id
-    assert helpers.item_web_archive_url()["url"] in response_data["url"]
+    assert helpers.entry_web_archive_url()["url"] in response_data["url"]
     assert response_data["result"]["times_failed"] == 4  # noqa: PLR2004
     assert response_data["result"]["is_dead"] is False
     assert response_data["result"]["is_web_archive"] is True
@@ -74,7 +74,7 @@ def test_get_linkrot_history(client) -> None:
     """Get the linkrot history for an entry."""
     creation = client.post(
         helpers.authed_request("/", auth=helpers.VALID_AUTH),
-        json=helpers.item_dead_url(),
+        json=helpers.entry_dead_url(),
     )
 
     item_id = helpers.from_json(creation.data)["id"]
@@ -87,4 +87,4 @@ def test_get_linkrot_history(client) -> None:
     assert len(response_data) == 1
     assert response_data[0]["message"] == "Entry has failed the linkrot check 1 time."
     assert response_data[0]["was_alive"] is False
-    assert response_data[0]["url_checked"] == helpers.item_dead_url()["url"]
+    assert response_data[0]["url_checked"] == helpers.entry_dead_url()["url"]

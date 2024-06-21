@@ -7,10 +7,10 @@ __all__ = [
     "INVALID_AUTH",
     "VALID_AUTH",
     "authed_request",
+    "entry_all_good",
+    "entry_dead_url",
+    "entry_web_archive_url",
     "from_json",
-    "item_all_good",
-    "item_dead_url",
-    "item_web_archive_url",
     "to_json",
 ]
 
@@ -36,7 +36,7 @@ def to_json(data: dict | list) -> str:
     return json.dumps(data)
 
 
-def item_dead_url() -> dict[str, str]:
+def entry_dead_url() -> dict[str, str]:
     return {
         "title": "A broken website",
         "description": "This is a broken website.",
@@ -44,7 +44,7 @@ def item_dead_url() -> dict[str, str]:
     }
 
 
-def item_web_archive_url() -> dict[str, str]:
+def entry_web_archive_url() -> dict[str, str]:
     return {
         "title": "A Web Archive only website",
         "description": "This is a website that is only available via the Web Archive.",
@@ -52,7 +52,7 @@ def item_web_archive_url() -> dict[str, str]:
     }
 
 
-def item_all_good() -> dict[str, str]:
+def entry_all_good() -> dict[str, str]:
     return {
         "title": "A working website",
         "description": "This is my website.",
