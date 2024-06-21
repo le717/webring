@@ -9,7 +9,7 @@ from src.core.database.schema import WebLink, db
 from src.core.logger import logger
 
 
-__all__ = ["create", "delete", "exists", "get", "get_all", "update"]
+__all__ = ["create", "delete", "get", "get_all", "update"]
 
 
 def create(data: dict) -> dict[str, uuid.UUID]:
@@ -35,10 +35,10 @@ def create(data: dict) -> dict[str, uuid.UUID]:
 
 def delete(uuid: str) -> bool:
     """Delete a single weblink."""
-    if not exists(uuid):
+    if (entry := get(uuid)) is None:
         return False
 
-    db.session.delete(get(uuid))
+    db.session.delete(entry)
     db.session.commit()
     logger.info({
         "id": uuid,
@@ -46,11 +46,6 @@ def delete(uuid: str) -> bool:
         "message": "Link has been deleted from the webring.",
     })
     return True
-
-
-def exists(uuid: str) -> bool:
-    """Determine if a weblink exists."""
-    return get(uuid) is not None
 
 
 def get(uuid: str) -> WebLink | None:
