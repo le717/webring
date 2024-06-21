@@ -7,7 +7,7 @@ from flask.views import MethodView
 
 from src.blueprints import root
 from src.core import database as db
-from src.core.models import Generic
+from src.core.models import Generic, WebLink, auth
 from src.core.models import WebLink as models
 
 
@@ -27,7 +27,7 @@ class WebRing(MethodView):
             del kwargs["exclude_origin"]
         return db.weblink.get_all(**kwargs)
 
-    @root.arguments(models.AuthKey, location="query", as_kwargs=True)
+    @root.arguments(auth.AuthKey, location="query", as_kwargs=True)
     @root.arguments(models.EntryCreate, location="json", as_kwargs=True)
     @root.response(201, models.EntryId)
     def post(self, **kwargs: Any) -> dict[str, UUID]:
@@ -38,7 +38,7 @@ class WebRing(MethodView):
 
 @root.route("/<uuid:id>")
 class WebRingItem(MethodView):
-    @root.arguments(models.AuthKey, location="query", as_kwargs=True)
+    @root.arguments(auth.AuthKey, location="query", as_kwargs=True)
     @root.arguments(models.EntryId, location="path", as_kwargs=True)
     @root.response(204, Generic.Empty)
     @root.alt_response(422, schema=Generic.HttpError)
@@ -47,7 +47,7 @@ class WebRingItem(MethodView):
         del kwargs["auth_key"]
         db.weblink.delete(str(kwargs["id"]))
 
-    @root.arguments(models.AuthKey, location="query", as_kwargs=True)
+    @root.arguments(auth.AuthKey, location="query", as_kwargs=True)
     @root.arguments(models.EntryId, location="path", as_kwargs=True)
     @root.arguments(models.EntryUpdate, location="json", as_kwargs=True)
     @root.response(204, Generic.Empty)
@@ -59,5 +59,5 @@ class WebRingItem(MethodView):
 
         kwargs["id"] = str(kwargs["id"])
         if not db.weblink.update(kwargs):
-            # TODO: Add response message and make it show up
+            # TODO: Add response message
             abort(400)

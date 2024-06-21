@@ -9,7 +9,7 @@ from src.core.database.schema import LinkrotHistory, WebLink, db
 from src.core.logger import logger
 
 
-__all__ = ["check_all", "check_one"]
+__all__ = ["check_all", "check_one", "get_history"]
 
 
 class Check(TypedDict):
@@ -192,3 +192,10 @@ def check_one(uuid: WebLink | str) -> RotResult | None:
     db.session.commit()
     result = __record_failure(entry, history_entry)
     return RotResult(id=entry.uuid, url=entry.url, result=result)
+
+
+def get_history(uuid: str) -> list[LinkrotHistory] | None:
+    """Get the linkrot history for the given entry."""
+    if (entry := weblink.get(uuid)) is None:
+        return None
+    return entry.history

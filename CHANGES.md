@@ -1,3 +1,9 @@
+# 1.4.1
+
+_Released TDB_
+
+- Add ability to get linkrot history for an individual entry
+
 # 1.4.0
 
 _Released June 19, 2024_

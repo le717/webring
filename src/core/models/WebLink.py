@@ -4,7 +4,7 @@ import sys_vars
 from marshmallow import Schema, fields
 
 
-__all__ = ["Entry", "EntryId", "EntryCreate", "RingArgs", "EntryUpdate"]
+__all__ = ["Entry", "EntryCreate", "EntryId", "EntryUpdate", "RingArgs"]
 
 
 class Entry(Schema):
