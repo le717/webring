@@ -8,13 +8,12 @@ from flask.views import MethodView
 from src.blueprints import root
 from src.core import database as db
 from src.core.models import Generic, WebLink, auth
-from src.core.models import WebLink as models
 
 
 @root.route("/")
 class WebRing(MethodView):
-    @root.arguments(models.RingArgs, location="query", as_kwargs=True)
-    @root.response(200, models.Entry(many=True))
+    @root.arguments(WebLink.RingArgs, location="query", as_kwargs=True)
+    @root.response(200, WebLink.Entry(many=True))
     def get(self, **kwargs: Any) -> Sequence[db.schema.WebLink]:
         """Fetch all entries.
 
@@ -28,8 +27,8 @@ class WebRing(MethodView):
         return db.weblink.get_all(**kwargs)
 
     @root.arguments(auth.AuthKey, location="query", as_kwargs=True)
-    @root.arguments(models.EntryCreate, location="json", as_kwargs=True)
-    @root.response(201, models.EntryId)
+    @root.arguments(WebLink.EntryCreate, location="json", as_kwargs=True)
+    @root.response(201, WebLink.EntryId)
     def post(self, **kwargs: Any) -> dict[str, UUID]:
         """Create an entry."""
         del kwargs["auth_key"]
@@ -39,7 +38,7 @@ class WebRing(MethodView):
 @root.route("/<uuid:id>")
 class WebRingItem(MethodView):
     @root.arguments(auth.AuthKey, location="query", as_kwargs=True)
-    @root.arguments(models.EntryId, location="path", as_kwargs=True)
+    @root.arguments(WebLink.EntryId, location="path", as_kwargs=True)
     @root.response(204, Generic.Empty)
     @root.alt_response(422, schema=Generic.HttpError)
     def delete(self, **kwargs: Any) -> None:
@@ -48,8 +47,8 @@ class WebRingItem(MethodView):
         db.weblink.delete(str(kwargs["id"]))
 
     @root.arguments(auth.AuthKey, location="query", as_kwargs=True)
-    @root.arguments(models.EntryId, location="path", as_kwargs=True)
-    @root.arguments(models.EntryUpdate, location="json", as_kwargs=True)
+    @root.arguments(WebLink.EntryId, location="path", as_kwargs=True)
+    @root.arguments(WebLink.EntryUpdate, location="json", as_kwargs=True)
     @root.response(204, Generic.Empty)
     @root.alt_response(400, schema=Generic.HttpError)
     @root.alt_response(422, schema=Generic.HttpError)
