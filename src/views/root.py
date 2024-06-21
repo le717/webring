@@ -58,5 +58,4 @@ class WebRingItem(MethodView):
 
         kwargs["id"] = str(kwargs["id"])
         if not db.weblink.update(kwargs):
-            # TODO: Add response message
-            abort(400)
+            abort(400, message="Unable to update entry with revised details.")

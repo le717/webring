@@ -3,6 +3,7 @@
 _Released TDB_
 
 - Add ability to get linkrot history for an individual entry
+- Provide an error message in the response when an entry cannot be updated
 
 # 1.4.0
 
