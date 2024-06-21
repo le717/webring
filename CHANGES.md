@@ -1,3 +1,10 @@
+# 2.0.0
+
+_Released TDB_
+
+- Update minimum Python version to 3.12
+- Update Docker image to `python:3.12-slim`
+
 # 1.4.1
 
 _Released June 21, 2024_

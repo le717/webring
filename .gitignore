@@ -114,4 +114,4 @@ secrets/
 *.jpg
 .env
 requirements.txt
-!secrets/api.json
+!/secrets/api.json

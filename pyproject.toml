@@ -1,13 +1,13 @@
 [tool.poetry]
 name = "Webring"
-version = "1.4.1"
+version = "2.0.0a1"
 description = "Because everything on the Web eventually loops back onto itself."
 authors = ["Caleb <le717@users.noreply.github.com>"]
 license = "MIT"
 package-mode = false
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.12"
 flask = "^3.0.2"
 flask-smorest = "^0.44.0"
 sys-vars = {version = "^5.1.0", extras = ["dotenv"]}
@@ -36,7 +36,7 @@ module = ["flask_smorest", "sys_vars", "sqlalchemy"]
 ignore_missing_imports = true
 
 [tool.ruff]
-target-version = "py311"
+target-version = "py312"
 line-length = 100
 indent-width = 4
 
