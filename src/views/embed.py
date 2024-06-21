@@ -1,10 +1,9 @@
 from flask import Response, make_response, render_template, request
 from webargs.flaskparser import use_kwargs
 
+from src.blueprints import route_embed
 from src.core.database import weblink as db
 from src.core.models.WebLink import Entry, RingArgs
-
-from ..blueprints import route_embed
 
 
 __all__ = ["embed"]
@@ -32,7 +31,6 @@ def embed(**kwargs) -> Response:
 
     # Render the JavaScript module, taking care to indicate it's a JS file
     # so browsers correctly load it
-    # TODO: Consider adding a pre-rendered HTML response
     resp = make_response(render_template("webring-embed.js", all_links=all_links))
     resp.mimetype = "text/javascript"
     return resp

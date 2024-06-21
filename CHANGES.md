@@ -1,6 +1,6 @@
 # 1.4.1
 
-_Released TDB_
+_Released June 21, 2024_
 
 - Add ability to get linkrot history for an individual entry
 - Fix error when deleting an entry
