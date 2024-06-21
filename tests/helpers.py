@@ -20,12 +20,12 @@ VALID_AUTH = "known-auth-key"
 
 
 def __auth_key(key: str) -> str:
-    return f"{urlencode({'auth_key': key})}"
+    return f"{urlencode({"auth_key": key})}"
 
 
 def authed_request(*args: str, **kwargs: Any) -> str:
     endpoint = "/".join(args)
-    return f"{endpoint}?{__auth_key(kwargs['auth'])}".replace("//", "/")
+    return f"{endpoint}?{__auth_key(kwargs["auth"])}".replace("//", "/")
 
 
 def from_json(data: str) -> dict | list:

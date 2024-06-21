@@ -7,7 +7,8 @@ from flask.views import MethodView
 
 from src.blueprints import root
 from src.core import database as db
-from src.core.models import Generic, WebLink, auth
+from src.core.auth_helpers import protect_route
+from src.core.models import Generic, WebLink
 
 
 @root.route("/")
@@ -26,36 +27,37 @@ class WebRing(MethodView):
             del kwargs["exclude_origin"]
         return db.weblink.get_all(**kwargs)
 
-    @root.arguments(auth.AuthKey, location="query", as_kwargs=True)
+    @protect_route()
     @root.arguments(WebLink.EntryCreate, location="json", as_kwargs=True)
     @root.response(201, WebLink.EntryId)
+    @root.alt_response(400, schema=Generic.HttpError)
+    @root.alt_response(403, schema=Generic.HttpError)
     def post(self, **kwargs: Any) -> dict[str, UUID]:
         """Create an entry."""
-        del kwargs["auth_key"]
         return db.weblink.create(kwargs)
 
 
 @root.route("/<uuid:id>")
 class WebRingItem(MethodView):
-    @root.arguments(auth.AuthKey, location="query", as_kwargs=True)
+    @protect_route()
     @root.arguments(WebLink.EntryId, location="path", as_kwargs=True)
     @root.response(204, Generic.Empty)
+    @root.alt_response(400, schema=Generic.HttpError)
+    @root.alt_response(403, schema=Generic.HttpError)
     @root.alt_response(422, schema=Generic.HttpError)
     def delete(self, **kwargs: Any) -> None:
         """Delete an entry."""
-        del kwargs["auth_key"]
         db.weblink.delete(str(kwargs["id"]))
 
-    @root.arguments(auth.AuthKey, location="query", as_kwargs=True)
+    @protect_route()
     @root.arguments(WebLink.EntryId, location="path", as_kwargs=True)
     @root.arguments(WebLink.EntryUpdate, location="json", as_kwargs=True)
     @root.response(204, Generic.Empty)
     @root.alt_response(400, schema=Generic.HttpError)
+    @root.alt_response(403, schema=Generic.HttpError)
     @root.alt_response(422, schema=Generic.HttpError)
     def patch(self, **kwargs: Any) -> None:
         """Update an entry."""
-        del kwargs["auth_key"]
-
         kwargs["id"] = str(kwargs["id"])
         if not db.weblink.update(kwargs):
             abort(400, message="Unable to update entry with revised details.")

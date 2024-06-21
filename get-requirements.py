@@ -6,7 +6,7 @@ from tomllib import loads
 
 def get_package(package_info: dict) -> str:
     """Construct the package name and exact version to install."""
-    package_tag = f"{package_info['name']}=={package_info['version']}"
+    package_tag = f"{package_info["name"]}=={package_info["version"]}"
 
     # The package is a local file
     source = package_info.setdefault("source", {})
