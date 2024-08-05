@@ -1,4 +1,4 @@
-from src.core.database import linkrot, schema, weblink
+from src.core.database import linkrot, meta, schema, weblink
 
 
-__all__ = ["linkrot", "schema", "weblink"]
+__all__ = ["linkrot", "meta", "schema", "weblink"]

@@ -4,7 +4,7 @@ import sys_vars
 from marshmallow import Schema, fields
 
 
-__all__ = ["Entry", "EntryCreate", "EntryId", "EntryUpdate", "RingArgs"]
+__all__ = ["AllEntries", "Entry", "EntryCreate", "EntryId", "EntryUpdate", "RingArgs"]
 
 
 class Entry(Schema):
@@ -15,6 +15,11 @@ class Entry(Schema):
     date_added = fields.AwareDateTime(format="iso", default_timezone=UTC)
     is_dead = fields.Boolean()
     is_web_archive = fields.Boolean()
+
+
+class AllEntries(Schema):
+    meta = fields.Dict(keys=fields.String(), values=fields.String())
+    entries = fields.List(fields.Nested(Entry))
 
 
 class EntryCreate(Schema):

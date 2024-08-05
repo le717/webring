@@ -1,4 +1,3 @@
-from collections.abc import Sequence
 from typing import Any
 from uuid import UUID
 
@@ -14,8 +13,8 @@ from src.core.models import Generic, WebLink
 @root.route("/")
 class WebRing(MethodView):
     @root.arguments(WebLink.RingArgs, location="query", as_kwargs=True)
-    @root.response(200, WebLink.Entry(many=True))
-    def get(self, **kwargs: Any) -> Sequence[db.schema.Entry]:
+    @root.response(200, WebLink.AllEntries)
+    def get(self, **kwargs: Any) -> dict[str, Any]:
         """Fetch all entries.
 
         Provide the appropriate query string arguments to
@@ -25,7 +24,12 @@ class WebRing(MethodView):
         if kwargs["exclude_origin"]:
             kwargs["http_origin"] = request.headers.get("ORIGIN")
             del kwargs["exclude_origin"]
-        return db.weblink.get_all(**kwargs)
+
+        # Structure the response to include meta info about the webring + the entries
+        return {
+            "meta": db.meta.get(),
+            "entries": db.weblink.get_all(**kwargs),
+        }
 
     @protect_route()
     @root.arguments(WebLink.EntryCreate, location="json", as_kwargs=True)
