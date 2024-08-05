@@ -1,17 +1,14 @@
-import json
-from typing import Any
-from urllib.parse import urlencode
+from werkzeug.datastructures import Headers
 
 
 __all__ = [
     "INVALID_AUTH",
     "VALID_AUTH",
-    "authed_request",
     "entry_all_good",
     "entry_dead_url",
     "entry_web_archive_url",
-    "from_json",
-    "to_json",
+    "make_auth",
+    "make_url",
 ]
 
 
@@ -19,21 +16,12 @@ INVALID_AUTH = "unknown-auth-key"
 VALID_AUTH = "known-auth-key"
 
 
-def __auth_key(key: str) -> str:
-    return f"{urlencode({"auth_key": key})}"
+def make_auth(key: str) -> Headers:
+    return Headers({"Authorization": f"Bearer {key}"})
 
 
-def authed_request(*args: str, **kwargs: Any) -> str:
-    endpoint = "/".join(args)
-    return f"{endpoint}?{__auth_key(kwargs["auth"])}".replace("//", "/")
-
-
-def from_json(data: str) -> dict | list:
-    return json.loads(data)
-
-
-def to_json(data: dict | list) -> str:
-    return json.dumps(data)
+def make_url(*args: str) -> str:
+    return "/".join(args).replace("//", "/")
 
 
 def entry_dead_url() -> dict[str, str]:

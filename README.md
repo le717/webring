@@ -98,8 +98,9 @@ A text file logger for events is always configured.
 All administrative operations (effectively anything except fetching the webring entries) are
 protected by an auth key which is intentionally kept extremely simple. Any string of characters
 can be used as a key. All keys are defined as a JSON list called `AUTH_KEYS`. The key is to be
-passed to the request via the `auth_key` query parameter. If the given key is in the defined list,
-the operation succeeds. If it is not, a `422 UNPROCESSABLE ENTITY` HTTP error is raised.
+passed to the request via the HTTP `Authorization` header as a `Bearer` token. If the key is not
+provided, a `400 BAD REQUEST` HTTP error is raised. If the key is in the defined list, the
+operation succeeds. If it is not, a `403 FORBIDDEN` HTTP error is raised.
 
 ## Required Secret/Configuration Keys
 

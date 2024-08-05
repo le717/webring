@@ -5,29 +5,28 @@ from typing import Any
 import sys_vars
 from flask import request
 from flask_smorest import abort
+from httpx import codes
 
 
 __all__ = ["protect_blueprint", "protect_route"]
+
+AUTH_KEYS = sys_vars.get_json("AUTH_KEYS")
 
 
 def protect_blueprint() -> None:
     """Protect a whole blueprint with an auth key."""
     # Was an Authorization header sent?
     if request.authorization is None:
-        abort(400, message="Missing HTTP Authorization header.")
+        abort(codes.BAD_REQUEST, message="Missing HTTP Authorization header.")
 
     # Make sure it's a Bearer token method
     if request.authorization.type != "bearer":
-        abort(400, message="Invalid authorization type.")
+        abort(codes.BAD_REQUEST, message="Invalid authorization type.")
 
     # Attempt to get the auth key and validate it
-    try:
-        auth_keys = sys_vars.get_json("AUTH_KEYS")
-        if request.authorization.token not in auth_keys:
-            raise KeyError
-        return None
-    except (IndexError, KeyError):
-        abort(403, message="Invalid auth key provided.")
+    if request.authorization.token not in AUTH_KEYS:
+        abort(codes.FORBIDDEN, message="Unknown auth key provided.")
+    return None
 
 
 def protect_route(*args) -> Callable[..., Any]:  # noqa: ARG001
