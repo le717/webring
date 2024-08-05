@@ -13,28 +13,28 @@ __all__ = ["create", "delete", "get", "get_all", "update"]
 
 
 def create(data: dict) -> dict[str, uuid.UUID]:
-    """Create a single weblink."""
+    """Create an entry."""
     entry_id = str(uuid.uuid4())
-    weblink = WebLink(
+    entry = WebLink(
         uuid=entry_id,
         title=Markup(data["title"]).striptags(),
         description=Markup(data["description"]).striptags(),
         url=Markup(data["url"]).striptags(),
         date_added=datetime.now(tz=UTC),
     )
-    db.session.add(weblink)
+    db.session.add(entry)
     db.session.commit()
-    db.session.refresh(weblink)
+    db.session.refresh(entry)
     logger.info({
         "id": entry_id,
-        "url": weblink.url,
-        "message": "Link has been added to the webring.",
+        "url": entry.url,
+        "message": "Entry has been added to the webring.",
     })
     return {"id": entry_id}
 
 
 def delete(uuid: str) -> bool:
-    """Delete a single weblink."""
+    """Delete an entry."""
     if (entry := get(uuid)) is None:
         return False
 
@@ -43,21 +43,21 @@ def delete(uuid: str) -> bool:
     logger.info({
         "id": uuid,
         "url": "N/A",
-        "message": "Link has been deleted from the webring.",
+        "message": "Entry has been deleted from the webring.",
     })
     return True
 
 
 def get(uuid: str) -> WebLink | None:
-    """Get a single weblink."""
+    """Get an entry."""
     return db.session.execute(db.select(WebLink).filter_by(uuid=uuid)).scalar_one_or_none()
 
 
 def get_all(**kwargs: Any) -> list[WebLink]:
-    """Get all weblinks."""
+    """Get all entries."""
     filters = []
 
-    # Filter out the site in the weblink we are on.
+    # Filter out the site in the entry we are on.
     # Make sure we normalize the casing of the two URLs to better ensure we filter correctly
     if origin := kwargs.get("http_origin"):
         filters.append(func.lower(WebLink.url) != func.lower(origin))
@@ -70,25 +70,25 @@ def get_all(**kwargs: Any) -> list[WebLink]:
     entries = db.session.execute(db.select(WebLink).filter(*filters)).scalars().all()
 
     # Adjust the title of the link depending on status
-    for wb in entries:
-        if wb.is_dead:
-            wb.title += " (Dead link)"
-        elif wb.is_web_archive:
-            wb.title += " (Web Archive link)"
+    for entry in entries:
+        if entry.is_dead:
+            entry.title += " (Dead link)"
+        elif entry.is_web_archive:
+            entry.title += " (Web Archive link)"
     return entries
 
 
 def update(data: dict) -> bool:
-    """Update a weblink."""
+    """Update an entry."""
     uuid = data.pop("id")
-    if (wb := get(uuid)) is None:
+    if (entry := get(uuid)) is None:
         return False
 
-    wb.update_with(data)
+    entry.update_with(data)
     db.session.commit()
     logger.info({
         "id": uuid,
         "url": "N/A",
-        "message": f"Link has been updated with the following info: `{data}`",
+        "message": f"Entry has been updated with the following info: `{data}`",
     })
     return True
