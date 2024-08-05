@@ -39,6 +39,9 @@ Starting with version 1.3.0, new filtering options are available to restrict the
 entries. These filters are supported on both the root URL and the simple embed endpoints. These
 options are provided through query parameters to the URLs.
 
+Filtering out the site requesting the webring from the webring entries requires the HTTP `ORIGIN`
+header to be properly set for the request.
+
 - `include_rotted: bool = "yes"`: Include entries that have been determined to be rotten
 - `include_web_archive: bool = "yes"`: Include entries that can only be accessed through
   the Web Archive (added in version 1.4.0)
