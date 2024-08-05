@@ -15,7 +15,7 @@ from src.core.models import Generic, WebLink
 class WebRing(MethodView):
     @root.arguments(WebLink.RingArgs, location="query", as_kwargs=True)
     @root.response(200, WebLink.Entry(many=True))
-    def get(self, **kwargs: Any) -> Sequence[db.schema.WebLink]:
+    def get(self, **kwargs: Any) -> Sequence[db.schema.Entry]:
         """Fetch all entries.
 
         Provide the appropriate query string arguments to

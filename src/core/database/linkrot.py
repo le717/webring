@@ -5,7 +5,7 @@ import httpx
 import sys_vars
 
 from src.core.database import weblink
-from src.core.database.schema import LinkrotHistory, WebLink, db
+from src.core.database.schema import Entry, LinkrotHistory, db
 from src.core.logger import logger
 
 
@@ -52,7 +52,7 @@ def __check_wayback_archive(url: str) -> str:
     return str(httpx.URL(r["archived_snapshots"]["closest"]["url"]).copy_with(scheme="https"))
 
 
-def __record_failure(entry: WebLink, history_entry: LinkrotHistory) -> Check:
+def __record_failure(entry: Entry, history_entry: LinkrotHistory) -> Check:
     TIMES_FAILED_THRESHOLD = sys_vars.get_int("TIMES_FAILED_THRESHOLD")
     result = Check(times_failed=0, is_dead=False, is_web_archive=False)
 
@@ -117,7 +117,7 @@ def check_all() -> list[RotResult]:
     ]
 
 
-def check_one(uuid: WebLink | str) -> RotResult | None:
+def check_one(uuid: Entry | str) -> RotResult | None:
     """Check a single entry for rotting."""
     # If we got an uuid string, then we need to look up the entry.
     # If it doesn't exist in the db, we can't do anything

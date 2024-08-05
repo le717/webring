@@ -8,7 +8,7 @@ from sqlalchemy.engine import Engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column, relationship
 
 
-__all__ = ["Base", "LinkrotHistory", "WebLink"]
+__all__ = ["Base", "Entry", "LinkrotHistory"]
 
 
 # Set up the flask-sqlalchemy extension for "new-style" models
@@ -47,7 +47,7 @@ class HelperMethods:
         return None
 
 
-class WebLink(HelperMethods, Base):
+class Entry(HelperMethods, Base):
     __tablename__: str = "weblinks"
     __table_args__: ClassVar = {"comment": "Store the webring entries."}
 
@@ -81,4 +81,4 @@ class LinkrotHistory(HelperMethods, Base):
         ForeignKey("weblinks.id", ondelete="CASCADE", onupdate="CASCADE")
     )
 
-    entry: Mapped["WebLink"] = relationship(back_populates="history")
+    entry: Mapped["Entry"] = relationship(back_populates="history")
