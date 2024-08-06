@@ -4,6 +4,7 @@ _Released TDB_
 
 - **Breaking change**: An auth key is now provided as a `Bearer` token in the
   HTTP `Authorization` header
+- Rename `include_rotted` filtering query param and app config key to `include_dead`
 - Update minimum Python version to 3.12
 - Update Docker image to `python:3.12-slim`
 

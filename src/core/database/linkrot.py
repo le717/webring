@@ -113,7 +113,7 @@ def __record_failure(entry: Entry, history_entry: LinkrotHistory) -> Check:
 def check_all() -> list[RotResult]:
     """Check all links for rotting."""
     return [
-        check_one(link) for link in weblink.get_all(include_rotted=True, include_web_archive=False)
+        check_one(link) for link in weblink.get_all(include_dead=True, include_web_archive=False)
     ]
 
 

@@ -42,11 +42,11 @@ options are provided through query parameters to the URLs.
 Filtering out the site requesting the webring from the webring entries requires the HTTP `ORIGIN`
 header to be properly set for the request.
 
-- `include_rotted: bool = "yes"`: Include entries that have been determined to be rotten
-- `include_web_archive: bool = "yes"`: Include entries that can only be accessed through
-  the Web Archive (added in version 1.4.0)
+- `include_dead: bool = "yes"`: Include entries that have been determined to be dead links
 - `exclude_origin: bool = "yes"`: Remove the site requesting the webring from the entries,
 if present
+- `include_web_archive: bool = "yes"`: Include entries that can only be accessed through
+  the Web Archive (added in version 1.4.0)
 
 These values can also be set globally through the app configuration but will be overridden by
 individual requests.
@@ -85,7 +85,7 @@ non-heavily trafficked page of your site.
 ### Discord channel logger
 
 If the [Discord](https://discord.com) logger is enabled and configured, entries that are found to be
-rotting or rotted will be reported in a Discord channel. This can be helpful for keeping up with
+rotting or dead will be reported in a Discord channel. This can be helpful for keeping up with
 the webring's health and ensuring entries are available. Configuring the Discord logger
 is kept as simple as possible.
 
@@ -99,11 +99,11 @@ A text file logger for events is always configured.
 ### Auth key creation/management
 
 All administrative operations (effectively anything except fetching the webring entries) are
-protected by an auth key which is intentionally kept extremely simple. Any string of characters
-can be used as a key. All keys are defined as a JSON list called `AUTH_KEYS`. The key is to be
-passed to the request via the HTTP `Authorization` header as a `Bearer` token. If the key is not
-provided, a `400 BAD REQUEST` HTTP error is raised. If the key is in the defined list, the
-operation succeeds. If it is not, a `403 FORBIDDEN` HTTP error is raised.
+protected by an auth key. The system is intentionally kept extremely simple. Any string of
+characters can be used as a key. All keys are defined as a JSON list called `AUTH_KEYS`. The key is
+to be passed to the request via the HTTP `Authorization` header as a `Bearer` token. If the key is
+not provided, a `400 BAD REQUEST` HTTP error is raised.  If it is not in the list, a `403 FORBIDDEN`
+HTTP error is raised.
 
 ## Required Secret/Configuration Keys
 
@@ -111,13 +111,14 @@ operation succeeds. If it is not, a `403 FORBIDDEN` HTTP error is raised.
 - Flask app environment (`FLASK_ENV`) set to `"production"`
 - Absolute path to SQLite file (`DB_PATH`)
 - JSON list of auth keys for all administrative operations (`AUTH_KEYS`)
-- Integer number of times supposed rotted links should be checked (`TIMES_FAILED_THRESHOLD`, default: 10)
+- Integer number of times supposed rotted links should be checked
+  (`TIMES_FAILED_THRESHOLD`, default: 10)
 - Discord linkrot event logging boolean (`ENABLE_DISCORD_LOGGING`, default: `False`)
   - Discord webhook URL (`DISCORD_WEBHOOK_URL`)
 - Webring entry filtering
-  - `FILTER_INCLUDE_ROTTED`, default: `True`
-  - `FILTER_INCLUDE_WEB_ARCHIVE`, default: `True`
+  - `FILTER_INCLUDE_DEAD`, default: `True`
   - `FILTER_EXCLUDE_ORIGIN`, default: `True`
+  - `FILTER_INCLUDE_WEB_ARCHIVE`, default: `True`
 
 ## Development
 

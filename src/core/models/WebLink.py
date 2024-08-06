@@ -29,7 +29,7 @@ class EntryCreate(Schema):
 
 
 class RingArgs(Schema):
-    include_rotted = fields.Boolean(load_default=sys_vars.get_bool("FILTER_INCLUDE_ROTTED"))
+    include_dead = fields.Boolean(load_default=sys_vars.get_bool("FILTER_INCLUDE_DEAD"))
     include_web_archive = fields.Boolean(
         load_default=sys_vars.get_bool("FILTER_INCLUDE_WEB_ARCHIVE")
     )

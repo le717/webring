@@ -63,7 +63,7 @@ def get_all(**kwargs: Any) -> list[Entry]:
         filters.append(func.lower(Entry.url) != func.lower(origin))
 
     # Filter out dead and/or Web Archive only links
-    if not kwargs["include_rotted"]:
+    if not kwargs["include_dead"]:
         filters.append(Entry.is_dead == False)
     if not kwargs["include_web_archive"]:
         filters.append(Entry.is_web_archive == False)
