@@ -17,8 +17,16 @@ class Entry(Schema):
     is_web_archive = fields.Boolean()
 
 
+class Meta(Schema):
+    name = fields.String()
+    maintainer = fields.String()
+    home_url = fields.Url()
+    software = fields.Url()
+    version = fields.String()
+
+
 class AllEntries(Schema):
-    meta = fields.Dict(keys=fields.String(), values=fields.String())
+    meta = fields.Nested(Meta)
     entries = fields.List(fields.Nested(Entry))
 
 
