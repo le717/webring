@@ -6,10 +6,13 @@ from httpx import codes
 from tests import helpers
 
 
+# TODO: Add tests about meta?
+
+
 def test_empty_ring(client) -> None:
-    """There should be no items in the webring."""
+    """There should be no entries in the webring."""
     response = client.get(path="/")
-    assert json.loads(response.get_data(as_text=True)) == []
+    assert json.loads(response.get_data(as_text=True))["entries"] == []
 
 
 def test_create_good_entry(client) -> None:

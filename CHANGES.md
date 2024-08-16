@@ -6,6 +6,9 @@ _Released TDB_
   HTTP `Authorization` header
 - **Breaking change**: Rename `include_rotted` filtering query param and app config key to
   `include_dead`/`FILTER_INCLUDE_DEAD`
+- **Breaking change**: Root `/` endpoint has been restructured.
+  - New `meta` object containing information about the webring
+  - `entries` list containing webring entries
 - Update minimum Python version to 3.12
 - Update Docker image to `python:3.12-slim`
 

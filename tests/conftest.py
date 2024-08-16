@@ -25,6 +25,9 @@ def app(tmp_path: Path):
     os.environ["SECRET_KEY"] = "testing-secret-key"
     os.environ["TIMES_FAILED_THRESHOLD"] = "3"
     os.environ["ENABLE_DISCORD_LOGGING"] = "false"
+    os.environ["FILTER_INCLUDE_DEAD"] = "true"
+    os.environ["FILTER_INCLUDE_WEB_ARCHIVE"] = "true"
+    os.environ["FILTER_EXCLUDE_ORIGIN"] = "false"
 
     app = create_app()
     with app.app_context():

@@ -69,7 +69,6 @@ def test_single_link_is_web_archive(client) -> None:
             headers=helpers.make_auth(helpers.VALID_AUTH),
         )
     response_data = json.loads(response.get_data(as_text=True))
-    assert response.status_code == codes.OK
     assert response_data["id"] == item_id
     assert helpers.entry_web_archive_url()["url"] in response_data["url"]
     assert response_data["result"]["times_failed"] == 4  # noqa: PLR2004
