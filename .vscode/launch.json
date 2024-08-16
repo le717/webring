@@ -20,7 +20,7 @@
         "DB_PATH": "${workspaceFolder}/database/database.db",
         "TIMES_FAILED_THRESHOLD": "3",
         "ENABLE_DISCORD_LOGGING": "false",
-        "FILTER_INCLUDE_ROTTED": "true",
+        "FILTER_INCLUDE_DEAD": "true",
         "FILTER_INCLUDE_WEB_ARCHIVE": "true",
         "FILTER_EXCLUDE_ORIGIN": "true"
       },
@@ -46,7 +46,8 @@
         "DB_PATH": "${workspaceFolder}/database/database.db",
         "TIMES_FAILED_THRESHOLD": "5",
         "ENABLE_DISCORD_LOGGING": "true",
-        "FILTER_INCLUDE_ROTTED": "true",
+        "FILTER_INCLUDE_DEAD": "true",
+        "FILTER_INCLUDE_WEB_ARCHIVE": "true",
         "FILTER_EXCLUDE_ORIGIN": "true"
       },
       "args": [
