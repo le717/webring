@@ -11,7 +11,7 @@ python = "^3.12"
 flask = "^3.0.2"
 flask-smorest = "^0.44.0"
 sys-vars = {version = "^5.1.0", extras = ["dotenv"]}
-gunicorn = "^22.0.0"
+gunicorn = "^23.0.0"
 sqlalchemy = "2.0.30"
 flask-sqlalchemy = "^3.1.1"
 flask-cors = "^5.0.0"
