@@ -23,7 +23,7 @@ optional = true
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.10.0"
-pytest = "^8.2.2"
+pytest = ">=8.2.2,<10.0.0"
 ruff = "^0.4.8"
 types-flask-cors = "^4.0.0.20240523"
 
