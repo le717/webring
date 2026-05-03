@@ -2,6 +2,11 @@
 
 > Because everything on the Web eventually loops back onto itself.
 
+# This project is no longer being developed.
+If you are interested in this project, please consider its successor,
+[Webring2](https://github.com/le717/webring2), which is an improved, feature-complete rewrite
+of this project.
+
 ## Features
 
 - Create, update, view, and delete entries
@@ -44,7 +49,7 @@ header to be properly set for the request.
 
 - `include_dead: bool = "yes"`: Include entries that have been determined to be dead links
 - `exclude_origin: bool = "yes"`: Remove the site requesting the webring from the entries,
-if present
+  if present
 - `include_web_archive: bool = "yes"`: Include entries that can only be accessed through
   the Web Archive (added in version 1.4.0)
 
@@ -65,7 +70,8 @@ into that area of your site. A simple setup might look as follows:
 <!-- Create an area to display the webring -->
 <section id="webring-embed-area">
   <noscript>
-    The webring could not be loaded because your browser doesn't support JavaScript.
+    The webring could not be loaded because your browser doesn't support
+    JavaScript.
   </noscript>
 </section>
 
@@ -92,7 +98,7 @@ is kept as simple as possible.
 1. Set the `ENABLE_DISCORD_LOGGING` secret value to `True` to enable the logger
 1. Follow the Discord documentation for [creating a webhook](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks)
 1. Get the Discord webhook URL from the configuration and set it as the value for
-the `DISCORD_WEBHOOK_URL` secret key
+   the `DISCORD_WEBHOOK_URL` secret key
 
 A text file logger for events is always configured.
 
@@ -102,7 +108,7 @@ All administrative operations (effectively anything except fetching the webring 
 protected by an auth key. The system is intentionally kept extremely simple. Any string of
 characters can be used as a key. All keys are defined as a JSON list called `AUTH_KEYS`. The key is
 to be passed to the request via the HTTP `Authorization` header as a `Bearer` token. If the key is
-not provided, a `400 BAD REQUEST` HTTP error is raised.  If it is not in the list, a `403 FORBIDDEN`
+not provided, a `400 BAD REQUEST` HTTP error is raised. If it is not in the list, a `403 FORBIDDEN`
 HTTP error is raised.
 
 ## Required Secret/Configuration Keys
@@ -136,6 +142,6 @@ HTTP error is raised.
 
 ## License
 
-2021-2024 Caleb
+2021-2026 Caleb
 
 [MIT](LICENSE)
