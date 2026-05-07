@@ -1,6 +1,6 @@
-# 2.0.0
+# 2.0.0a1
 
-_Released TDB_
+_Released May 7, 2026_
 
 - **Breaking change**: An auth key is now provided as a `Bearer` token in the
   HTTP `Authorization` header
@@ -96,11 +96,9 @@ _Released November 20, 2022_
 - Update Poetry dependency process to v1.2.0+
 - Update all dependencies to their latest versions
 - Minor fixes to conform to third-party libraries updates
-
-
 # 1.1.1
 
-_Released  April 15, 2022_
+_Released April 15, 2022_
 
 - Update Python version to 3.10
 - Update all dependencies to their latest versions
